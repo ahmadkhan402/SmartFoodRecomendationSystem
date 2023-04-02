@@ -11,7 +11,7 @@ export default function Slider() {
     return(
         <SliderBox
   images={Image}
-  sliderBoxHeight={250}
+  sliderBoxHeight={200}
   onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
   dotColor="#4db5ff"
   inactiveDotColor="#90A4AE"

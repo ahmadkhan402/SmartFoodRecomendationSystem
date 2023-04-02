@@ -9,7 +9,7 @@ import { Directions } from 'react-native-gesture-handler';
 
 
 
-export default function ImagePickerExample() {
+export default function ImagePickerExample({navigation}) {
 
 
   const [image, setImage] = useState(null)
@@ -111,7 +111,10 @@ const uploadImage = async () => {
       )}
       <TouchableOpacity
         style={{ marginTop: 27,marginRight:"70%", justifyContent:"center", borderColor:"blue", alignItems:"center", backgroundColor: '#3457D5', padding: 8,borderWidth:1, borderRadius: 8 }}
-        onPress={uploadImage}
+        onPress={()=>{
+          uploadImage(),
+          navigation.navigate('ShowPost')
+           }}
       >
         <Text style={{ color: 'white' }}>Post</Text>
       </TouchableOpacity>
