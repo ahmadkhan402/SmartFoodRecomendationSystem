@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View,Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View,Image, ScrollView } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState,useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
@@ -7,36 +7,66 @@ import { auth,storage, li } from '../../firebase';
 
 
 const ShowPost = ({navigation}) => {
-  const [url , seturl] = useState('')
-  fetchImages = async () => {
-    const storageRef = ref(storage, 'DonationPosts/');
-    const result = await listAll(storageRef);
-  
-    const urlPromises = result.items.map((imageRef) => getDownloadURL(imageRef));
-  
-    return Promise.all(urlPromises);
-   
-}
+  const [urls , seturl] = useState([])
+  console.log('ther are the url ',urls)
+  // useEffect(()=>{    
+  //   (async function(){
+
+  //     // const storageRef = ref(storage, 'DonationPosts/');
+  //     // const result = await listAll(storageRef);
+  //     // console.log(result);
+  //     // const urlPromises = result.items.map((imageRef) => getDownloadURL(imageRef));
+  //     // const resolvedPromised = await Promise.all(urlPromises);
+  //     // console.log(resolvedPromised)
+      
+  // })},[]);
+
+  async function fetchImages(){
+    console.log("Function caLLED");
+    
+    const listRef = ref(storage,"DonationPosts/");
+   // var fetchUrl = []
+    //seturl(fetchUrl)
+    //console.log("List Ref Fetched", fetchUrl);
+    const res = await listAll(listRef);
+    console.log("Res Fetched");
+    
+      res.items.forEach(async (itemRef)=>{
+        
+        console.log("Loop Fetched");
+        
+    
+        const url =await getDownloadURL(itemRef);
+        //  fetchUrl.push(url)
+        console.log(url)
+        seturl(urls => [...urls,url])
+         
+       
+      })
+  }
 
  
   return (
     <View style={{flex:1}}>
-   
+   <TouchableOpacity onPress={fetchImages}><Text>
+ Fetch Images
+ </Text></TouchableOpacity>
+<ScrollView style={{flex:1}}>
+ { urls.map((item,key )=> (
+                <View style={{ justifyContent: 'center' }} key={key} >
+                
+                    <Image source={{ uri: item }} style={{ width: 350, height: 350 }} /> 
+                    
+                </View>
+                ))}
+                </ScrollView>
       <View style={{padding:35, position:"absolute", bottom:0, right:0}}>
           <TouchableOpacity onPress={()=>navigation.navigate('CreatePost')}>
               <Text><AntDesign name="pluscircle" size={70} color="#3457D5" /></Text>
           </TouchableOpacity>
           
  </View>
- <TouchableOpacity ><Text>press</Text></TouchableOpacity>
- <View style={{ justifyContent: 'center' }} >
-                    <Image source={{ uri: url }} style={{ width: 350, height: 350 }} /> 
-                </View>
- {/* { sampleImage && getSampleImage.map(Image => (
-                <View style={{ justifyContent: 'center' }} key={imageRef.id}>
-                    <Image source={{ uri: sampleImage.get(k) }} style={{ width: 350, height: 350 }} /> 
-                </View>
-                ))} */}
+ 
     </View>
   )
               }
