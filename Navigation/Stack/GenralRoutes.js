@@ -31,10 +31,10 @@ const GenralRoutes = ({navigation}) => {
         name="CreatePost"
         component={CreatePost}
         options={{ headerShown: false }} />
-        <Stack.Screen
+        {/* <Stack.Screen
         name="ShowPost"
         component={ShowPost}
-        options={{ headerShown: false }} />
+        options={{ headerShown: false }} /> */}
        
       </Stack.Navigator>
    
