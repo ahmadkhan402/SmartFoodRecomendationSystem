@@ -10,6 +10,7 @@
       "image": "./assets/splashn.png",
       "resizeMode": "cover",
       "backgroundColor": "white"
+      
     },
     "plugins": [
       [
@@ -28,14 +29,18 @@
     "ios": {
       "supportsTablet": true
     },
+   
     "android": {
+      
       "permissions": [
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
       ]
+      
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    }  
+   
   }
 }

@@ -69,7 +69,7 @@ const InputForm = () => {
                         style={{ padding: 13 }}
                     />
                 </View>
-            <View>
+          
             <View style={styles.TextInput3}>
             <View style={{ paddingVertical: "1%" }}>
                     <Text style={{ marginTop:12,fontSize: 20, fontWeight: "bold", color: "#5D8AA8" }}>Pick-Up times</Text>
@@ -81,7 +81,7 @@ const InputForm = () => {
                         style={{ padding: 13 }}
                     />
                 </View>
-            </View>
+                
             </View>
         </View>
     )
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     },
     FormContainer: {
         paddingHorizontal: 10,
-        paddingVertical: 15,
+        paddingVertical: 1,
         backgroundColor: '#E1EBEE',
     },
     numberButton: {

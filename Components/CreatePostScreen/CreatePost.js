@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, Text, TextInput, TouchableOpacity, View, Platform, StyleSheet, SafeAreaView } from 'react-native';
+import { Button, ScrollView, Image, Text, TextInput, TouchableOpacity, View, Platform, StyleSheet, SafeAreaView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { auth, storage } from '../../firebase';
 import { Entypo } from '@expo/vector-icons';
-import { Directions, ScrollView } from 'react-native-gesture-handler';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import InputForm from './InputForm';
+import MapShow from './MapShow';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function ImagePickerExample( ...props ) {
 
-
+const navigation = useNavigation()
   const [image, setImage] = useState(null)
   const [blobImage, setblob] = useState(null)
   const [ShowImage, setShowImage] = useState('')
@@ -25,11 +27,11 @@ export default function ImagePickerExample( ...props ) {
       quality: 1,   // 0 means compress for small size, 1 means  compress for maximum quality
     });
 
-    console.log(result);
+    console.log(result.assets[0].uri);
 
     if (!result.canceled) {
-      setImage(result.uri);
-      const response = await fetch(result.uri);
+      setImage(result.assets[0].uri);
+      const response = await fetch(result.assets[0].uri);
       const blob = await response.blob();
       setblob(blob)
     }
@@ -83,12 +85,12 @@ export default function ImagePickerExample( ...props ) {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: "red" }}>
-    
-      <View style={{width: "100%", height: "20%", backgroundColor: "#E1EBEE", marginTop: 23, flexDirection: "row" }}>
-        <TouchableOpacity style={{ marginLeft: 12, alignContent: "center", justifyContent: "center" }}
+    <View style={{ flex:1}}>
+    <ScrollView style={{ flex:1}}>
+      <View style={{ padding:10, backgroundColor: "#E1EBEE", marginTop: 23, flexDirection: "row" }}>
+        <TouchableOpacity 
           onPress={pickImage}>
-          <Text style={{ borderColor: "#2c2c6c", borderStyle: "dashed", borderWidth: 2, padding: "5%" }}>
+          <Text style={{ borderColor: "#2c2c6c", borderStyle: "dashed", borderWidth: 2, padding: "5%",marginLeft: 12,  }}>
             <MaterialCommunityIcons name="camera-plus" size={65} color="#5D8AA8" />
           </Text>
         </TouchableOpacity>
@@ -97,9 +99,29 @@ export default function ImagePickerExample( ...props ) {
         </View>
         
       </View> 
-      <View >
+      
+     
+      <View>
       <InputForm/>
+      <TouchableOpacity style={styles.Submit} onPress={() => {
+           uploadImage(),
+            navigation.navigate('ShowPost')}}>
+                    <Text style={styles.SubmitText}>Submit</Text>
+                </TouchableOpacity>
       </View>
+      </ScrollView>
+      <MapShow/>
+      
+      
+ 
+      
+     
+     
+     
+     
+      
+
+
       {/* <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Create a post</Text>
       <View style={styles.ImageSection}>
 
@@ -137,7 +159,9 @@ export default function ImagePickerExample( ...props ) {
       {/* <View style={{width:'50%',backgroundColor:"black", height:'40%'}}>
        <Image source={{uri: ShowImage}}  style={{ width: '100%', height: 200 }} resizeMode="cover"  /> 
       </View> */}
-    </View>
+      
+     
+      </View>
   );
 };
 
@@ -152,13 +176,24 @@ const styles = StyleSheet.create({
   ImaageText:{
     
     justifyContent:"center",
-    marginLeft:"4%"
-
+    marginLeft:"4%",
   },
   ImageSection: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "center",
     alignItems: "center"
-  }
+  },
+  Submit:{
+    
+      width: "80%",
+        borderRadius: 17,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 20,
+        marginHorizontal:"9%",
+        backgroundColor: "#4db5ff",
+        elevation: 40,
+}
 })
