@@ -156,10 +156,10 @@ const ListOfNGO = () => {
       
     <Text style={styles.text}>Some NGOs & Onwer you want to donate</Text>
     <ScrollView >
-   {data.map(item=>{
+   {data.map((item, index)=>{
             return(
-                <View style={styles.cardConatainer}>
-                <View key = {item.id} >
+                <View style={styles.cardConatainer } key={index}>
+                <View  >
                 <ImageBackground source={{uri: item.image}} style={{ width:320, height:300, resizeMode:"cover"}}>
                 <View style={styles.Title}>
                 <Text style={{color:"white",fontSize:27, fontWeight:700,marginLeft:5}}>{item.name}</Text>

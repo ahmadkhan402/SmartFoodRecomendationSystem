@@ -11,7 +11,8 @@ import {
     ImageBackground,
 } from "react-native";
 import { auth } from "../../../firebase";
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword,sendPasswordResetEmail } from "firebase/auth";
+
 import { isEmpty } from "@firebase/util";
 
 export default function Login({ navigation }) {

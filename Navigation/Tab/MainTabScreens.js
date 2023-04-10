@@ -6,7 +6,7 @@ import ShowPost from '../../Components/CreatePostScreen/ShowPost';
 import Login from "../../Components/FCS/Screens/Login"
 import DonateScreen from '../../Components/DonateScreen/DonateScreen';
 import { FontAwesome5 } from '@expo/vector-icons'; 
-
+import Sharia from '../../Components/MasjidDonation/Sharia';
 const Tab = createMaterialBottomTabNavigator();
 
 
@@ -47,12 +47,12 @@ const Tab = createMaterialBottomTabNavigator();
       />
       
       <Tab.Screen
-        name="Login"
-        component={Login}
+        name="Masjid"
+        component={Sharia}
         options={{
           tabBarLabel: 'Login',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color="#bae0ff" size={25} />
+            <FontAwesome5 name="mosque"  color="#bae0ff" size={25} />
           ),
           headerShown: true
         }}

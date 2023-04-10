@@ -10,7 +10,6 @@ import {
     TouchableOpacity,
     ImageBackground,
 } from "react-native";
-
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase";
 

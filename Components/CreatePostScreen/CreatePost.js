@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, ScrollView, Image, Text, TextInput, TouchableOpacity, View, Platform, StyleSheet, SafeAreaView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { auth, storage } from '../../firebase';
+import { getDatabase, child, get,set, database,push } from "firebase/database";
+import {db, auth, storage } from '../../firebase';
 import { Entypo } from '@expo/vector-icons';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,13 +12,28 @@ import MapShow from './MapShow';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function ImagePickerExample( ...props ) {
+export default function ImagePickerExample(...props) {
 
-const navigation = useNavigation()
+  const navigation = useNavigation()
   const [image, setImage] = useState(null)
   const [blobImage, setblob] = useState(null)
   const [ShowImage, setShowImage] = useState('')
   const [postContent, setPostContent] = useState('');
+  const [title, setTitle] = useState('SomeThing');
+  const [Discription, setDiscrioption] = useState('SomeTjbwjkbwjkbdkhing');
+  const [selectedNumber, setSelectedNumber] = useState();
+
+  // function writeUserData(userId, title, Discription, selectedNumber, ShowImage) {
+  //   const dbRef = db.ref('post');
+  //   dbRef.push({
+  //     title: title,
+  //     description: Discription,
+  //     selectedNumber: selectedNumber,
+  //     imageUrl: ShowImage
+  //   });
+  // }
+
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,9 +52,6 @@ const navigation = useNavigation()
       setblob(blob)
     }
   };
-
-
-
   const uploadImage = async () => {
     const metadata = {
       contentType: 'image/jpeg'
@@ -77,49 +90,148 @@ const navigation = useNavigation()
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('File available at', downloadURL);
-          setShowImage(downloadURL)
+          setShowImage(downloadURL);
+  
+          // Add title and description to Firebase database
+      
+          
         });
       }
     );
-  }
+    // debugger
+    // set(ref(db, 'Post'), {
+    //   title: title,
+    //   description: Discription,
+    //   imageUrl: ShowImage,
+    // });
 
+  }
+  // const setDatabaseData = () => {
+  //   //const newkey = push(child(ref(db),'users')).key()
+  //   set(ref(db, 'users/' + title),{
+  //     Title: title,
+  //     Discription: Discription
+      
+  //   })
+  //   .then(() => {
+  //     console.log('Data saved successfully!') 
+  //   })
+  //   .catch((error) => {
+  //     // The write failed...
+  //   });
+  // }
+  const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const handleNumberPress = (number) => {
+    setSelectedNumber(number);
+  }
+  
 
   return (
-    <View style={{ flex:1}}>
-    <ScrollView style={{ flex:1}}>
-      <View style={{ padding:10, backgroundColor: "#E1EBEE", marginTop: 23, flexDirection: "row" }}>
-        <TouchableOpacity 
-          onPress={pickImage}>
-          <Text style={{ borderColor: "#2c2c6c", borderStyle: "dashed", borderWidth: 2, padding: "5%",marginLeft: 12,  }}>
-            <MaterialCommunityIcons name="camera-plus" size={65} color="#5D8AA8" />
-          </Text>
-        </TouchableOpacity>
-        <View style={styles.ImaageText}>
-          <Text style={{ color: "#800020" }}>Please add an Image</Text>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
+        <View style={{ padding: 10, backgroundColor: "#E1EBEE", marginTop: 23, flexDirection: "row" }}>
+          <TouchableOpacity
+            onPress={pickImage}>
+            <Text style={{ borderColor: "#2c2c6c", borderStyle: "dashed", borderWidth: 2, padding: "5%", marginLeft: 12, }}>
+              <MaterialCommunityIcons name="camera-plus" size={65} color="#5D8AA8" />
+            </Text>
+          </TouchableOpacity>
+          <View style={styles.ImaageText}>
+            <Text style={{ color: "#800020" }}>Please add an Image</Text>
+          </View>
+
         </View>
-        
-      </View> 
+
+
+        <View>
+          <View style={{ marginTop: 7 }}>
+            <View style={styles.FormContainer}>
+              <View style={styles.TextInput1}>
+                <TextInput
+                value={title}
+                  editable
+                  multiline
+                  numberOfLines={2}
+                  onChangeText={text => setTitle(text)}
+                  placeholder='Title'
+                  style={{ padding: 16 }}
+                />
+              </View>
+              <View style={styles.TextInput2}>
+                <TextInput
+                value={Discription}
+                  editable
+                  multiline
+                  numberOfLines={2}
+                  onChangeText={dis => setDiscrioption(dis)}
+                  placeholder='Discription'
+                  style={{ padding: 16 }}
+                />
+              </View>
+
+              <View style={{ paddingVertical: "3%" }}>
+                <Text style={{ fontSize: 24, fontWeight: "bold", color: "#5D8AA8" }}>Quantity</Text>
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {numbers.map((number) => (
+                  <TouchableOpacity
+                    key={number}
+                    onPress={() => handleNumberPress(number)}
+                    style={[
+                      styles.numberButton,
+                      selectedNumber === number && styles.selectedNumberButton,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.numberText,
+                        selectedNumber === number && styles.selectedNumberText,
+                      ]}
+                    >
+                      {number}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+              <View style={styles.TextInput2}>
+                <TextInput
+                  editable
+                  onChangeText={other => setOther(other)}
+                  placeholder='Other'
+                  style={{ padding: 13 }}
+                />
+              </View>
+
+              <View style={styles.TextInput3}>
+                <View style={{ paddingVertical: "1%" }}>
+                  <Text style={{ marginTop: 12, fontSize: 20, fontWeight: "bold", color: "#5D8AA8" }}>Pick-Up times</Text>
+                </View>
+                <TextInput
+                  editable
+                  onChangeText={other => setOther(other)}
+                  placeholder='e.g. Today from 3-5'
+                  style={{ padding: 13 }}
+                />
+              </View>
+
+            </View>
+          </View>
+          <TouchableOpacity style={styles.Submit} onPress={navigation.navigate('ShowPost')}>
+            <Text style={styles.SubmitText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
       
-     
-      <View>
-      <InputForm/>
-      <TouchableOpacity style={styles.Submit} onPress={() => {
-           uploadImage(),
-            navigation.navigate('ShowPost')}}>
-                    <Text style={styles.SubmitText}>Submit</Text>
-                </TouchableOpacity>
-      </View>
       </ScrollView>
-      <MapShow/>
-      
-      
- 
-      
-     
-     
-     
-     
-      
+      <MapShow />
+
+
+
+
+
+
+
+
+
 
 
       {/* <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Create a post</Text>
@@ -159,9 +271,9 @@ const navigation = useNavigation()
       {/* <View style={{width:'50%',backgroundColor:"black", height:'40%'}}>
        <Image source={{uri: ShowImage}}  style={{ width: '100%', height: 200 }} resizeMode="cover"  /> 
       </View> */}
-      
-     
-      </View>
+
+
+    </View>
   );
 };
 
@@ -173,10 +285,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ImaageText:{
-    
-    justifyContent:"center",
-    marginLeft:"4%",
+  ImaageText: {
+
+    justifyContent: "center",
+    marginLeft: "4%",
   },
   ImageSection: {
     flexDirection: "row",
@@ -184,16 +296,52 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center"
   },
-  Submit:{
-    
-      width: "80%",
-        borderRadius: 17,
-        height: 40,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 20,
-        marginHorizontal:"9%",
-        backgroundColor: "#4db5ff",
-        elevation: 40,
-}
+  Submit: {
+
+    width: "80%",
+    borderRadius: 17,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginHorizontal: "9%",
+    backgroundColor: "#4db5ff",
+    elevation: 40,
+  },
+  TextInput1: {
+
+    borderBottomWidth: 1,
+  },
+  TextInput2: {
+
+    borderBottomWidth: 1,
+  },
+  TextInput3: {
+
+    borderBottomWidth: 1,
+  },
+  FormContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 1,
+    backgroundColor: '#E1EBEE',
+  },
+  numberButton: {
+    padding: 10,
+    margin: 3,
+    width: 45,
+    borderRadius: 15,
+    justifyContent: "center",
+    backgroundColor: '#fff',
+  },
+  selectedNumberButton: {
+    backgroundColor: 'rgba(77,181,255,0.4)',
+  },
+  numberText: {
+    fontSize: 18,
+    color: '#444',
+  },
+  selectedNumberText: {
+    color: '#fff',
+  },
+
 })

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet,TouchableOpacity, Text, View } from 'react-native';
+import { Alert, StyleSheet,TouchableOpacity, Text, View, Pressable } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
@@ -49,13 +49,12 @@ const MapShow = () => {
     <View style={styles.container}>
   
       <Text style={styles.text}><Text style={{fontWeight:"700"}}>Your Current Location is:</Text>{'\n'}{'\n'}{locationData.address}</Text>
-      <TouchableOpacity style={{
+      <TouchableOpacity  style={{
         justifyContent: "center",
         backgroundColor: "rgba(77,181,255,0.4)", borderRadius: 10,
         borderWidth: 1, borderColor: "#2c2c6c", marginHorizontal: "25%",
         alignItems: "center"
       }}><Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text></TouchableOpacity>
-
       <MapViewWithMarker coords={locationData.coords} />
       
     </View>
@@ -66,7 +65,7 @@ const MapShow = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: 1,
   },
   text: {
     padding: 10,
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
  
   },
   map: {
-    flex: 1,
+    height:"100%",
   
    
   },

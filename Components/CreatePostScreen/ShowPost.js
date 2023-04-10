@@ -25,19 +25,20 @@ const ShowPost = ({ navigation }) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
-      {/* <TouchableOpacity onPress={fetchImages}><Text>
- Fetch Images
- </Text></TouchableOpacity> */}
+    <View style={{ flex: 1, backgroundColor:"grey", justifyContent: "center", alignItems:"center" }}>
+    
       <ScrollView >
+      
         {urls.map((item, key) => (
-          <View style={styles.Images} key={key} >
-
-            <Image source={{ uri: item }} style={{ width: 300, height: 300 }} />
-
-          </View>
+         
+          <View style={styles.postCard} key={key}>
+            <Image source={{ uri: item }} style={styles.Images} />
+</View>
+         
+         
         ))}
       </ScrollView>
+      
       <View style={{ padding: 35, position: "absolute", bottom: 0, right: 0 }}>
         <TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>
           <Text><AntDesign name="pluscircle" size={70} color="#3457D5" /></Text>
@@ -56,7 +57,14 @@ Images:
 {
   justifyContent:"center",
   alignItems:"center",
-  padding:8
+  margin:5,
+  padding:8,
+  width: 300, height: 300
+
+},
+postCard:{
+  
+backgroundColor:"yellow",
 
 }
 
