@@ -4,6 +4,7 @@ import {initializeApp,firebase} from 'firebase/app'
 import { getAuth } from "firebase/auth";
 import { getStorage } from 'firebase/storage';
 import { getDatabase } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 // import 'firebase/compat/auth';
 // import 'firebase/compat/firestore';
 const firebaseConfig = {
@@ -25,7 +26,9 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 const storage = getStorage(app)
-const db = getDatabase(app);
+const realTimeDb = getDatabase(app);
+const db = getFirestore(app);
 export {auth}
 export {storage}
 export {db}
+export {realTimeDb}

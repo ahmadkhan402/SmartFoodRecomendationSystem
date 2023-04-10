@@ -35,12 +35,15 @@ const MapViewWithMarker = ({ coords }) => {
   );
 };
 
-const MapShow = () => {
+const MapShow = (props) => {
   const [locationData, setLocationData] = useState(null);
+const [ PickUpPoint, setPicupPoint] = useState('')
 
   useEffect(() => {
     (async () => {
       const location = await getCurrentLocation();
+      props.getPointData(location.address)
+      
       setLocationData(location);
     })();
   }, []);
@@ -54,7 +57,7 @@ const MapShow = () => {
         backgroundColor: "rgba(77,181,255,0.4)", borderRadius: 10,
         borderWidth: 1, borderColor: "#2c2c6c", marginHorizontal: "25%",
         alignItems: "center"
-      }}><Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text></TouchableOpacity>
+      }} ><Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text></TouchableOpacity>
       <MapViewWithMarker coords={locationData.coords} />
       
     </View>

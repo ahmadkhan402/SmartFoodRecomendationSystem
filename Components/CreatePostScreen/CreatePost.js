@@ -5,7 +5,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getDatabase, child, get,set, database,push } from "firebase/database";
 import {db, auth, storage } from '../../firebase';
 import { Entypo } from '@expo/vector-icons';
-
+import { collection, addDoc } from "firebase/firestore"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import InputForm from './InputForm';
 import MapShow from './MapShow';
@@ -17,12 +17,14 @@ export default function ImagePickerExample(...props) {
   const navigation = useNavigation()
   const [image, setImage] = useState(null)
   const [blobImage, setblob] = useState(null)
-  const [ShowImage, setShowImage] = useState('')
+  
   const [postContent, setPostContent] = useState('');
-  const [title, setTitle] = useState('SomeThing');
-  const [Discription, setDiscrioption] = useState('SomeTjbwjkbwjkbdkhing');
+  const [title, setTitle] = useState('Hello My Name is Ahmad');
+  const [Discription, setDiscrioption] = useState('Its Fist testing Post of fireBase');
   const [selectedNumber, setSelectedNumber] = useState();
-
+  const [PickUpPoint, setPicupPoint] = useState('')
+  const [Other, setOther] =useState('')
+  const [Time, settime] =useState('')
   // function writeUserData(userId, title, Discription, selectedNumber, ShowImage) {
   //   const dbRef = db.ref('post');
   //   dbRef.push({
@@ -65,7 +67,7 @@ export default function ImagePickerExample(...props) {
       (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
+       alert('Upload is ' + progress + '% done');
 
         switch (snapshot.state) {
           case 'paused':
@@ -90,42 +92,53 @@ export default function ImagePickerExample(...props) {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('File available at', downloadURL);
-          setShowImage(downloadURL);
+          // setShowImage(downloadURL);
+          // console.log("Image"+ShowImage);
   
           // Add title and description to Firebase database
-      
+       
+          SetDataToFireStore(title,Discription,downloadURL,selectedNumber,Other,Time,PickUpPoint)
           
-        });
+        },[]);
+        alert("Post is Uploaded")
+    navigation.navigate("ShowPost")
+        
       }
+     
     );
-    // debugger
-    // set(ref(db, 'Post'), {
-    //   title: title,
-    //   description: Discription,
-    //   imageUrl: ShowImage,
-    // });
-
+    
   }
-  // const setDatabaseData = () => {
-  //   //const newkey = push(child(ref(db),'users')).key()
-  //   set(ref(db, 'users/' + title),{
-  //     Title: title,
-  //     Discription: Discription
+  const SetDataToFireStore = async (title,Discription,downloadURL,selectedNumber,Other,Time,PickUpPoint)=>{
+    try {
+      const docRef = await addDoc(collection(db, "Posts"), {
       
-  //   })
-  //   .then(() => {
-  //     console.log('Data saved successfully!') 
-  //   })
-  //   .catch((error) => {
-  //     // The write failed...
-  //   });
-  // }
+      Title: title,
+      Description: Discription,
+      ImageUrl: downloadURL,
+      SelectedNumber: selectedNumber,
+      other: Other,
+      Time: Time,
+      PickUpPoint: PickUpPoint,
+    
+
+
+      });
+      
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
   const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const handleNumberPress = (number) => {
     setSelectedNumber(number);
   }
-  
-
+  const getData =(value)=>{
+console.log("there is the value",value)
+setPicupPoint(value)
+  }
+  const [id, setid] = useState('')
+  const [ShowImage, setShowImage] = useState('')
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }}>
@@ -208,7 +221,7 @@ export default function ImagePickerExample(...props) {
                 </View>
                 <TextInput
                   editable
-                  onChangeText={other => setOther(other)}
+                  onChangeText={time => settime(time)}
                   placeholder='e.g. Today from 3-5'
                   style={{ padding: 13 }}
                 />
@@ -216,13 +229,13 @@ export default function ImagePickerExample(...props) {
 
             </View>
           </View>
-          <TouchableOpacity style={styles.Submit} onPress={navigation.navigate('ShowPost')}>
+          <TouchableOpacity style={styles.Submit} onPress={uploadImage }>
             <Text style={styles.SubmitText}>Submit</Text>
           </TouchableOpacity>
         </View>
       
       </ScrollView>
-      <MapShow />
+      <MapShow  getPointData= {getData}/>
 
 
 
