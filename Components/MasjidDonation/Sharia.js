@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import SearchMosque from './SearchMosque';
 const mosqueData = [
   {
     id: '1',
@@ -32,6 +32,7 @@ const MosqueScreen = () => {
 
   const renderMosqueCard = (mosque) => {
     return (
+      
       <TouchableOpacity key={mosque.id} style={styles.card} onPress={() => handleDonateFood(mosque.id)}>
         <Image source={{uri: mosque.imageSource}}  style={styles.image} />
         <View style={styles.textContainer}>
@@ -46,9 +47,16 @@ const MosqueScreen = () => {
 
   return (
     <View style={styles.container}>
+    <View style={styles.SearchMosque}>
+    <SearchMosque/>
+    </View>
+    <View style={{marginTop:"32%"}}>
+    
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+      
         {mosqueData.map((mosque) => renderMosqueCard(mosque))}
       </ScrollView>
+    </View>
     </View>
   );
 };
@@ -61,6 +69,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: 10,
+    
   },
   card: {
     backgroundColor: '#fff',
@@ -72,6 +81,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 2,
+  },
+  SearchMosque:{
+    position:"absolute",
+    top:0,
+    width:"100%"
   },
   image: {
     height: 150,

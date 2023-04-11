@@ -50,7 +50,7 @@ const Tab = createMaterialBottomTabNavigator();
         name="Masjid"
         component={Sharia}
         options={{
-          tabBarLabel: 'Login',
+          tabBarLabel: 'Sharia',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="mosque"  color="#bae0ff" size={25} />
           ),

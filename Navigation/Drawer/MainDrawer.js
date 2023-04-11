@@ -16,16 +16,11 @@ import { Linking } from 'react-native';
 import MainTabScreens from "../Tab/MainTabScreens"
 import { getAuth, signOut } from "firebase/auth";
 import { auth } from '../../firebase';
-
+import DrawerProfile from './DrawerProfile';
 
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-
-function EmptyScreen() {
-  return <View />;
-}
-
 
 
 function Screen(){
@@ -139,7 +134,7 @@ export default function DrawerNavigator() {
               },
           }}>
       <Drawer.Screen name="Home" component={Screen} />
-      <Drawer.Screen name="Profile" component={EmptyScreen} />
+      <Drawer.Screen name="Profile" component={DrawerProfile} />
     </Drawer.Navigator>
   )
 }

@@ -30,13 +30,12 @@ const ShowPost = ({ navigation }) => {
         // console.log('here is the datA',doc.data())
         const data =  doc.data()
         const id = doc.id
+        Data.length=0;
         setid(id)
         if(id!==data.id){
           setData(Data => [...Data,data])
           console.log("i am here", )
         }
-        
-      
 
       })
       

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const MosqueFinder = () => {
+const SearchMosque = () => {
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = () => {
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MosqueFinder;
+export default SearchMosque;
