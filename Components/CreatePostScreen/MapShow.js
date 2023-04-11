@@ -51,14 +51,14 @@ const [ PickUpPoint, setPicupPoint] = useState('')
   return locationData ? (
     <View style={styles.container}>
   
-      <Text style={styles.text}><Text style={{fontWeight:"700"}}>Your Current Location is:</Text>{'\n'}{'\n'}{locationData.address}</Text>
+      {/* <Text style={styles.text}><Text style={{fontWeight:"700"}}>Your Current Location is:</Text>{'\n'}{'\n'}{locationData.address}</Text> */}
       <TouchableOpacity  style={{
         justifyContent: "center",
         backgroundColor: "rgba(77,181,255,0.4)", borderRadius: 10,
         borderWidth: 1, borderColor: "#2c2c6c", marginHorizontal: "25%",
         alignItems: "center"
-      }} ><Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text></TouchableOpacity>
-      <MapViewWithMarker coords={locationData.coords} />
+      }} onPress={()=> alert('PickupPoint has been Set successfully')} ><Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text></TouchableOpacity>
+      <MapViewWithMarker coords={locationData.coords} /> 
       
     </View>
   ) : (
@@ -68,7 +68,7 @@ const [ PickUpPoint, setPicupPoint] = useState('')
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.5,
   },
   text: {
     padding: 10,

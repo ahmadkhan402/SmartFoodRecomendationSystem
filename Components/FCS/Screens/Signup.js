@@ -11,51 +11,59 @@ import {
     ImageBackground,
 } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase";
+import { getDatabase, ref, set } from "firebase/database";
+import { auth ,db} from "../../../firebase";
+import { collection, addDoc } from "firebase/firestore"; 
+
 
 
 export default function Signup({navigation}) {
     const [DisplayName, setDisplayName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [Fulname, setFullName] = useState("");
+    const [Fulname, setFulname] = useState("");
+    
+    // const [id, setid] = useState("");
+
 
     const handleSetup = ()=>{
         createUserWithEmailAndPassword(auth , email, password)
         .then((userCredential) => {
+            console.log(userCredential.user.uid)
+            const id = userCredential.user.uid
           // Signed in 
-          const user = userCredential.user;
-          const users = userCredential.user;
+            const user = userCredential.user;
             console.log('u', user.email)
             console.log('u', user.displayName)
+            navigation.navigate('Login')
+            addusers(id,DisplayName,email,password, Fulname)
+            })
            
-
-            // The user object has basic properties such as display name, email, e
-            
-        
-          
-          // ...
-        })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           alert(errorMessage)
           // ..
         });
-    //     auth
-    //     .createUserWithEmailAndPassword(email, password)
-    //     .then((userCredential) => {
-    //       const user = userCredential.user;
-    //       console.log("Registered With User :" ,user.email)
-    //       navigation.navigate("Home")
-    //     })
-    //     .catch((error) => {
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-          
-    //     });
-    // }
-    }
+
+        const addusers = async (id, DisplayName, email, password, Fulname)=>{
+            try {
+              const docRef = await addDoc(collection(db, "AuthUsers"), {
+                Id :id,
+                Display_Name: DisplayName ,Fulname,
+                email: email,
+                Password : password
+            });
+              
+              console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+              console.error("Error adding document: ", e);
+            }
+          }
+
+}
+    
+
     return (
         
          <ImageBackground  style={styles.container} source={require("./../../../assets/bg3.gif")}>
@@ -79,7 +87,7 @@ export default function Signup({navigation}) {
                     placeholder="Full name"
                     color= "#4db5ff"
                     placeholderTextColor="#4db5ff"
-                    onChangeText={(fullname) => setFullName(fullname)}
+                    onChangeText={(Fulname) => setFulname(Fulname)}
                 />
             </View>
             <View style={styles.inputView}>

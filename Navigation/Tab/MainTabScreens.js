@@ -15,7 +15,7 @@ const Tab = createMaterialBottomTabNavigator();
 
   return (
     <Tab.Navigator
-     initialRouteName='ShowPost'
+     initialRouteName='Home'
     activeColor="#fff"
     inactiveColor='#2c2c6c'
         barStyle={{ backgroundColor: '#4db5ff' }}>

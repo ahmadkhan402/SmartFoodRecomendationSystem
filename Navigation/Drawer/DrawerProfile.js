@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import {  updateProfile } from "firebase/auth";
+import { auth,db } from '../../firebase';
+import { doc, setDoc, updateDoc } from "firebase/firestore"; 
 
 const  EditScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [bio, setBio] = useState('');
-  const [profilePic, setProfilePic] = useState(null);
-
+  const [image, setImage] = useState(null);
+console.log(image)
 
   const navigation = useNavigation();
 
@@ -19,46 +22,61 @@ const  EditScreen = () => {
   // }
 
 
+
   const handleImagePicker = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status === 'granted') {
-      const result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.canceled) {
-        setProfilePic(result.assets[0].uri);
-      }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All, // We can  specify whether we need only Images or Videos
+      allowsEditing: true,
+      aspect: [1,1],
+      quality: 1,   // 0 means compress for small size, 1 means  compress for maximum quality
+    });
+
+    console.log(result.assets[0].uri);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
   };
 
-  const handleSubmit = () => {
-    // submit user data to server or update local storage
+  const handleSubmit = async () => {
+    const userId = auth.currentUser.uid
+    const AuthUsersRef = doc(db, "AuthUsers" ,"C4GMFQtbiIZcQ9L4wRGv");
+    await updateDoc(AuthUsersRef, {
+      ProfilePic: {image},
+      Display_Name: {name},
+      email: {email}
+  });
+  alert('data is submited successfully')
   };
 
   return (
     
     <View style={styles.container}>
-    
-      <TouchableOpacity   style={styles.profilePic} onPress={handleImagePicker}> 
-      <Text style={styles.icon}><Feather name="upload" size={34} color="black" />
-        <Image  source={{ uri: profilePic }} />
-        </Text>
-      </TouchableOpacity>
+ 
+        <ImageBackground source={{ uri: image }}  style={styles.profilePic} >
+        <TouchableOpacity onPress={handleImagePicker}>
+         <Text style={styles.icon}><AntDesign name="pluscircle" size={35} color="#2c2c6c" />
+          </Text>
+        </TouchableOpacity>
+        </ImageBackground>
+        
       <TextInput
         style={styles.input}
         placeholder="Name"
         value={name}
-        onChangeText={setName}
+        onChangeText={(e)=>setName(e)}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(e)=>setEmail(e)}
       />
       <TextInput
         style={styles.input}
         placeholder="Bio"
         value={bio}
-        onChangeText={setBio}
+        onChangeText={(e)=>setBio(e)}
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Submit</Text>
@@ -77,8 +95,13 @@ const styles = StyleSheet.create({
     
   },
   icon:{
-    marginTop:70
-  },
+    position:"absolute",
+    marginTop:"70%",
+    justifyContent:"center",
+    alignItems:"center",
+    right:"34%",
+    
+   },
  
   input: {
     borderWidth: 1,
@@ -87,14 +110,16 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     width: '80%',
+    
   },
   profilePic: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: 75,
     borderColor:'black',
     borderWidth:2,
     marginVertical: 20,
+    overflow:"hidden",
     backgroundColor:'gray'
   },
   button: {

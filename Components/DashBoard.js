@@ -43,7 +43,7 @@ const DashBoard = () => {
       id: '2',
       title: 'Gives Sadqa for Masjid',
       description: "We are launching a donation campaign to help the hungry people of Balochistan, a province in Pakistan where many families are struggling to meet their basic needs.'\n'Sincerely '\n'[Ahmad Saffiullah/SR Donation]",
-      image: 'https://www.shutterstock.com/image-photo/closeup-poor-staring-hungry-orphan-260nw-1368050006.jpg'
+      image: 'https://images.unsplash.com/photo-1590273089302-ebbc53986b6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bW9zcXVlfGVufDB8fDB8fA%3D%3D&w=1000&q=80'
     },
     {
       id: '3',
@@ -58,10 +58,16 @@ const DashBoard = () => {
       image: 'https://www.shutterstock.com/image-photo/little-girl-holding-sheet-cardboard-260nw-489149236.jpg'
      
     },
+    {
+      id: '5',
+      title: 'Help Feed Hungry Children in Zimbabwe!',
+      description: "We are launching a donation campaign to help the hungry people of Balochistan, a province in Pakistan where many families are struggling to meet their basic needs.'\n'Sincerely '\n'[Ahmad Saffiullah/SR Donation]",
+      image: ' https://files.globalgiving.org/pfil/16275/pict_large.jpg?m=1391510004000'
+     
+    },
   ];
 
-
-
+ 
 
 const onShare = async () => {
   try {

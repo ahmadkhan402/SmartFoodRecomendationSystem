@@ -19,8 +19,8 @@ export default function ImagePickerExample(...props) {
   const [blobImage, setblob] = useState(null)
   
   const [postContent, setPostContent] = useState('');
-  const [title, setTitle] = useState('Hello My Name is Ahmad');
-  const [Discription, setDiscrioption] = useState('Its Fist testing Post of fireBase');
+  const [title, setTitle] = useState('');
+  const [Discription, setDiscrioption] = useState('');
   const [selectedNumber, setSelectedNumber] = useState();
   const [PickUpPoint, setPicupPoint] = useState('')
   const [Other, setOther] =useState('')
@@ -41,7 +41,7 @@ export default function ImagePickerExample(...props) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All, // We can  specify whether we need only Images or Videos
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1,1],
       quality: 1,   // 0 means compress for small size, 1 means  compress for maximum quality
     });
 
@@ -119,10 +119,7 @@ export default function ImagePickerExample(...props) {
       other: Other,
       Time: Time,
       PickUpPoint: PickUpPoint,
-    
-
-
-      });
+    });
       
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {

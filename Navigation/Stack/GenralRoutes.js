@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 const GenralRoutes = ({navigation}) => {
   return (
     
-      <Stack.Navigator initialRouteName='DrawerNavigator'>
+      <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen
         name="Registration_Page"
         component={Signup}

@@ -6,6 +6,7 @@ import { ref, list, listAll, getDownloadURL } from "firebase/storage"
 import { auth, storage, db } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
 import { Timestamp, collection, getDocs } from "firebase/firestore"; 
+import { color } from 'react-native-reanimated';
 
 
 const ShowPost = ({ navigation }) => {
@@ -57,6 +58,7 @@ const ShowPost = ({ navigation }) => {
 
           <View style={styles.card} >
             <View style={styles.textContainer} key={key}>
+            <Text style={styles.PostUser}>POSTED BY: {auth.currentUser?.email}</Text>
               <Text style={styles.textTitle}> {item.Title}</Text>
               <Text style={styles.txt}>{item.Description}</Text>
               <Text style={styles.txt}>Time: {item.Time}</Text>
@@ -121,6 +123,13 @@ PickUpPoint:{
   borderRadius:5,
   padding:10,
   fontWeight:"500"
+},
+PostUser:{
+ backgroundColor:"#eee",
+  fontSize:12,
+  fontWeight:"500",
+  padding:5,
+  color:"#2c2c6c"
 },
 txt:{
 fontSize:14,

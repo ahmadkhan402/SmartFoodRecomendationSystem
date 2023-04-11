@@ -61,7 +61,7 @@ function CustomDrawerContent(props) {
           />
           <View style={{ marginLeft: 15, flexDirection: 'column' }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Ahmad Safiullah</Text>
-            <Text style={{ fontSize: 12, color: 'white' }}>ahmad777@gmail.com</Text>
+            <Text style={{ fontSize: 12, color: 'white' }}>{auth.currentUser?.email}</Text>
           </View>
         </View>
       </View>
