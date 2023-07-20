@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "myproject",
+    "slug": "myproject",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo2p.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splashn.png",
+      "resizeMode": "cover",
+      "backgroundColor": "white"
+      
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+   
+    "android": {
+      
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+      
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }  
+   
+  }
+}
