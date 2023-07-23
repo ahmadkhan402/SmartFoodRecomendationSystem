@@ -17,8 +17,9 @@ import MainTabScreens from "../Tab/MainTabScreens"
 import { getAuth, signOut } from "firebase/auth";
 import { auth } from '../../firebase';
 import DrawerProfile from './DrawerProfile';
-
-
+import { removeItem } from '../../AsyncStorage/AsyscStorage';
+import RNRestart from 'react-native-restart'
+import { Alert } from 'react-native';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -41,14 +42,16 @@ function CustomDrawerContent(props) {
     const auth = getAuth();
     signOut(auth).then(() => {
       // Sign-out successful.
-     
+       removeItem('onLogin')
       alert('Sign-out successful')
       navigation.navigate('Login')
     }).catch((error) => {
       // An error happened.
       alert('An error happened')
     });
+    
   }
+ 
   return (
   
     <DrawerContentScrollView {...props} style={{flex:1,backgroundColor:"rgba(77,181,255,0.4)" }}>
@@ -89,6 +92,23 @@ function CustomDrawerContent(props) {
         label="Share"
         onPress={() => alert('Link generated!')}
       />
+       <DrawerItem
+        icon={({ color, size }) => <MaterialCommunityIcons name="restart" size={24} color="black" />}
+        label="Restart App"
+        onPress={ async ()=>{
+    await removeItem('onbording');
+    Alert.alert('Restart Application', 'Click ok to restart Application', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () =>   navigation.push('OnbordingScreen')},
+    ]);
+
+ 
+      }}
+      />
      <View style={{ flex:1, justifyContent:"flex-end",marginTop:"120%" ,paddingBottom: 20,marginLeft:15 }}>
         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={Handlelogout}>
           <AntDesign name="logout" size={24} color="#FFA07A" />
@@ -119,6 +139,7 @@ const LogoTitle = ({ navigation }) => {
 };
 
 export default function DrawerNavigator() {
+  
   return (
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}
           screenOptions={{

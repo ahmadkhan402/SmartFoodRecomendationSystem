@@ -1,56 +1,119 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
-import { View, Text, Button } from 'react-native';
-import Signup from '../../Components/FCS/Screens/Signup';
-import Login from '../../Components/FCS/Screens/Login';
-import MainDrawer from "../Drawer/MainDrawer"
-import CreatePost from "../../Components/CreatePostScreen/CreatePost"
-import ShowPost from '../../Components/CreatePostScreen/ShowPost';
-import OnbordingScreen from '../../OnbordingScreen';
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Button } from "react-native";
+import Signup from "../../Components/FCS/Screens/Signup";
+import Login from "../../Components/FCS/Screens/Login";
+import MainDrawer from "../Drawer/MainDrawer";
+import CreatePost from "../../Components/CreatePostScreen/CreatePost";
+import ShowPost from "../../Components/CreatePostScreen/ShowPost";
+import OnbordingScreen from "../../OnbordingScreen";
+import { getItem } from "../../AsyncStorage/AsyscStorage";
+import Splash from "../../Components/FCS/Screens/Splash";
 
 const Stack = createStackNavigator();
 
+const GenralRoutes = ({ navigation }) => {
+  const [showOnbording, setShowOnboarding] = useState(null);
 
-const GenralRoutes = ({navigation}) => {
-  return (
-    
-      <Stack.Navigator initialRouteName='OnbordingScreen'>
-      <Stack.Screen
-        name="OnbordingScreen"
-        component={OnbordingScreen}
-        options={{ headerShown: false }} />
-      <Stack.Screen
-        name="Registration_Page"
-        component={Signup}
-        options={{ headerShown: false }} />
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }} />
+  useEffect(() => {
+    checkifalreadyOnboarded();
+  },
+   []);
+  const checkifalreadyOnboarded = async () => {
+    let onboarded = await getItem("onbording");
+    if (onboarded == 1) {
+      //hide Onbording
+      setShowOnboarding(false);
+    } else {
+      //Show Onboarding
+      setShowOnboarding(true);
+    }
+  };
+
+  if (showOnbording == null) {
+    return null;
+  }
+  if (showOnbording) {
+    return (
+      <Stack.Navigator initialRouteName="OnbordingScreen">
         <Stack.Screen
-        name="DrawerNavigator"
-        component={MainDrawer}
-        options={{ headerShown: false }} />
+          name="OnbordingScreen"
+          component={OnbordingScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
-        name="CreatePost"
-        component={CreatePost}
-        options={{ headerShown: false }} />
+          name="Registration_Page"
+          component={Signup}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DrawerNavigator"
+          component={MainDrawer}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreatePost"
+          component={CreatePost}
+          options={{ headerShown: false }}
+        />
         {/* <Stack.Screen
         name="ShowPost"
         component={ShowPost}
         options={{ headerShown: false }} /> */}
-       
       </Stack.Navigator>
-   
-  
-  )
-}
+    );
+  } else {
+    return (
+      <Stack.Navigator initialRouteName="Splash">
+       <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="OnbordingScreen"
+          component={OnbordingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Registration_Page"
+          component={Signup}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DrawerNavigator"
+          component={MainDrawer}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreatePost"
+          component={CreatePost}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen
+          name="ShowPost"
+          component={ShowPost}
+          options={{ headerShown: false }} /> */}
+      </Stack.Navigator>
+    );
+  }
+};
 
-export default GenralRoutes
+export default GenralRoutes;
 
-
- {/* <Tab.Screen
+{
+  /* <Tab.Screen
         name="Registration_Page"
         component={Signup}
         options={{
@@ -60,4 +123,5 @@ export default GenralRoutes
           ),
           headerShown: true
         }}
-      /> */}
+      /> */
+}

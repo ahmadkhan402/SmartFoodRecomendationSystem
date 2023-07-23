@@ -31,6 +31,7 @@ const Tab = createMaterialBottomTabNavigator();
           headerShown: true
         }}
       />
+     
       
       <Tab.Screen
         name="Donate"

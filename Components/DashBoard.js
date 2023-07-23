@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, FlatList, Dimensions, Platform, SafeAreaView, ScrollView, TouchableOpacity, Share } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from '../firebase';
 import { Linking } from 'react-native';
+import { getItem } from '../AsyncStorage/AsyscStorage';
 
 
 const DashBoard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-
+  const [emails, setemails] = useState('');
   // const user = auth.currentUser;
  
   //   // The user object has basic properties such as display name, email, etc.
@@ -136,6 +137,14 @@ const Separator = () => {
     />
   );
 }
+const viewEmail = async() =>{
+  let getemail = await getItem("ShowEmail");
+  console.log(' get email',getemail)
+  setemails(getemail)
+}
+useEffect(()=>{
+  viewEmail();
+},[])
 return (
   
     <SafeAreaView style={styles.container}>
@@ -146,7 +155,7 @@ return (
   >
       <View style={styles.MiniContainer}>
         <View style={styles.TextContainer}>
-          <Text style={styles.Text1}>Hello, <Text style={styles.Text2}>{auth.currentUser?.email}!</Text> </Text>
+          <Text style={styles.Text1}>Hello, <Text style={styles.Text2}>{emails}!</Text> </Text>
           <Text style={styles.greeting}>{greeting}</Text>
           <Text style={styles.time}>{formattedTime}</Text>
         </View>

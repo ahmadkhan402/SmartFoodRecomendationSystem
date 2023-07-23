@@ -36,6 +36,7 @@ export default function Signup({navigation}) {
             console.log('u', user.email)
             console.log('u', user.displayName)
             navigation.navigate('Login')
+          
             addusers(id,DisplayName,email,password, Fulname)
             })
            
@@ -48,11 +49,13 @@ export default function Signup({navigation}) {
 
         const addusers = async (id, DisplayName, email, password, Fulname)=>{
             try {
-              const docRef = await addDoc(collection(db, "AuthUsers"), {
+              const docRef = await addDoc(collection(db, "users"), {
+               
                 Id :id,
                 Display_Name: DisplayName ,Fulname,
                 email: email,
-                Password : password
+                Password : password,
+                authProvider: "local",
             });
               
               console.log("Document written with ID: ", docRef.id);
