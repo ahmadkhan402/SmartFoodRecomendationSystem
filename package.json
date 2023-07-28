@@ -19,6 +19,7 @@
     "@react-navigation/material-bottom-tabs": "^6.2.15",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "@reduxjs/toolkit": "^1.9.5",
     "@vseslav/react-native-horizontal-picker": "^0.1.1",
     "deprecated-react-native-prop-types": "^2.3.0",
     "expo": "^48.0.20",
@@ -46,7 +47,10 @@
     "react-native-screens": "~3.20.0",
     "react-native-share": "^8.2.1",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "react-redux": "^8.1.1",
+    "react-saga": "^0.3.1",
+    "redux": "^4.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

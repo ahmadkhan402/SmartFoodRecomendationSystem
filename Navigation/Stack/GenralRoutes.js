@@ -10,6 +10,9 @@ import ShowPost from "../../Components/CreatePostScreen/ShowPost";
 import OnbordingScreen from "../../OnbordingScreen";
 import { getItem } from "../../AsyncStorage/AsyscStorage";
 import Splash from "../../Components/FCS/Screens/Splash";
+import BuyerScreen from "../../Components/SellScreen/BuyerScreen";
+import SellOptionScreen from "../../Components/SellScreen/SellOptionScreen";
+import SellerScreen from "../../Components/SellScreen/SellerScreen";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +46,17 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="Buyer"
+          component={BuyerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Seller"
+          component={SellOptionScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
           name="Registration_Page"
           component={Signup}
           options={{ headerShown: false }}
@@ -70,10 +84,25 @@ const GenralRoutes = ({ navigation }) => {
     );
   } else {
     return (
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator initialRouteName="DrawerNavigator">
        <Stack.Screen
           name="Splash"
           component={Splash}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SellerOption"
+          component={SellOptionScreen}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Buyer"
+          component={BuyerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Seller"
+          component={SellerScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -7,6 +7,8 @@ import Login from "../../Components/FCS/Screens/Login"
 import DonateScreen from '../../Components/DonateScreen/DonateScreen';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import Sharia from '../../Components/MasjidDonation/Sharia';
+import SellOptionScreen from '../../Components/SellScreen/SellOptionScreen';
+SellOptionScreen
 const Tab = createMaterialBottomTabNavigator();
 
 
@@ -32,6 +34,20 @@ const Tab = createMaterialBottomTabNavigator();
         }}
       />
      
+      <Tab.Screen
+        name="Sell"
+        component={SellOptionScreen}
+        options={{
+          tabBarColor:"Black",
+          tabBarLabel: 'Sell',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="sellsy" size={25} color="#bae0ff" />
+            
+          ),
+          headerShown: true
+        }}
+      />
+      
       
       <Tab.Screen
         name="Donate"
