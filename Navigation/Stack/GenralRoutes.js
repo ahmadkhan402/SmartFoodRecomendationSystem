@@ -10,9 +10,11 @@ import ShowPost from "../../Components/CreatePostScreen/ShowPost";
 import OnbordingScreen from "../../OnbordingScreen";
 import { getItem } from "../../AsyncStorage/AsyscStorage";
 import Splash from "../../Components/FCS/Screens/Splash";
-import BuyerScreen from "../../Components/SellScreen/BuyerScreen";
+import BuyerScreen from "../../Components/SellScreen/BuyerScreen/BuyerScreen";
 import SellOptionScreen from "../../Components/SellScreen/SellOptionScreen";
-import SellerScreen from "../../Components/SellScreen/SellerScreen";
+import SellerScreen from "../../Components/SellScreen/SellerScreen/SellerScreen";
+import ProductInfo from "../../Components/SellScreen/BuyerScreen/ProductInfo";
+import MyCart from "../../Components/SellScreen/BuyerScreen/MyCart";
 
 const Stack = createStackNavigator();
 
@@ -98,6 +100,16 @@ const GenralRoutes = ({ navigation }) => {
          <Stack.Screen
           name="Buyer"
           component={BuyerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProductInfo"
+          component={ProductInfo}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyCart"
+          component={MyCart}
           options={{ headerShown: false }}
         />
         <Stack.Screen
