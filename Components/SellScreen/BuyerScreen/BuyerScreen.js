@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { COLOURS, Items } from "./Database";
+
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Items,COLOURS } from "../../../Database";
 
 const BuyerScreen = ({ navigation }) => {
   const [Food, setFood] = useState([]);
@@ -164,7 +165,7 @@ const BuyerScreen = ({ navigation }) => {
             </View>
           )
         ) : null}
-        <Text>&\u20A8 {data.productPrice}</Text>
+        <Text>RS: {data.productPrice}</Text>
       </TouchableOpacity>
     );
   };
@@ -228,7 +229,7 @@ const BuyerScreen = ({ navigation }) => {
               marginBottom: 10,
             }}
           >
-            Hi-Fi Shop &amp; Service
+            Sell Service
           </Text>
           <Text
             style={{
@@ -239,7 +240,7 @@ const BuyerScreen = ({ navigation }) => {
               lineHeight: 24,
             }}
           >
-            Audio shop on Rustaveli Ave 57.
+            Sell all desire Product in smart way
             {"\n"}This shop offers both Food and services
           </Text>
         </View>
@@ -332,7 +333,7 @@ const BuyerScreen = ({ navigation }) => {
                   letterSpacing: 1,
                 }}
               >
-                Accessories
+                Fruit
               </Text>
               <Text
                 style={{

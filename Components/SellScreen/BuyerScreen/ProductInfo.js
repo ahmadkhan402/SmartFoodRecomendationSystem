@@ -11,15 +11,30 @@ import {
   Animated,
   ToastAndroid,
 } from 'react-native';
-import {COLOURS, Items} from './Database';
+
+import { Items,COLOURS } from '../../../Database';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProductInfo = ({route, navigation}) => {
+ // useState
+ const [product, setProduct] = useState({
+  id: '',
+  category: '',
+  productName: '',
+  productPrice: '',
+  description: '',
+  offPercentage: '',
+  productImage: null,
+  isAvailable: false,
+  productImageList: [],
+});
+
+
   const {productID} = route.params;
 
-  const [product, setProduct] = useState({});
+  // const [product, setProduct] = useState({});
 
   const width = Dimensions.get('window').width;
 
@@ -29,7 +44,7 @@ const ProductInfo = ({route, navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getDataFromDB();
+      getFormData();
     });
 
     return unsubscribe;
@@ -37,14 +52,25 @@ const ProductInfo = ({route, navigation}) => {
 
   //get product data by productID
 
-  const getDataFromDB = async () => {
-    for (let index = 0; index < Items.length; index++) {
-      if (Items[index].id == productID) {
-        await setProduct(Items[index]);
-        return;
+  const getFormData= async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('@FormData');
+      if (storedData) {
+        setProduct(JSON.parse(storedData));
       }
+    } catch (error) {
+      console.error('Error loading form data:', error);
     }
   };
+
+
+
+    // for (let index = 0; index < Items.length; index++) {
+    //   if (Items[index].id == productID) {
+    //     await setProduct(Items[index]);
+    //     return;
+    //   }
+    // }g
 
   //add to cart
 
@@ -319,10 +345,10 @@ const ProductInfo = ({route, navigation}) => {
                 color: COLOURS.black,
                 marginBottom: 4,
               }}>
-              &#8377; {product.productPrice}.00
+              Rs: {product.productPrice}.00
             </Text>
             <Text>
-              Tax Rate 2%~ &#8377;{product.productPrice / 20} (&#8377;
+              Tax Rate 2%~ Rs:{product.productPrice / 20} (Rs:
               {product.productPrice + product.productPrice / 20})
             </Text>
           </View>

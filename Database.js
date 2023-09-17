@@ -7,6 +7,8 @@ export const COLOURS = {
   backgroundLight: '#F0F0F3',
   backgroundMedium: '#B9B9B9',
   backgroundDark: '#777777',
+  backgroundLiteBlue:"#4db5ff",
+  backgroundDarkBlue:"#2c2c6c",
 };
 
 export const Items = [
@@ -18,12 +20,12 @@ export const Items = [
     description:
       'We have 2 carton of amrood having such stuff buy it at very low price',
     offPercentage: 10,
-    productImage: require('../../../assets/products/fruit1.png'),
+    productImage: require('./assets/products/fruit1.png'),
     isAvailable: true,
     productImageList: [
-      require('../../../assets/products/fruit1.png'),
-      require('../../../assets/products/Mi2.png'),
-      require('../../../assets/products/Mi3.png'),
+      require('./assets/products/fruit1.png'),
+      require('./assets/products/Mi2.png'),
+      require('./assets/products/Mi3.png'),
     ],
   },
   {
@@ -34,12 +36,12 @@ export const Items = [
     description:
       'boAt Rockerz 450 M is an on-ear wireless headset that has been ergonomically designed to meet the needs of music lovers.',
     isOff: false,
-    productImage: require('../../../assets/products/food1.png'),
+    productImage: require('./assets/products/food1.png'),
     isAvailable: true,
     productImageList: [
-      require('../../../assets/products/food1.png'),
-      require('../../../assets/products/boat2.png'),
-      require('../../../assets/products/boat3.png'),
+      require('./assets/products/food1.png'),
+      require('./assets/products/boat2.png'),
+      require('./assets/products/boat3.png'),
     ],
   },
   {
@@ -51,12 +53,12 @@ export const Items = [
       'Bluetooth: It has Bluetooth v5.0 with a range of 10m and is compatible with Android & iOS',
     isOff: true,
     offPercentage: 18,
-    productImage: require('../../../assets/products/fruit1.png'),
+    productImage: require('./assets/products/fruit1.png'),
     isAvailable: true,
     productImageList: [
-      require('../../../assets/products/fruit1.png'),
-      require('../../../assets/accessories/boatairpods2.png'),
-      require('../../../assets/accessories/boatairpods3.png'),
+      require('./assets/products/fruit1.png'),
+      require('./assets/accessories/boatairpods2.png'),
+      require('./assets/accessories/boatairpods3.png'),
     ],
   },
   {
@@ -67,12 +69,12 @@ export const Items = [
     description:
       'Fly into your workouts with precise tones that inspire and energize your system with its HD sound, all the time.',
     isOff: false,
-    productImage: require('../../../assets/accessories/boatbassheads1.png'),
+    productImage: require('./assets/accessories/boatbassheads1.png'),
     isAvailable: true,
     productImageList: [
-      require('../../../assets/accessories/boatbassheads1.png'),
-      require('../../../assets/accessories/boatbassheads2.png'),
-      require('../../../assets/accessories/boatbassheads3.png'),
+      require('./assets/accessories/boatbassheads1.png'),
+      require('./assets/accessories/boatbassheads2.png'),
+      require('./assets/accessories/boatbassheads3.png'),
     ],
   },
   {
@@ -83,12 +85,12 @@ export const Items = [
     description:
       'The unbeatable boAt signature sound shines through no matter what are you playing courtesy its 10mm drivers.',
     isOff: false,
-    productImage: require('../../../assets/accessories/boatrockerz1.png'),
+    productImage: require('./assets/accessories/boatrockerz1.png'),
     isAvailable: false,
     productImageList: [
-      require('../../../assets/accessories/boatrockerz1.png'),
-      require('../../../assets/accessories/boatrockerz2.png'),
-      require('../../../assets/accessories/boatrockerz3.png'),
+      require('./assets/accessories/boatrockerz1.png'),
+      require('./assets/accessories/boatrockerz2.png'),
+      require('./assets/accessories/boatrockerz3.png'),
     ],
   },
   {
@@ -99,12 +101,12 @@ export const Items = [
     description:
       'One Touch Control & Voice Assistant: With one multifunction button, you can play/pause, previous/next track and answer/hang-up calls.Voice assistant function lets you access siri/Google Assistant',
     isOff: false,
-    productImage: require('../../../assets/accessories/boultairbass1.png'),
+    productImage: require('./assets/accessories/boultairbass1.png'),
     isAvailable: true,
     productImageList: [
-      require('../../../assets/accessories/boultairbass1.png'),
-      require('../../../assets/accessories/boultairbass2.png'),
-      require('../../../assets/accessories/boultairbass3.png'),
+      require('./assets/accessories/boultairbass1.png'),
+      require('./assets/accessories/boultairbass2.png'),
+      require('./assets/accessories/boultairbass3.png'),
     ],
   },
 ];

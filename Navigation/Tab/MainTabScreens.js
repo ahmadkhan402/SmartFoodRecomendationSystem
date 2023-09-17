@@ -47,9 +47,7 @@ const Tab = createMaterialBottomTabNavigator();
           headerShown: true
         }}
       />
-      
-      
-      <Tab.Screen
+        <Tab.Screen
         name="Donate"
         component={DonateScreen}
         options={{
@@ -63,6 +61,21 @@ const Tab = createMaterialBottomTabNavigator();
         }}
       />
       
+      
+      {/* <Tab.Screen
+        name="Donate"
+        component={DonateScreen}
+        options={{
+          tabBarColor:"Black",
+          tabBarLabel: 'Donate',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="hands-helping" size={24} color="#bae0ff" />
+            
+          ),
+          headerShown: true
+        }}
+      />
+       */}
       <Tab.Screen
         name="Masjid"
         component={Sharia}

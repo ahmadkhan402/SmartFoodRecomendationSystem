@@ -61,6 +61,7 @@ export default function Login({ navigation }) {
       .then( async(userCredential)  => {
         // Signed in
         const user = userCredential.user;
+        navigation.navigate("DrawerNavigator")
     //     const q = query(collection(db, "users"), where("uid", "==", user.uid));
     //  const docs = await getDocs(q);
     // if (docs.docs.length === 0) {

@@ -8,8 +8,9 @@ import {
   ToastAndroid,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {COLOURS, Items} from './Database';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Items,COLOURS } from '../../../Database';
 
 const MyCart = ({navigation}) => {
   const [product, setProduct] = useState();
@@ -148,10 +149,10 @@ const MyCart = ({navigation}) => {
                   maxWidth: '85%',
                   marginRight: 4,
                 }}>
-                &#8377;{data.productPrice}
+                RS: {data.productPrice}
               </Text>
               <Text>
-                (~&#8377;
+                (RS: 
                 {data.productPrice + data.productPrice / 20})
               </Text>
             </View>
@@ -463,7 +464,7 @@ const MyCart = ({navigation}) => {
                   color: COLOURS.black,
                   opacity: 0.8,
                 }}>
-                &#8377;{total}.00
+                Rs: {total}.00
               </Text>
             </View>
             <View
@@ -490,7 +491,7 @@ const MyCart = ({navigation}) => {
                   color: COLOURS.black,
                   opacity: 0.8,
                 }}>
-                &#8377;{total / 20}
+                Rs: {total / 20}
               </Text>
             </View>
             <View
@@ -515,7 +516,7 @@ const MyCart = ({navigation}) => {
                   fontWeight: '500',
                   color: COLOURS.black,
                 }}>
-                &#8377;{total + total / 20}
+                Rs: {total + total / 20}
               </Text>
             </View>
           </View>
@@ -549,7 +550,7 @@ const MyCart = ({navigation}) => {
               color: COLOURS.white,
               textTransform: 'uppercase',
             }}>
-            CHECKOUT (&#8377;{total + total / 20} )
+            CHECKOUT (Rs: {total + total / 20} )
           </Text>
         </TouchableOpacity>
       </View>

@@ -15,6 +15,9 @@ import SellOptionScreen from "../../Components/SellScreen/SellOptionScreen";
 import SellerScreen from "../../Components/SellScreen/SellerScreen/SellerScreen";
 import ProductInfo from "../../Components/SellScreen/BuyerScreen/ProductInfo";
 import MyCart from "../../Components/SellScreen/BuyerScreen/MyCart";
+import RegisterSelect from "../../Components/DonateScreen/RegisterSelect";
+import { COLOURS } from "../../Database";
+import NGODataForm from "../../Components/DonateScreen/NGODataForm";
 
 const Stack = createStackNavigator();
 
@@ -86,11 +89,23 @@ const GenralRoutes = ({ navigation }) => {
     );
   } else {
     return (
-      <Stack.Navigator initialRouteName="DrawerNavigator">
+      <Stack.Navigator initialRouteName="Home">
        <Stack.Screen
           name="Splash"
           component={Splash}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NGOForm"
+          component={NGODataForm}
+          options={{ headerShown: false}}
+          
+        />
+           <Stack.Screen
+          name="RegOption"
+          component={RegisterSelect}
+          options={{ headerShown: false}}
+          
         />
         <Stack.Screen
           name="SellerOption"
