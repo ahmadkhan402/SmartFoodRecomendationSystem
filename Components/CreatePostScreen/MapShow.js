@@ -19,7 +19,7 @@ const getCurrentLocation = async () => {
     Alert.alert('Error fetching location', error.message);
     return null;
   }
-};
+}
 
 const MapViewWithMarker = ({ coords }) => {
   return (

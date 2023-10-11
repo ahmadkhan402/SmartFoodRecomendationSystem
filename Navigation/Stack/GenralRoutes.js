@@ -18,11 +18,14 @@ import MyCart from "../../Components/SellScreen/BuyerScreen/MyCart";
 import RegisterSelect from "../../Components/DonateScreen/RegisterSelect";
 import { COLOURS } from "../../Database";
 import NGODataForm from "../../Components/DonateScreen/NGODataForm";
+import NGOLogin from "../../Components/DonateScreen/NGOLogin";
+import NGOShowList from "../../Components/DonateScreen/NGOShowList";
+
 
 const Stack = createStackNavigator();
 
 const GenralRoutes = ({ navigation }) => {
-  const [showOnbording, setShowOnboarding] = useState(null);
+  const [showOnbording, setShowOnboarding] = useState(false);
 
   useEffect(() => {
     checkifalreadyOnboarded();
@@ -48,6 +51,11 @@ const GenralRoutes = ({ navigation }) => {
         <Stack.Screen
           name="OnbordingScreen"
           component={OnbordingScreen}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="NGOLogin"
+          component={NGOLogin}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -80,6 +88,23 @@ const GenralRoutes = ({ navigation }) => {
           name="CreatePost"
           component={CreatePost}
           options={{ headerShown: false }}
+          
+        />
+        <Stack.Screen
+          name="RegOption"
+          component={RegisterSelect}
+          options={{ headerShown: false}}
+          />
+           <Stack.Screen
+          name="NGOForm"
+          component={NGODataForm}
+          options={{ headerShown: false}}
+          
+        />
+        <Stack.Screen
+          name="NGOShowList"
+          component={NGOShowList}
+          options={{ headerShown: false }}
         />
         {/* <Stack.Screen
         name="ShowPost"
@@ -89,10 +114,20 @@ const GenralRoutes = ({ navigation }) => {
     );
   } else {
     return (
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="DrawerNavigator">
        <Stack.Screen
           name="Splash"
           component={Splash}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="NGOShowList"
+          component={NGOShowList}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="NGOLogin"
+          component={NGOLogin}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -157,10 +192,7 @@ const GenralRoutes = ({ navigation }) => {
           component={CreatePost}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen
-          name="ShowPost"
-          component={ShowPost}
-          options={{ headerShown: false }} /> */}
+        
       </Stack.Navigator>
     );
   }

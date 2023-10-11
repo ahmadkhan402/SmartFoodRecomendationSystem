@@ -4,9 +4,11 @@ import * as Location from 'expo-location';
 import { COLOURS } from '../../Database';
 import { Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
 
 
-const NGOForm = () => {
+const NGOForm = ({  navigation}) => {
   const [ngoName, setNgoName] = useState('');
   const [numMembers, setNumMembers] = useState('');
   const [numPeopleServed, setNumPeopleServed] = useState('');
@@ -18,6 +20,7 @@ const NGOForm = () => {
   
 
     const getCurrentLocation = async () => {
+      requestLocationPermission();
     try {
         const { coords } = await Location.getCurrentPositionAsync({});
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords.latitude}&lon=${coords.longitude}`);
@@ -27,8 +30,9 @@ const NGOForm = () => {
         Alert.alert('Error fetching location', error.message);
         return null;
       }
-  };
+    }
   const requestLocationPermission = async () => {
+    
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === 'granted') {
@@ -42,25 +46,29 @@ const NGOForm = () => {
       console.warn(error);
     }
   };
-const getLocation = async()=>{
-   
-        const location = await getCurrentLocation();
-       
-        console.log(location.address)
-        setLocationData(location.address);
-}
+    
   
 
-  const handleLogin = () => {
-    // Handle NGO login here, you can send the data to a server or store it locally
-    console.log('NGO Name:', ngoName);
-    console.log('Number of Members:', numMembers);
-    console.log('People Served per Month:', numPeopleServed);
-    console.log('Current Location:', locationData);
+  const handleNGOReg = async() => {
+    console.log("runnnn")
+    const userRef = doc(db, "NGO_Register", auth.currentUser.uid);
+    await setDoc(userRef, {
+      ngoName,
+      numMembers,
+      numPeopleServed,
+      locationData,
+    Coords
+
+    });
+    Alert.alert("Data Successfully Store in Firebase/Firestore");
+   console.log("data saved")
+  navigation.navigate("NGOLogin")
+   
   };
+  
 
   useEffect(() => {
-    requestLocationPermission();
+   
     (async () => {
         const location = await getCurrentLocation();
         console.log(location)
@@ -80,7 +88,7 @@ const getLocation = async()=>{
    </View>
   
    <View style={styles.MinCont}>
-   <ScrollView showsVerticalScrollIndicator={false}>
+   <Text style={{color:COLOURS.backgroundDarkBlue ,backgroundColor:COLOURS.backgroundMedium,borderRadius:20,marginVertical:20, fontWeight:"700", fontSize:26,textAlign:"center"}}>NGO Data</Text>
       <Text style={styles.Name}>NGO Name:</Text>
       <View style={styles.inputView}>
       <TextInput  style={styles.TextInput}
@@ -118,24 +126,25 @@ const getLocation = async()=>{
 
      
 
-      <Text style={styles.Name}>Current Coords:</Text>
+      {/* <Text style={styles.Name}>Current Coords:</Text>
       <View style={styles.inputViewNew}>
       <Text style={{fontSize:14, paddingVertical:12, color:COLOURS.backgroundDarkBlue}}>
         "accuracy": {Coords.accuracy}
         {'\n'}
-        "altitude": {Coords.accuracy}
+        "altitude": {Coords.altitude}
         {'\n'}
-        "altitudeAccuracy": {Coords.accuracy}
+        "altitudeAccuracy": {Coords.altitudeAccuracy}
         {'\n'}
-        "latitude": {Coords.accuracy}
+        "latitude": {Coords.latitude}
         {'\n'}
-        "longitude": {Coords.accuracy}
+        "longitude": {Coords.longitude}
         </Text>
-    </View>
-    </ScrollView>
-    <TouchableOpacity style={styles.BtnReg}>
+    </View> */}
+    <TouchableOpacity style={styles.BtnReg} onPress={handleNGOReg}>
       <Text>Register NGO</Text>
       </TouchableOpacity>
+   
+    
       </View>
     </View>
   );
@@ -152,6 +161,7 @@ const styles = StyleSheet.create({
         
       },
       BtnReg : {
+        marginTop:24,
         paddingHorizontal:25,
          borderRadius: 25,
          height: 50,
@@ -159,9 +169,10 @@ const styles = StyleSheet.create({
          justifyContent: "center",
          backgroundColor: "#4db5ff",
          elevation: 40,
+         marginVertical:20
        },
       MinCont:{
-        flex:1,
+       
         justifyContent:"center",
         marginHorizontal:25,
         paddingHorizontal:20,
@@ -176,12 +187,12 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         height: 45,
         marginBottom: 20,
-        alignItems: "center",
+        paddingLeft:16
        
       },
       TextInput: {
         color:COLOURS.backgroundDarkBlue,
-        
+        textAlign:"left",
         flex: 1,
         padding: 10,
        
@@ -197,7 +208,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         marginBottom: 20,
-        
         alignItems: "center",
       }
 })
+

@@ -23,7 +23,7 @@ const ShowPost = ({ navigation }) => {
   //setData(newArray)
   useEffect(() => {
     async function fetchImages() {
-      const querySnapshot = await getDocs(collection(db, "Posts"));
+      const querySnapshot = await getDocs(collection(db, "Posts",));
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
@@ -33,10 +33,10 @@ const ShowPost = ({ navigation }) => {
         const id = doc.id
         Data.length=0;
         setid(id)
-        if(id!==data.id){
+        
           setData(Data => [...Data,data])
           console.log("i am here", )
-        }
+        
 
       })
       
@@ -58,7 +58,7 @@ const ShowPost = ({ navigation }) => {
 
           <View style={styles.card} >
             <View style={styles.textContainer} key={key}>
-            <Text style={styles.PostUser}>POSTED BY: {auth.currentUser?.email}</Text>
+            <Text style={styles.PostUser}>POSTED BY: {item.Email}</Text>
               <Text style={styles.textTitle}> {item.Title}</Text>
               <Text style={styles.txt}>{item.Description}</Text>
               <Text style={styles.txt}>Time: {item.Time}</Text>

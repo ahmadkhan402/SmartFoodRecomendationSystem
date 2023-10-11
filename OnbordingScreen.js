@@ -9,7 +9,7 @@ import { setItem } from "./AsyncStorage/AsyscStorage";
 const OnbordingScreen = () => {
   const navigation = useNavigation()
 const handleDone =()=>{
-  navigation.navigate("DrawerNavigator")
+  navigation.navigate("Login")
   setItem('onbording','1')
 }
 // const doneBtn =({...props})=>{

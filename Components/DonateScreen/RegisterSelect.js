@@ -46,10 +46,19 @@ const RegisterSelect = ({navigation}) => {
       <View style={{alignItems:"center", marginHorizontal:10}}>
       <Image style={{width:350,height:200,resizeMode:"cover", borderRadius:15}} source={require("./.././../assets/NGOQuotes.png")} />
       </View>
-      <View>
+      <View style={{flexDirection:"row"}}>
+      <TouchableOpacity style={styles.BtnReg2 } onPress={()=>navigation.navigate("NGOShowList")}>
+          <Text style={{
+              color: COLOURS.white,
+             
+              fontSize: 16,
+              fontWeight: "300",
+            }}>Your Registered NGO</Text>
+        </TouchableOpacity>
+       
         <TouchableOpacity style={styles.BtnReg} onPress={()=>navigation.navigate("NGOForm")}>
           <Text style={{
-              color: COLOURS.backgroundDarkBlue,
+               color: COLOURS.white,
              
               fontSize: 16,
               fontWeight: "300",
@@ -71,7 +80,7 @@ const styles = StyleSheet.create({
     
   },
   BtnReg : {
-   paddingHorizontal:25,
+   paddingHorizontal:12,
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -80,4 +89,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#4db5ff",
     elevation: 40,
   },
+  BtnReg2:{
+    paddingHorizontal:12,
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 70,
+    backgroundColor: "#4db5ff",
+    elevation: 40,
+    marginHorizontal:10
+  }
 })

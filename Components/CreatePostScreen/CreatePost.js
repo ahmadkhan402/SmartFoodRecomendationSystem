@@ -20,16 +20,18 @@ export default function ImagePickerExample(...props) {
   
   const [postContent, setPostContent] = useState('');
   const [title, setTitle] = useState('');
-  const [Discription, setDiscrioption] = useState('');
+  const [namcription, setnamcrioption] = useState('');
   const [selectedNumber, setSelectedNumber] = useState();
   const [PickUpPoint, setPicupPoint] = useState('')
   const [Other, setOther] =useState('')
   const [Time, settime] =useState('')
-  // function writeUserData(userId, title, Discription, selectedNumber, ShowImage) {
+  const [DonorName, setDonorName] =useState('')
+  const [Email, setEmail] =useState('')
+  // function writeUserData(userId, title, namcription, selectedNumber, ShowImage) {
   //   const dbRef = db.ref('post');
   //   dbRef.push({
   //     title: title,
-  //     description: Discription,
+  //     description: namcription,
   //     selectedNumber: selectedNumber,
   //     imageUrl: ShowImage
   //   });
@@ -97,7 +99,7 @@ export default function ImagePickerExample(...props) {
   
           // Add title and description to Firebase database
        
-          SetDataToFireStore(title,Discription,downloadURL,selectedNumber,Other,Time,PickUpPoint)
+          SetDataToFireStore(title,namcription,downloadURL,selectedNumber,Other,Time,PickUpPoint)
           
         },[]);
         alert("Post is Uploaded")
@@ -108,17 +110,19 @@ export default function ImagePickerExample(...props) {
     );
     
   }
-  const SetDataToFireStore = async (title,Discription,downloadURL,selectedNumber,Other,Time,PickUpPoint)=>{
+  const SetDataToFireStore = async (title,namcription,downloadURL,selectedNumber,Other,Time,PickUpPoint)=>{
     try {
       const docRef = await addDoc(collection(db, "Posts"), {
-      
+      DonorName : DonorName,
+      Email : Email,
       Title: title,
-      Description: Discription,
+      Description: namcription,
       ImageUrl: downloadURL,
       SelectedNumber: selectedNumber,
       other: Other,
       Time: Time,
       PickUpPoint: PickUpPoint,
+
     });
       
       console.log("Document written with ID: ", docRef.id);
@@ -147,7 +151,8 @@ setPicupPoint(value)
             </Text>
           </TouchableOpacity>
           <View style={styles.ImaageText}>
-            <Text style={{ color: "#800020" }}>Please add an Image</Text>
+            {image ? <Text style={{ color: "green" }}>Image Selected</Text> :
+            <Text style={{ color: "#800020" }}>Please add an Image</Text> }
           </View>
 
         </View>
@@ -156,6 +161,28 @@ setPicupPoint(value)
         <View>
           <View style={{ marginTop: 7 }}>
             <View style={styles.FormContainer}>
+            <View style={styles.TextInput2}>
+                <TextInput
+                value={DonorName}
+                  editable
+                  multiline
+                  numberOfLines={2}
+                  onChangeText={nam => setDonorName(nam)}
+                  placeholder='Donor Name'
+                  style={{ padding: 16 }}
+                />
+              </View>
+              <View style={styles.TextInput2}>
+                <TextInput
+                value={Email}
+                  editable
+                  multiline
+                  numberOfLines={2}
+                  onChangeText={e => setEmail(e)}
+                  placeholder='Donor Email'
+                  style={{ padding: 16 }}
+                />
+              </View>
               <View style={styles.TextInput1}>
                 <TextInput
                 value={title}
@@ -169,12 +196,12 @@ setPicupPoint(value)
               </View>
               <View style={styles.TextInput2}>
                 <TextInput
-                value={Discription}
+                value={namcription}
                   editable
                   multiline
                   numberOfLines={2}
-                  onChangeText={dis => setDiscrioption(dis)}
-                  placeholder='Discription'
+                  onChangeText={nam => setnamcrioption(nam)}
+                  placeholder='namcription'
                   style={{ padding: 16 }}
                 />
               </View>
