@@ -11,12 +11,18 @@ import {
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { Items,COLOURS } from "../../../Database";
+import { Items, COLOURS } from "../../../Database";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../firebase";
+import { compose } from "redux";
 
 const BuyerScreen = ({ navigation }) => {
-  const [Food, setFood] = useState([]);
   const [accessory, setAccessory] = useState([]);
 
+  const [DataFruit, setDataFruit] = useState([]);
+  const [DataFood, setDataFood] = useState([]);
+  console.log(DataFood);
+  console.log(DataFruit);
   //get called on screen loads
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -28,21 +34,39 @@ const BuyerScreen = ({ navigation }) => {
 
   //get data from DB
 
-  const getDataFromDB = () => {
-    let productList = [];
-    let accessoryList = [];
-    for (let index = 0; index < Items.length; index++) {
-      if (Items[index].category == "Food") {
-        productList.push(Items[index]);
-      } else if (Items[index].category == "Medicine") {
-        accessoryList.push(Items[index]);
+  const getDataFromDB = async () => {
+    let FruitList = [];
+    let foodlist = [];
+    let Other = [];
+
+    const querySnapshot = await getDocs(collection(db, "SellItems"));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      const data = doc.data();
+      const id = doc.id;
+      if (data.Category == "Fruit") {
+        setDataFruit((DataFruit => [...DataFruit,data]))
+        // FruitList.push({ id }, data);
+      } else if (data.Category == "Food") {
+        setDataFood((DataFood => [...DataFood,data]));
       }
-    }
 
-    setFood(productList);
-    setAccessory(accessoryList);
+      //  if("Fruit" === doc.data().Category){
+      //   FruitList.push()
+      //  setFood("Fruit")}
+      //  else if("Food" === doc.data().Category){
+      //   setFood("Food")
+      //  }else{
+      //   setFood("Other")
+      //  }
+      // console.log(doc.id, " => ", doc.data());
+    });
+    // setDataFruit(FruitList);
+    //setDataFood(foodlist);
   };
-
+  
+    
+  
   //create an product reusable card
 
   const ProductCard = ({ data }) => {
@@ -68,7 +92,8 @@ const BuyerScreen = ({ navigation }) => {
             marginBottom: 8,
           }}
         >
-          {data.isOff ? (
+          {
+            data.OffPercentage ? (
             <View
               style={{
                 position: "absolute",
@@ -91,12 +116,12 @@ const BuyerScreen = ({ navigation }) => {
                   letterSpacing: 1,
                 }}
               >
-                {data.offPercentage}%
+                {data.OffPercentage}%
               </Text>
             </View>
           ) : null}
           <Image
-            source={data.productImage}
+            source={{uri:data.ImageUrl}}
             style={{
               width: "80%",
               height: "80%",
@@ -112,60 +137,9 @@ const BuyerScreen = ({ navigation }) => {
             marginBottom: 2,
           }}
         >
-          {data.productName}
+          {data.ProductName}
         </Text>
-        {data.category == "fruit" ? (
-          data.isAvailable ? (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <FontAwesome
-                name="circle"
-                style={{
-                  fontSize: 12,
-                  marginRight: 6,
-                  color: COLOURS.green,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: COLOURS.green,
-                }}
-              >
-                Available
-              </Text>
-            </View>
-          ) : (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <FontAwesome
-                name="circle"
-                style={{
-                  fontSize: 12,
-                  marginRight: 6,
-                  color: COLOURS.red,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: COLOURS.red,
-                }}
-              >
-                Unavailable
-              </Text>
-            </View>
-          )
-        ) : null}
-        <Text>RS: {data.productPrice}</Text>
+        <Text>RS: {data.ProductPrice}</Text>
       </TouchableOpacity>
     );
   };
@@ -301,8 +275,8 @@ const BuyerScreen = ({ navigation }) => {
               justifyContent: "space-around",
             }}
           >
-            {Food.map((data) => {
-              return <ProductCard data={data} key={data.id} />;
+            {DataFood.map((item,key) => {
+              return <ProductCard data={item} key={key} />;
             })}
           </View>
         </View>
@@ -364,7 +338,7 @@ const BuyerScreen = ({ navigation }) => {
               justifyContent: "space-around",
             }}
           >
-            {accessory.map((data) => {
+            {DataFruit.map((data) => {
               return <ProductCard data={data} key={data.id} />;
             })}
           </View>
