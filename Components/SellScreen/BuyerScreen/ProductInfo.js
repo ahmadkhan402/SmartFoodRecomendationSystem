@@ -16,21 +16,25 @@ import { Items,COLOURS } from '../../../Database';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '../../../firebase';
 
 const ProductInfo = ({route, navigation}) => {
  // useState
  const [product, setProduct] = useState({
   id: '',
   category: '',
-  productName: '',
-  productPrice: '',
-  description: '',
-  offPercentage: '',
-  productImage: null,
-  isAvailable: false,
+  ProductName: '',
+  ProductPrice: '',
+  Description: '',
+  OffPercentage: '',
+  ImageUrl: null,
+  isAvailable: true,
   productImageList: [],
 });
-
+var ProductArry = []
+ProductArry.push(product)
+console.log("wicuiwiuchiowhdiohwoihdowdhohwohd",product)
 
   const {productID} = route.params;
 
@@ -54,10 +58,17 @@ const ProductInfo = ({route, navigation}) => {
 
   const getFormData= async () => {
     try {
-      const storedData = await AsyncStorage.getItem('@FormData');
-      if (storedData) {
-        setProduct(JSON.parse(storedData));
-      }
+    
+
+const querySnapshot = await getDocs(collection(db, "SellItems"));
+querySnapshot.forEach((doc) => {
+  if (doc.id === productID) {
+    const data = doc.data();
+    setProduct({ id: doc.id, ...data });
+  }
+});
+      
+      
     } catch (error) {
       console.error('Error loading form data:', error);
     }
@@ -87,7 +98,7 @@ const ProductInfo = ({route, navigation}) => {
           'Item Added Successfully to cart',
           ToastAndroid.SHORT,
         );
-        navigation.navigate('Home');
+        navigation.navigate('MyCart',{ProductID: product.id} );
       } catch (error) {
         return error;
       }
@@ -100,7 +111,7 @@ const ProductInfo = ({route, navigation}) => {
           'Item Added Successfully to cart',
           ToastAndroid.SHORT,
         );
-        navigation.navigate('Home');
+        navigation.navigate('MyCart',{ProductID: product.id} );
       } catch (error) {
         return error;
       }
@@ -117,8 +128,9 @@ const ProductInfo = ({route, navigation}) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
+       
         <Image
-          source={item}
+          source={{uri:item.ImageUrl}}
           style={{
             width: '100%',
             height: '100%',
@@ -174,9 +186,11 @@ const ProductInfo = ({route, navigation}) => {
               />
             </TouchableOpacity>
           </View>
+        
           <FlatList
-            data={product.productImageList ? product.productImageList : null}
+            data={ProductArry}
             horizontal
+            keyExtractor={(item) => item.id.toString()}
             renderItem={renderProduct}
             showsHorizontalScrollIndicator={false}
             decelerationRate={0.8}
@@ -196,7 +210,7 @@ const ProductInfo = ({route, navigation}) => {
               marginBottom: 16,
               marginTop: 32,
             }}>
-            {product.productImageList
+            {/* {product.productImageList
               ? product.productImageList.map((data, index) => {
                   let opacity = position.interpolate({
                     inputRange: [index - 1, index, index + 1],
@@ -216,7 +230,7 @@ const ProductInfo = ({route, navigation}) => {
                       }}></Animated.View>
                   );
                 })
-              : null}
+              : null} */}
           </View>
         </View>
         <View
@@ -262,7 +276,7 @@ const ProductInfo = ({route, navigation}) => {
                 color: COLOURS.black,
                 maxWidth: '84%',
               }}>
-              {product.productName}
+              {product.ProductName}
             </Text>
             <Ionicons
               name="link-outline"
@@ -287,8 +301,9 @@ const ProductInfo = ({route, navigation}) => {
               maxHeight: 44,
               marginBottom: 18,
             }}>
-            {product.description}
+            {product.Description}
           </Text>
+         
           <View
             style={{
               flexDirection: 'row',
@@ -323,7 +338,7 @@ const ProductInfo = ({route, navigation}) => {
                   }}
                 />
               </View>
-              <Text> Rustaveli Ave 57,{'\n'}17-001, Batume</Text>
+              <Text>Attock,{'\n'}17-001, Pakistan</Text>
             </View>
             <Entypo
               name="chevron-right"
@@ -345,11 +360,11 @@ const ProductInfo = ({route, navigation}) => {
                 color: COLOURS.black,
                 marginBottom: 4,
               }}>
-              Rs: {product.productPrice}.00
+              Rs: {product.ProductPrice}.00
             </Text>
             <Text>
-              Tax Rate 2%~ Rs:{product.productPrice / 20} (Rs:
-              {product.productPrice + product.productPrice / 20})
+            Tax Rate 2%~ Rs: {parseFloat(product.ProductPrice) / 20} (Rs:
+             {parseFloat(product.ProductPrice) + parseFloat(product.ProductPrice) / 20})
             </Text>
           </View>
         </View>
@@ -365,7 +380,7 @@ const ProductInfo = ({route, navigation}) => {
           alignItems: 'center',
         }}>
         <TouchableOpacity
-          onPress={() => (product.isAvailable ? addToCart(product.id) : null)}
+          onPress={() => (product.id ? addToCart(product.id) : null)}
           style={{
             width: '86%',
             height: '90%',
@@ -382,7 +397,7 @@ const ProductInfo = ({route, navigation}) => {
               color: COLOURS.white,
               textTransform: 'uppercase',
             }}>
-            {product.isAvailable ? 'Add to cart' : 'Not Avialable'}
+            {product.id ? 'Add to cart' : 'Not Avialable'}
           </Text>
         </TouchableOpacity>
       </View>

@@ -20,6 +20,7 @@ import { COLOURS } from "../../Database";
 import NGODataForm from "../../Components/DonateScreen/NGODataForm";
 import NGOLogin from "../../Components/DonateScreen/NGOLogin";
 import NGOShowList from "../../Components/DonateScreen/NGOShowList";
+import ChatScreen from "../../Components/Chat/ChatScreen";
 
 
 const Stack = createStackNavigator();
@@ -101,6 +102,7 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: false}}
           
         />
+        
         <Stack.Screen
           name="NGOShowList"
           component={NGOShowList}
@@ -175,6 +177,11 @@ const GenralRoutes = ({ navigation }) => {
         <Stack.Screen
           name="Registration_Page"
           component={Signup}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="chat"
+          component={ChatScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

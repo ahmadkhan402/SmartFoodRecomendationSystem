@@ -8,9 +8,10 @@ import {
   ToastAndroid,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { collection, getDocs } from "firebase/firestore";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Items,COLOURS } from '../../../Database';
+import { db } from '../../../firebase';
 
 const MyCart = ({navigation}) => {
   const [product, setProduct] = useState();
@@ -28,17 +29,28 @@ const MyCart = ({navigation}) => {
   const getDataFromDB = async () => {
     let items = await AsyncStorage.getItem('cartItems');
     items = JSON.parse(items);
+    //console.log("",items)
     let productData = [];
     if (items) {
-      Items.forEach(data => {
-        if (items.includes(data.id)) {
-          productData.push(data);
-          return;
-        }
-      });
-      setProduct(productData);
+      try {
+     const querySnapshot = await getDocs(collection(db, "SellItems"));
+        querySnapshot.forEach((doc) => {
+      const data = doc.data()
+      let id =doc.id
+            if (items.includes(id)) {
+              
+              productData.push({id,...data});
+              return;
+            }
+        });
+            } catch (error) {
+              console.error('Error loading form data:', error);
+            }
+        setProduct(productData);
+       
       getTotal(productData);
     } else {
+      console.log(product)
       setProduct(false);
       getTotal(false);
     }
@@ -48,8 +60,8 @@ const MyCart = ({navigation}) => {
   const getTotal = productData => {
     let total = 0;
     for (let index = 0; index < productData.length; index++) {
-      let productPrice = productData[index].productPrice;
-      total = total + productPrice;
+      let ProductPrice = productData[index].ProductPrice;
+      total = total + parseFloat(ProductPrice);
     }
     setTotal(total);
   };
@@ -59,6 +71,7 @@ const MyCart = ({navigation}) => {
   const removeItemFromCart = async id => {
     let itemArray = await AsyncStorage.getItem('cartItems');
     itemArray = JSON.parse(itemArray);
+    console.log("remive item", itemArray)
     if (itemArray) {
       let array = itemArray;
       for (let index = 0; index < array.length; index++) {
@@ -87,6 +100,7 @@ const MyCart = ({navigation}) => {
   };
 
   const renderProducts = (data, index) => {
+   
     return (
       <TouchableOpacity
         key={data.key}
@@ -110,7 +124,7 @@ const MyCart = ({navigation}) => {
             marginRight: 22,
           }}>
           <Image
-            source={data.productImage}
+            source={{uri: data.ImageUrl}}
             style={{
               width: '100%',
               height: '100%',
@@ -133,7 +147,7 @@ const MyCart = ({navigation}) => {
                 fontWeight: '600',
                 letterSpacing: 1,
               }}>
-              {data.productName}
+              {data.ProductName}
             </Text>
             <View
               style={{
@@ -149,11 +163,11 @@ const MyCart = ({navigation}) => {
                   maxWidth: '85%',
                   marginRight: 4,
                 }}>
-                RS: {data.productPrice}
+                RS: {parseFloat(data.ProductPrice)}
               </Text>
               <Text>
                 (RS: 
-                {data.productPrice + data.productPrice / 20})
+                {parseFloat(data.ProductPrice) + parseFloat(data.ProductPrice) / 20})
               </Text>
             </View>
           </View>
@@ -330,7 +344,7 @@ const MyCart = ({navigation}) => {
                       color: COLOURS.black,
                       fontWeight: '500',
                     }}>
-                    2 Petre Melikishvili St.
+                    2 Mainwali, Pakistan
                   </Text>
                   <Text
                     style={{
@@ -340,7 +354,7 @@ const MyCart = ({navigation}) => {
                       lineHeight: 20,
                       opacity: 0.5,
                     }}>
-                    0162, Tbilisi
+                    42340, doudkhel
                   </Text>
                 </View>
               </View>

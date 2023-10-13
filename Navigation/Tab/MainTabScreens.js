@@ -5,9 +5,10 @@ import DashBoard from '../../Components/DashBoard';
 import ShowPost from '../../Components/CreatePostScreen/ShowPost';
 import Login from "../../Components/FCS/Screens/Login"
 import DonateScreen from '../../Components/DonateScreen/DonateScreen';
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { Entypo,FontAwesome5 } from '@expo/vector-icons'; 
 import Sharia from '../../Components/MasjidDonation/Sharia';
 import SellOptionScreen from '../../Components/SellScreen/SellOptionScreen';
+import ChatScreen from '../../Components/Chat/ChatScreen';
 SellOptionScreen
 const Tab = createMaterialBottomTabNavigator();
 
@@ -76,7 +77,20 @@ const Tab = createMaterialBottomTabNavigator();
         }}
       />
        */}
-      <Tab.Screen
+       <Tab.Screen
+        name="chat"
+        component={ChatScreen}
+        options={{
+          tabBarColor:"Black",
+          tabBarLabel: 'chat',
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="chat" size={24} color="#bae0ff" />
+            
+          ),
+          headerShown: true
+        }}
+      />
+      {/* <Tab.Screen
         name="Masjid"
         component={Sharia}
         options={{
@@ -86,7 +100,7 @@ const Tab = createMaterialBottomTabNavigator();
           ),
           headerShown: true
         }}
-      />
+      /> */}
       <Tab.Screen
         name="ShowPost"
         component={ShowPost}

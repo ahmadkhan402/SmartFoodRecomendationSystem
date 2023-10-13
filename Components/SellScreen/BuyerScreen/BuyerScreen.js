@@ -21,8 +21,8 @@ const BuyerScreen = ({ navigation }) => {
 
   const [DataFruit, setDataFruit] = useState([]);
   const [DataFood, setDataFood] = useState([]);
-  console.log(DataFood);
-  console.log(DataFruit);
+  // console.log(DataFood);
+  // console.log(DataFruit);
   //get called on screen loads
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -35,34 +35,29 @@ const BuyerScreen = ({ navigation }) => {
   //get data from DB
 
   const getDataFromDB = async () => {
-    let FruitList = [];
-    let foodlist = [];
-    let Other = [];
-
     const querySnapshot = await getDocs(collection(db, "SellItems"));
+    const fruitList = [];
+    const foodList = [];
+    const otherList = [];
+  
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       const data = doc.data();
       const id = doc.id;
-      if (data.Category == "Fruit") {
-        setDataFruit((DataFruit => [...DataFruit,data]))
-        // FruitList.push({ id }, data);
-      } else if (data.Category == "Food") {
-        setDataFood((DataFood => [...DataFood,data]));
+  
+      if (data.Category === "Fruit") {
+        fruitList.push({ id, ...data });
+      } else if (data.Category === "Food") {
+        foodList.push({ id, ...data });
+      } else {
+        otherList.push({ id, ...data });
       }
-
-      //  if("Fruit" === doc.data().Category){
-      //   FruitList.push()
-      //  setFood("Fruit")}
-      //  else if("Food" === doc.data().Category){
-      //   setFood("Food")
-      //  }else{
-      //   setFood("Other")
-      //  }
-      // console.log(doc.id, " => ", doc.data());
     });
-    // setDataFruit(FruitList);
-    //setDataFood(foodlist);
+  
+    // Now, you have three separate lists for different categories: fruitList, foodList, and otherList.
+    // You can use or store these lists as needed.
+  
+   setDataFood(foodList)
+   setDataFruit(fruitList)
   };
   
     
@@ -70,10 +65,12 @@ const BuyerScreen = ({ navigation }) => {
   //create an product reusable card
 
   const ProductCard = ({ data }) => {
+    // console.log( data.id )
     return (
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("ProductInfo", { productID: data.id })
+         
         }
         style={{
           width: "48%",
