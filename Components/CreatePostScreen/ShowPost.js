@@ -7,6 +7,7 @@ import { auth, storage, db } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
 import { Timestamp, collection, getDocs } from "firebase/firestore"; 
 import { color } from 'react-native-reanimated';
+import ChatOption from './ChatOption';
 
 
 const ShowPost = ({ navigation }) => {
@@ -56,7 +57,8 @@ const ShowPost = ({ navigation }) => {
         {Data.map((item, key) => (
 
 
-          <View style={styles.card} >
+          <View style={styles.card}>
+          
             <View style={styles.textContainer} key={key}>
             <Text style={styles.PostUser}>POSTED BY: {item.Email}</Text>
               <Text style={styles.textTitle}> {item.Title}</Text>
@@ -64,8 +66,14 @@ const ShowPost = ({ navigation }) => {
               <Text style={styles.txt}>Time: {item.Time}</Text>
               <Text style={styles.txt}>Quantity of Meal: {item.SelectedNumber}</Text>
               <Text style={styles.PickUpPoint}>Pick-Up Point: {item.PickUpPoint}</Text>
+             
             </View>
+            <View>
             <Image source={{ uri: item.ImageUrl }} style={styles.Image} />
+            <View style={{position:"absolute",bottom:10,right:20,elevation:40 }}>
+<ChatOption/>
+          </View>
+            </View>
           </View>
 
         ))}

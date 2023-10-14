@@ -30,28 +30,13 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //Function
-  //   const handleLoginData =()=>{
 
-  //   }
-//   const [showLogin, setshowlogin] = useState(null);
-
-
-//   const checkifalreadyLogin = async () => {
-//     let login = await getItem("onLogin");
-//     if (login == 1) {
-//       //hide login
-//       console.log("fuckkkkkkkk");
-//       setshowlogin(true);
-//     } else {
-//       //Show login
-//       setshowlogin(false);
-//     }
-//   };
-//   console.log(showLogin);
-  
-
-
+  // const goToNext = async (email, userId) => {
+  //   await AsyncStorage.setItem('NAME', name);
+  //   await AsyncStorage.setItem('EMAIL', email);
+  //   await AsyncStorage.setItem('USERID', userId);
+  //   navigation.navigate('Main');
+  // };
 
   const handleLogin = async () => {
    // checkifalreadyLogin();

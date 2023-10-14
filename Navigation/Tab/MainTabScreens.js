@@ -9,6 +9,7 @@ import { Entypo,FontAwesome5 } from '@expo/vector-icons';
 import Sharia from '../../Components/MasjidDonation/Sharia';
 import SellOptionScreen from '../../Components/SellScreen/SellOptionScreen';
 import ChatScreen from '../../Components/Chat/ChatScreen';
+import User from '../../Components/Chat/User';
 SellOptionScreen
 const Tab = createMaterialBottomTabNavigator();
 
@@ -79,7 +80,7 @@ const Tab = createMaterialBottomTabNavigator();
        */}
        <Tab.Screen
         name="chat"
-        component={ChatScreen}
+        component={User}
         options={{
           tabBarColor:"Black",
           tabBarLabel: 'chat',

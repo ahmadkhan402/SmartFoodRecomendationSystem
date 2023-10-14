@@ -1,117 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, TextInput, Button, Text, StyleSheet } from 'react-native';
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'; // Make sure these imports are correct
-import { db } from '../../firebase'; // Check the import path
+import React, { useCallback, useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { GiftedChat } from 'react-native-gifted-chat';
+import { useRoute } from '@react-navigation/native';
+import { collection, doc, query, onSnapshot, orderBy, addDoc } from 'firebase/firestore';
+import { db } from '../../firebase'; // Make sure your Firebase configuration is correctly imported
 
-const ChatScreen = ({ userUid, receiverUid }) => {
-  const [messages, setMessages] = useState([]);
-  const [messageText, setMessageText] = useState('');
-
-  // Firestore collection reference
-  const messagesRef = collection(db, 'messages');
-
-  // Function to send a message
-  const sendMessage = async (text, senderUid, receiverUid) => {
-    const messageData = {
-      text,
-      senderUid,
-      receiverUid,
-      timestamp: serverTimestamp(),
-    };
-
-    await addDoc(messagesRef, messageData);
-  }
-
-  // Function to listen for new messages
-  const listenForMessages = (userUid, callback) => {
-    const q = query(
-      messagesRef,
-      orderBy('timestamp'),
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const messages = [];
-      querySnapshot.forEach((doc) => {
-        const message = doc.data();
-        if (
-          (message.senderUid === userUid && message.receiverUid === receiverUid) ||
-          (message.senderUid === receiverUid && message.receiverUid === userUid)
-        ) {
-          messages.push(message);
-        }
-      });
-      callback(messages);
-    });
-
-    return unsubscribe;
-  }
+const ChatScreen = () => {
+  const [messageList, setMessageList] = useState([]);
+  const route = useRoute();
 
   useEffect(() => {
-    const unsubscribe = listenForMessages(userUid, (newMessages) => {
-      setMessages(newMessages);
+    const chatDocId = route.params.id + route.params.data.Id;
+    const chatDocRef = doc(db, 'chats', chatDocId);
+    const messagesCollectionRef = collection(chatDocRef, 'messages');
+    const messagesQuery = query(messagesCollectionRef, orderBy('createdAt', 'desc'));
+
+    const unsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
+      const allmessages = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          ...data,
+          _id: doc.id, // Ensure each message has a unique _id
+          createdAt: data.createdAt.toDate(),
+        };
+      });
+      setMessageList(allmessages);
     });
+
     return () => unsubscribe();
-  }, [userUid, receiverUid]);
+  }, [route.params.id, route.params.data.Id]);
+
+  const onSend = useCallback(async (messages = []) => {
+    const msg = messages[0];
+
+    // Assuming you have valid authentication, use the authenticated user's email as the user ID
+    const userId = route.params.id; // Replace with your actual user ID
+
+    const myMsg = {
+      ...msg,
+      user: {
+        _id: userId,
+        name: route.params.id, // You may need to adjust this to get the actual user's name
+      },
+      createdAt: new Date(),
+    };
+
+    setMessageList((previousMessages) =>
+      GiftedChat.append(previousMessages, myMsg)
+    );
+
+    const chatDocId1 = route.params.id + route.params.data.Id;
+    const chatDocId2 = route.params.data.Id + route.params.id;
+
+    const messagesCollectionRef1 = collection(doc(db, 'chats', chatDocId1), 'messages');
+    const messagesCollectionRef2 = collection(doc(db, 'chats', chatDocId2), 'messages');
+
+    await addDoc(messagesCollectionRef1, myMsg);
+    await addDoc(messagesCollectionRef2, myMsg);
+  }, [route.params.id, route.params.data.Id]);
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => item.timestamp.toMillis().toString()}
-        renderItem={({ item }) => (
-          <View
-            style={[
-              styles.message,
-              {
-                alignSelf: item.senderUid === userUid ? 'flex-end' : 'flex-start',
-              },
-            ]}
-          >
-            <Text>{item.text}</Text>
-          </View>
-        )}
+    <View style={{ flex: 1 }}>
+      <GiftedChat
+        messages={messageList}
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: route.params.id, // Replace with your actual user ID
+        }}
       />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={messageText}
-          onChangeText={setMessageText}
-          placeholder="Type a message..."
-        />
-        <Button title="Send" onPress={() => sendMessage(messageText, userUid, receiverUid)} />
-      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  message: {
-    backgroundColor: '#ECECEC',
-    padding: 10,
-    borderRadius: 10,
-    margin: 5,
-    maxWidth: '80%',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 20,
-    marginRight: 10,
-    paddingLeft: 15,
-  },
-});
 
 export default ChatScreen;

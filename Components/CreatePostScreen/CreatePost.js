@@ -122,6 +122,7 @@ export default function ImagePickerExample(...props) {
       other: Other,
       Time: Time,
       PickUpPoint: PickUpPoint,
+      Id:auth.currentUser.uid
 
     });
       

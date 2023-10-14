@@ -21,6 +21,7 @@ import NGODataForm from "../../Components/DonateScreen/NGODataForm";
 import NGOLogin from "../../Components/DonateScreen/NGOLogin";
 import NGOShowList from "../../Components/DonateScreen/NGOShowList";
 import ChatScreen from "../../Components/Chat/ChatScreen";
+import ChatOption from "../../Components/CreatePostScreen/ChatOption";
 
 
 const Stack = createStackNavigator();
@@ -90,6 +91,16 @@ const GenralRoutes = ({ navigation }) => {
           component={CreatePost}
           options={{ headerShown: false }}
           
+        />
+        <Stack.Screen
+          name="ChatOption"
+          component={ChatOption}
+          options={{ headerShown: true }}
+        />
+          <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="RegOption"
@@ -180,9 +191,9 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: false }}
         />
          <Stack.Screen
-          name="chat"
+          name="Chat"
           component={ChatScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Login"
