@@ -8,8 +8,11 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Timestamp, collection, getDocs } from "firebase/firestore"; 
 import { color } from 'react-native-reanimated';
 import ChatOption from './ChatOption';
+import { FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+let id = ""
 const ShowPost = ({ navigation }) => {
 
   const [Data, setData] = useState([])
@@ -24,19 +27,15 @@ const ShowPost = ({ navigation }) => {
   //setData(newArray)
   useEffect(() => {
     async function fetchImages() {
+      id =  await AsyncStorage.getItem('onLogin')
       const querySnapshot = await getDocs(collection(db, "Posts",));
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-
-        // console.log('here is the datA',doc.data())
         const data =  doc.data()
         const id = doc.id
         Data.length=0;
         setid(id)
-        
-          setData(Data => [...Data,data])
-          console.log("i am here", )
+        setData(Data => [...Data,data])
+         
         
 
       })
@@ -49,36 +48,48 @@ const ShowPost = ({ navigation }) => {
 
 
 
+  const renderItem = ({ item, index }) => (
+   
+    <View style={styles.card}>
+      <View style={styles.textContainer} key={index}>
+        <Text style={styles.PostUser}>POSTED BY: {item.Email}</Text>
+        <Text style={styles.textTitle}> {item.Title}</Text>
+        <Text style={styles.txt}>{item.Description}</Text>
+        <Text style={styles.txt}>Time: {item.Time}</Text>
+        <Text style={styles.txt}>Quantity of Meal: {item.SelectedNumber}</Text>
+        <Text style={styles.PickUpPoint}>Pick-Up Point: {item.PickUpPoint}</Text>
+      </View>
+      <Image source={{ uri: item.ImageUrl }} style={styles.Image} />
+      <View style={{position:"absolute",bottom:10,right:20}}>
+      <View
+      style={{
+        elevation: 40,
+        borderColor: "#fff",
+        borderWidth: 1,
+        padding: 8,
+        borderRadius: 20,
+        backgroundColor: "#3457D5",
+      }}>
+      <TouchableOpacity 
+      onPress={()=> navigation.navigate("Chat", { data: item, id: id })}>
+        <Text>
+          <Ionicons name="md-chatbox-ellipses-outline" size={25} color="#FFF" />
+        </Text>
+      </TouchableOpacity>
+    </View>
+          </View>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer} >
-        {Data.map((item, key) => (
-
-
-          <View style={styles.card}>
-          
-            <View style={styles.textContainer} key={key}>
-            <Text style={styles.PostUser}>POSTED BY: {item.Email}</Text>
-              <Text style={styles.textTitle}> {item.Title}</Text>
-              <Text style={styles.txt}>{item.Description}</Text>
-              <Text style={styles.txt}>Time: {item.Time}</Text>
-              <Text style={styles.txt}>Quantity of Meal: {item.SelectedNumber}</Text>
-              <Text style={styles.PickUpPoint}>Pick-Up Point: {item.PickUpPoint}</Text>
-             
-            </View>
-            <View>
-            <Image source={{ uri: item.ImageUrl }} style={styles.Image} />
-            <View style={{position:"absolute",bottom:10,right:20,elevation:40 }}>
-<ChatOption/>
-          </View>
-            </View>
-          </View>
-
-        ))}
-
-      </ScrollView>
+<FlatList
+      data={Data} // Assuming Data is an array of posts
+      keyExtractor={(item, index) => index.toString()} // Use index as the key
+      renderItem={renderItem}
+      contentContainerStyle={styles.scrollContainer}
+    />
 
       <View style={{ padding: 35, position: "absolute", bottom: 0, right: 0 }}>
         <TouchableOpacity onPress={() => navigation.navigate('CreatePost')}>

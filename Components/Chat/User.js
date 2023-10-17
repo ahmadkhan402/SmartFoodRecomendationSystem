@@ -33,11 +33,10 @@ import { auth, db } from '../../firebase';
 const getUsers = async () => {
   try {
     id =  await AsyncStorage.getItem('onLogin');
-    console.log(id)
+   // console.log(id)
     const tempData = [];
      email = await AsyncStorage.getItem('ShowEmail');
-     console.log(email)
-    // Assuming you have already initialized Firebase v9
+    // console.log(email)
     const usersCollection = collection(db,'users');
     const usersQuery = query(usersCollection, where('email', '!=', email));
     const querySnapshot = await getDocs(usersQuery);
@@ -47,6 +46,7 @@ const getUsers = async () => {
     });
 
     setUsers(tempData);
+     console.log(users)
   } catch (error) {
     // Handle errors
     console.error('Error fetching users:', error);
@@ -65,12 +65,14 @@ const getUsers = async () => {
         <FlatList
           data={users}
           renderItem={({item, index}) => {
+            console.log("this is ..." ,item)
             return (
               <TouchableOpacity
                 style={[styles.userItem, {backgroundColor: 'white'}]}
                 onPress={() => {
                   navigation.navigate('Chat', {data: item, id: id});
                 }}>
+                
                 <Image
                   source={require('../../assets/user.png')}
                   style={styles.userIcon}
