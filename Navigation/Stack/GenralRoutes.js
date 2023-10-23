@@ -22,6 +22,8 @@ import NGOLogin from "../../Components/DonateScreen/NGOLogin";
 import NGOShowList from "../../Components/DonateScreen/NGOShowList";
 import ChatScreen from "../../Components/Chat/ChatScreen";
 import ChatOption from "../../Components/CreatePostScreen/ChatOption";
+import Map from "../../Components/DonateScreen/CardFunction/Map";
+import DonateFoodNGO from "../../Components/DonateScreen/CardFunction/DonateFoodNGO";
 
 
 const Stack = createStackNavigator();
@@ -127,7 +129,7 @@ const GenralRoutes = ({ navigation }) => {
     );
   } else {
     return (
-      <Stack.Navigator initialRouteName="DrawerNavigator">
+      <Stack.Navigator initialRouteName="RegOption">
        <Stack.Screen
           name="Splash"
           component={Splash}
@@ -208,6 +210,16 @@ const GenralRoutes = ({ navigation }) => {
         <Stack.Screen
           name="CreatePost"
           component={CreatePost}
+          options={{ headerShown: false }}
+        />
+            <Stack.Screen
+          name="foodNgoDonate"
+          component={DonateFoodNGO}
+          options={{ headerShown: false }}
+        />
+            <Stack.Screen
+          name="MapNgo"
+          component={Map}
           options={{ headerShown: false }}
         />
         

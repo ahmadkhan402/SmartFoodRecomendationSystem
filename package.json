@@ -36,7 +36,7 @@
     "get-google-fonts": "^1.2.2",
     "lottie-react-native": "^5.1.4",
     "react": "^18.2.0",
-    "react-native": "0.71.13",
+    "react-native": "0.71.14",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
