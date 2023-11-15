@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, TouchableOpacity, Button, useWindowDimensions, StyleSheet, Image } from 'react-native';
 
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -15,13 +15,20 @@ import { Entypo } from '@expo/vector-icons';
 import { Linking } from 'react-native';
 import MainTabScreens from "../Tab/MainTabScreens"
 import { getAuth, signOut } from "firebase/auth";
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import DrawerProfile from './DrawerProfile';
 import { removeItem } from '../../AsyncStorage/AsyscStorage';
 import RNRestart from 'react-native-restart'
 import { Alert } from 'react-native';
+import ProfileScreen from './ProfileScreen';
+import EditProfile from './EditProfile';
+import { useCallback } from 'react';
+import { useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { useEffect } from 'react';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+
 
 
 function Screen(){
@@ -36,6 +43,29 @@ function Screen(){
 }
 
 function CustomDrawerContent(props) {
+  const [email, setEmail] = useState("")
+  const [data,setData] = useState("")
+
+  async function getMostRecentData(){
+    const UserRef = doc(db, "users", auth.currentUser.uid)
+    const docSnap = await getDoc(UserRef);
+    
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setData(docSnap.data())
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    
+  }
+  useFocusEffect(
+    useCallback(() => {
+      getMostRecentData();
+      setEmail(auth.currentUser.email);
+    },[]) // Empty dependency array means this will run when the screen gains focus
+  );
+
   const navigation =  useNavigation()
   const Handlelogout=()=>{
 
@@ -58,13 +88,18 @@ function CustomDrawerContent(props) {
     <View style={{ flex:1}}>
       <View style={{justifyContent:"center",alignItems:"center", backgroundColor: '#2c2c6c', height: 150}}>
         <View style={{ flexDirection: 'row' }}>
+         {data.ImageUrl ? (
           <Image
-            source={require("../../assets/me2.png")}
+            source={{uri: data.ImageUrl}}
             style={{ width: 60, height: 60, borderRadius: 25 , resizeMode:"cover"}}
           />
+         ):(
+          <Image source={require("./../../assets/svg.png")}  style={{ width: 60, height: 60, borderRadius: 25 , resizeMode:"cover"}}/>
+         )
+         }
           <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Ahmad Safiullah</Text>
-            <Text style={{ fontSize: 12, color: 'white' }}>{auth.currentUser?.email}</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{data? data.Fulname: "Your Name"}</Text>
+            <Text style={{ fontSize: 12, color: 'white' }}>{email? email : "your email"}</Text>
           </View>
         </View>
       </View>
@@ -139,7 +174,7 @@ const LogoTitle = ({ navigation }) => {
 };
 
 export default function DrawerNavigator() {
-  
+
   return (
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}
           screenOptions={{
@@ -155,7 +190,8 @@ export default function DrawerNavigator() {
               },
           }}>
       <Drawer.Screen name="Home" component={Screen} />
-      <Drawer.Screen name="Profile" component={DrawerProfile} />
+      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen name="EditProfile" component={EditProfile} />
     </Drawer.Navigator>
   )
 }

@@ -106,7 +106,9 @@ const DashBoard = ({navigation}) => {
   const renderItem = ({ item }) => (
     <View style={styles.Card}>
     <View style={{flexDirection:"row", paddingHorizontal:5}}>
+    <View>
       <Image style={styles.imageUri} source={{ uri: item.image }} />
+      </View>
       <View style={styles.TitleCont}>
         <Text style={styles.title}>{item.title}</Text>
       </View>
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
   FlatListContainer: {
     backgroundColor: "#D8DDAD",
     marginVertical: "5%",
-    marginLeft: "3.5%",
+    marginHorizontal : "3.5%",
     borderRadius: 10,
     paddingBottom:60
   },
@@ -294,7 +296,9 @@ const styles = StyleSheet.create({
     marginLeft: "2.5%",
   },
   TitleCont: {
-   marginHorizontal:5
+   paddingHorizontal:10,
+   paddingRight:70,
+  
   },
   TextContainer: {
   marginTop:"38%"
@@ -312,11 +316,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
     backgroundColor: "#4db5ff",
     textAlign: "center",
     elevation: 5,
-    textAlign: "center",
     marginLeft: "5%",
   },
   Button2: {
@@ -328,11 +330,10 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
     backgroundColor: "#fff",
     textAlign: "center",
     elevation: 5,
-    textAlign: "center",
+    
   },
   Text1: {
     fontSize: 15,
@@ -355,6 +356,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   title: {
+    textAlign:"justify",
     fontSize: 17,
     fontWeight: "bold",
    overflow:"hidden"
@@ -372,13 +374,11 @@ const styles = StyleSheet.create({
   },
 
   Card: {
-    paddingVertical:10,
-    
+    paddingVertical:6,
    paddingHorizontal:10,
-    width: 350,
-   
+    width: 330,
     borderRadius: 10,
-    overflow: "hidden",
+  
     backgroundColor: "#fff",
     borderColor: "black",
     borderWidth: 1,
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
 
   description: {
     marginTop: 8,
-    fontSize: 10,
+    fontSize: 12,
     textAlign: "justify",
   },
   menu:{

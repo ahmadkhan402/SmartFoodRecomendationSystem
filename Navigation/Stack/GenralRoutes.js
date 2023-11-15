@@ -27,6 +27,7 @@ import DonateFoodNGO from "../../Components/DonateScreen/CardFunction/DonateFood
 import MasjidPortal from "../../Components/MasjidDonation/MasjidPortal";
 import ViewDonate from "../../Components/MasjidDonation/ViewDonate";
 import { LinearGradient } from "expo-linear-gradient";
+import EditProfile from "../Drawer/EditProfile";
 
 const Stack = createStackNavigator();
 
@@ -128,6 +129,11 @@ const GenralRoutes = ({ navigation }) => {
           component={NGOShowList}
           options={{ headerShown: false }}
         />
+        {/* <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
+          options={{ headerShown: false }}
+        /> */}
         {/* <Stack.Screen
         name="ShowPost"
         component={ShowPost}

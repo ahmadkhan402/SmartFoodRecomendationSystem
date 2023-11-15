@@ -13,7 +13,7 @@ import {
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import { auth ,db} from "../../../firebase";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc, doc, setDoc } from "firebase/firestore"; 
 
 
 
@@ -49,16 +49,15 @@ export default function Signup({navigation}) {
 
         const addusers = async (id, DisplayName, email, password, Fulname)=>{
             try {
-              const docRef = await addDoc(collection(db, "users"), {
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                await setDoc(userRef,  {
                
                 Id :id,
-                Display_Name: DisplayName ,Fulname,
+                Display_Name: DisplayName ,
+                Fulname,
                 email: email,
-                Password : password,
                 authProvider: "local",
             });
-              
-              console.log("Document written with ID: ", docRef.id);
             } catch (e) {
               console.error("Error adding document: ", e);
             }
