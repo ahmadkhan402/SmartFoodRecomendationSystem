@@ -4,12 +4,14 @@ import FontAwesomeIcon from "@expo/vector-icons/FontAwesome5"
 import DashBoard from '../../Components/DashBoard';
 import ShowPost from '../../Components/CreatePostScreen/ShowPost';
 import Login from "../../Components/FCS/Screens/Login"
-import DonateScreen from '../../Components/DonateScreen/DonateScreen';
+
 import { Entypo,FontAwesome5 } from '@expo/vector-icons'; 
 import Sharia from '../../Components/MasjidDonation/Sharia';
 import SellOptionScreen from '../../Components/SellScreen/SellOptionScreen';
 import ChatScreen from '../../Components/Chat/ChatScreen';
 import User from '../../Components/Chat/User';
+import MasjidPortal from '../../Components/MasjidDonation/MasjidPortal';
+import DonationForm from '../../Components/MasjidDonation/DonationForm';
 SellOptionScreen
 const Tab = createMaterialBottomTabNavigator();
 
@@ -51,7 +53,7 @@ const Tab = createMaterialBottomTabNavigator();
       />
         <Tab.Screen
         name="Donate"
-        component={DonateScreen}
+        component={ShowPost}
         options={{
           tabBarColor:"Black",
           tabBarLabel: 'Donate',
@@ -63,10 +65,10 @@ const Tab = createMaterialBottomTabNavigator();
         }}
       />
       
-      
-      {/* <Tab.Screen
-        name="Donate"
-        component={DonateScreen}
+{/*       
+      <Tab.Screen
+        name="Mosque"
+        component={MasjidPortal}
         options={{
           tabBarColor:"Black",
           tabBarLabel: 'Donate',
@@ -76,8 +78,8 @@ const Tab = createMaterialBottomTabNavigator();
           ),
           headerShown: true
         }}
-      />
-       */}
+      /> */}
+      
        <Tab.Screen
         name="chat"
         component={User}
@@ -91,9 +93,9 @@ const Tab = createMaterialBottomTabNavigator();
           headerShown: true
         }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Masjid"
-        component={Sharia}
+        component={MasjidPortal}
         options={{
           tabBarLabel: 'Sharia',
           tabBarIcon: ({ color, size }) => (
@@ -101,8 +103,8 @@ const Tab = createMaterialBottomTabNavigator();
           ),
           headerShown: true
         }}
-      /> */}
-      <Tab.Screen
+      />
+      {/* <Tab.Screen
         name="ShowPost"
         component={ShowPost}
         options={{
@@ -112,7 +114,7 @@ const Tab = createMaterialBottomTabNavigator();
           ),
           headerShown: true
         }}
-      />
+      /> */}
     </Tab.Navigator>
   )
  }

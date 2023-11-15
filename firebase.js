@@ -5,6 +5,7 @@ import { getAuth, indexedDBLocalPersistence, setPersistence, getReactNativePersi
 import { getStorage } from "firebase/storage";
 import { getDatabase } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
+import * as geofirestore from 'geofirestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import 'firebase/compat/auth';
 // import 'firebase/compat/firestore';
@@ -29,7 +30,12 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 const realTimeDb = getDatabase(app);
 const db = getFirestore(app);
+
+// Create a GeoFirestore reference
+const GeoFirestore = geofirestore.initializeApp(db);
+
 export { auth };
 export { storage };
 export { db };
 export { realTimeDb };
+export {GeoFirestore}

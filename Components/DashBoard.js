@@ -205,7 +205,7 @@ const DashBoard = ({navigation}) => {
                 <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>NGO's Portal</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Donate")}>
+            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("MajidDonation")}>
               <View style={{ flexDirection: "column" , alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:8,borderRadius:18}}>
              <View style={{padding:16}}>
               <FontAwesome5 name="mosque"  color= {COLOURS.backgroundLiteBlue} size={25}/>

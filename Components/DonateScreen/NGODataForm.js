@@ -15,10 +15,14 @@ const NGOForm = ({  navigation}) => {
   const [locationPermission, setLocationPermission] = useState(false);
   const [locationData, setLocationData] = useState("Getting yours Location...");
   const [Coords, setCoords] = useState("");
-
-
-  
-
+  const [Disable, setDisable] = useState();
+  useEffect(() => {
+    if (ngoName && numMembers && locationData && numPeopleServed) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [ngoName, numMembers, locationData, numPeopleServed]);
     const getCurrentLocation = async () => {
       requestLocationPermission();
     try {
@@ -101,7 +105,6 @@ const NGOForm = ({  navigation}) => {
       <View style={styles.inputView}>
       <TextInput  style={styles.TextInput}
         placeholder="Enter Number of Members"
-        value={numMembers}
         onChangeText={(text) => setNumMembers(text)}
         keyboardType="numeric"
       />  
@@ -110,7 +113,6 @@ const NGOForm = ({  navigation}) => {
       <View style={styles.inputView}>
       <TextInput  style={styles.TextInput}
         placeholder="Enter Number of People Served per Month"
-        value={numPeopleServed}
         onChangeText={(text) => setNumPeopleServed(text)}
         keyboardType="numeric"
       />
@@ -140,7 +142,7 @@ const NGOForm = ({  navigation}) => {
         "longitude": {Coords.longitude}
         </Text>
     </View> */}
-    <TouchableOpacity style={styles.BtnReg} onPress={handleNGOReg}>
+    <TouchableOpacity disabled={Disable} style={[Disable ? styles.BtnRegDisable : styles.BtnReg]} onPress={handleNGOReg}>
       <Text>Register NGO</Text>
       </TouchableOpacity>
    
@@ -209,6 +211,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 20,
         alignItems: "center",
+      },
+      BtnRegDisable:{
+        opacity:0.3,
+        marginTop:24,
+        paddingHorizontal:25,
+         borderRadius: 25,
+         height: 50,
+         alignItems: "center",
+         justifyContent: "center",
+         backgroundColor: "#4db5ff",
+         elevation: 40,
+         marginVertical:20
       }
 })
 

@@ -24,7 +24,9 @@ import ChatScreen from "../../Components/Chat/ChatScreen";
 import ChatOption from "../../Components/CreatePostScreen/ChatOption";
 import Map from "../../Components/DonateScreen/CardFunction/Map";
 import DonateFoodNGO from "../../Components/DonateScreen/CardFunction/DonateFoodNGO";
-
+import MasjidPortal from "../../Components/MasjidDonation/MasjidPortal";
+import ViewDonate from "../../Components/MasjidDonation/ViewDonate";
+import { LinearGradient } from "expo-linear-gradient";
 
 const Stack = createStackNavigator();
 
@@ -115,7 +117,12 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: false}}
           
         />
-        
+          <Stack.Screen
+          name="MosqueDonation"
+          component={ViewDonate}
+          
+          options={{ headerShown: true , headerStyle:{ backgroundColor: "#4c669f" } , headerTitleStyle:{color:"#fff"} }}
+        />
         <Stack.Screen
           name="NGOShowList"
           component={NGOShowList}
@@ -129,7 +136,12 @@ const GenralRoutes = ({ navigation }) => {
     );
   } else {
     return (
-      <Stack.Navigator initialRouteName="RegOption">
+      <Stack.Navigator initialRouteName="DrawerNavigator">
+      <Stack.Screen
+          name="MosqueDonation"
+          component={ViewDonate}
+          options={{ headerShown: true }}
+        />
        <Stack.Screen
           name="Splash"
           component={Splash}
@@ -160,6 +172,11 @@ const GenralRoutes = ({ navigation }) => {
         <Stack.Screen
           name="SellerOption"
           component={SellOptionScreen}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="MasjidPortal"
+          component={MasjidPortal}
           options={{ headerShown: false }}
         />
          <Stack.Screen

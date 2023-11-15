@@ -53,7 +53,7 @@ const RegisterSelect = ({navigation}) => {
              
               fontSize: 16,
               fontWeight: "300",
-            }}>Your Registered NGO</Text>
+            }}>Already Registered NGO</Text>
         </TouchableOpacity>
        
         <TouchableOpacity style={styles.BtnReg} onPress={()=>navigation.navigate("NGOForm")}>
