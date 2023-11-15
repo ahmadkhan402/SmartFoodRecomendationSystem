@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { auth, db } from "../../firebase";
 import { ScrollView } from "react-native-gesture-handler";
+import { LinearGradient } from "expo-linear-gradient";
 
 const NGOShowList = ({ navigation }) => {
   const [coords, setcords] = useState("");
@@ -34,7 +35,10 @@ const NGOShowList = ({ navigation }) => {
 
   const renderitem = ({ item }) => (
     <View style={styles.Card}>
-      <View style={styles.Carditem}>
+     <LinearGradient
+        colors={["#f8f8ff", "#f5fffa", "#afeeee"]}
+        style={styles.Carditem}
+      >
         <Text style={styles.text}>{item.ngoName}</Text>
         <Text style={styles.des}> {item.locationData}</Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -54,12 +58,15 @@ const NGOShowList = ({ navigation }) => {
             <Text style={styles.Donate}>Map</Text>
           </TouchableOpacity>
         </View>
-      </View>
+        </LinearGradient>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+      style={styles.container}
+    >
       <View>
         <TouchableOpacity style={styles.BtnReg2}>
           <Text
@@ -77,7 +84,7 @@ const NGOShowList = ({ navigation }) => {
           keyExtractor={(item) => item.id}
         />
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   Card: {
-    backgroundColor: COLOURS.backgroundLight,
+    backgroundColor: "transparent",
     padding: 10,
     justifyContent: "center",
   },

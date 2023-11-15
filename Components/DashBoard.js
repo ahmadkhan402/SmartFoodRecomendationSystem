@@ -12,13 +12,15 @@ import {
   TouchableOpacity,
   Share,
 } from "react-native";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5,MaterialIcons } from '@expo/vector-icons'; 
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { Linking } from "react-native";
 import { getItem } from "../AsyncStorage/AsyscStorage";
 import { COLOURS } from "../Database";
+import { LinearGradient } from "expo-linear-gradient";
+
 
 const DashBoard = ({navigation}) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -31,7 +33,7 @@ const DashBoard = ({navigation}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 800);
     return () => clearInterval(interval);
   }, []);
   const hours = currentTime.getHours();
@@ -55,21 +57,14 @@ const DashBoard = ({navigation}) => {
       image:
         "https://st2.depositphotos.com/4258905/6211/i/450/depositphotos_62117615-stock-photo-hungry-child-eating-bread.jpg",
     },
-    {
-      id: "2",
-      title: "Gives Sadqa for Masjid",
-      description:
-        "We are launching a donation campaign to help the hungry people of Balochistan, a province in Pakistan where many families are struggling to meet their basic needs.'\n'Sincerely '\n'[Ahmad Saffiullah/SR Donation]",
-      image:
-        "https://images.unsplash.com/photo-1590273089302-ebbc53986b6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bW9zcXVlfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-    },
+    
     {
       id: "3",
       title: "Donate to Alkhidmat Foundation",
       description:
         "We are launching a donation campaign to help the hungry people of Balochistan, a province in Pakistan where many families are struggling to meet their basic needs.'\n'Sincerely '\n'[Ahmad Saffiullah/SR Donation]",
       image:
-        "https://images.unsplash.com/photo-1504159506876-f8338247a14a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8aHVuZ3J5JTIwY2hpbGR8ZW58MHx8MHx8&w=1000&q=80.jpg",
+        "https://images.unsplash.com/photo-1504159506876-f8338247a14a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8aHVuZ3J5JTIwY2hpbGR8ZW58MHx8MHx8&w=800&q=80.jpg",
     },
     {
       id: "4",
@@ -85,7 +80,7 @@ const DashBoard = ({navigation}) => {
       description:
         "We are launching a donation campaign to help the hungry people of Balochistan, a province in Pakistan where many families are struggling to meet their basic needs.'\n'Sincerely '\n'[Ahmad Saffiullah/SR Donation]",
       image:
-        " https://files.globalgiving.org/pfil/16275/pict_large.jpg?m=1391510004000",
+        "https://www.globalgiving.org/pfil/16275/pict_large.jpg",
     },
   ];
 
@@ -110,22 +105,20 @@ const DashBoard = ({navigation}) => {
 
   const renderItem = ({ item }) => (
     <View style={styles.Card}>
+    <View style={{flexDirection:"row", paddingHorizontal:5}}>
       <Image style={styles.imageUri} source={{ uri: item.image }} />
-
       <View style={styles.TitleCont}>
         <Text style={styles.title}>{item.title}</Text>
       </View>
-
-      <View style={styles.descriptionCon}>
-        <Text style={styles.description}>{item.description}</Text>
       </View>
+        <Text style={styles.description}>{item.description}</Text>
+    
       <View
         style={{
           flexDirection: "row",
-          position: "absolute",
           justifyContent: "center",
           alignItems: "center",
-          top: "75%",
+          
         }}
       >
         <TouchableOpacity
@@ -152,7 +145,7 @@ const DashBoard = ({navigation}) => {
     return (
       <View
         style={{
-          height: "100%",
+          height: "80%",
           width: 1,
           backgroundColor: "white",
         }}
@@ -168,10 +161,11 @@ const DashBoard = ({navigation}) => {
     viewEmail();
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
+    <LinearGradient
+    colors={["#fffaf0", "#ffff","#fff"]}
+    style={styles.container}
+  >
       <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={styles.contentContainerStyle}
       >
         <View style={styles.MiniContainer}>
           <View style={styles.TextContainer}>
@@ -194,8 +188,11 @@ const DashBoard = ({navigation}) => {
         </View>
 
         {/* OptionMenu */}
-        <View style={styles.menu}>
-          <View style={{ flexDirection: "row", paddingHorizontal:16,paddingVertical:16 }}>
+        <LinearGradient
+        colors={["#f8f8ff", "#f5fffa", "#afeeee"]}
+        style={styles.menu}
+      >
+          <View style={{ flexDirection: "row", paddingHorizontal:30,paddingVertical:16 }}>
             <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("RegOption")}>
               <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
                 <Image
@@ -205,7 +202,7 @@ const DashBoard = ({navigation}) => {
                 <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>NGO's Portal</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("MajidDonation")}>
+            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Masjid")}>
               <View style={{ flexDirection: "column" , alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:8,borderRadius:18}}>
              <View style={{padding:16}}>
               <FontAwesome5 name="mosque"  color= {COLOURS.backgroundLiteBlue} size={25}/>
@@ -222,7 +219,25 @@ const DashBoard = ({navigation}) => {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+          <View style={{ flexDirection: "row", paddingHorizontal:16,paddingVertical:16 }}>
+          <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Donate")}>
+              <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
+              <View style={{padding:16}}>
+             <FontAwesome5 name="donate" size={25} color= {COLOURS.backgroundLiteBlue} />
+             </View>
+                <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>Donate</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Report")}>
+              <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
+              <View style={{padding:16}}>
+              <MaterialIcons name="report" size={24} color= {COLOURS.backgroundLiteBlue} />
+             </View>
+                <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>Report</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
 
         {/* FlatList */}
         <View style={styles.FlatListContainer}>
@@ -248,14 +263,12 @@ const DashBoard = ({navigation}) => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -265,27 +278,27 @@ const styles = StyleSheet.create({
     paddingHorizontal:16,
     backgroundColor: "#2c2c6c",
     width: "100%",
-    height: "32%",
+    height: "28%",
     borderBottomRightRadius: 175,
     justifyContent: "center",
     marginBottom:"20%",
   },
   FlatListContainer: {
     backgroundColor: "#D8DDAD",
-    marginVertical: "20%",
+    marginVertical: "5%",
     marginLeft: "3.5%",
     borderRadius: 10,
+    paddingBottom:60
   },
   flatList: {
     marginLeft: "2.5%",
   },
   TitleCont: {
-    marginTop: "1%",
-    marginLeft: "30%",
-    marginVertical: "10%",
+   marginHorizontal:5
   },
   TextContainer: {
-  marginTop:"35%"
+  marginTop:"38%"
+  
   },
   Header: {
     backgroundColor: "white",
@@ -344,7 +357,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     fontWeight: "bold",
-    marginBottom: 10,
+   overflow:"hidden"
   },
   content: {
     fontSize: 20,
@@ -359,42 +372,35 @@ const styles = StyleSheet.create({
   },
 
   Card: {
-    marginLeft: 10,
-    marginTop: "2%",
-    height: "90%",
-    width: 310,
-    marginRight: 10,
+    paddingVertical:10,
+    
+   paddingHorizontal:10,
+    width: 350,
+   
     borderRadius: 10,
     overflow: "hidden",
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#fff",
     borderColor: "black",
     borderWidth: 1,
   },
   imageUri: {
-    position: "absolute",
-    right: 0,
-    left: 4,
-    top: 4,
+   
     borderRadius: 12,
-    height: "40%",
-    width: "30%",
+    height: 80,
+    width: 80,
     resizeMode: "cover",
   },
 
-  descriptionCon: {},
   description: {
-    marginTop: 5,
-    fontSize: 14,
-    textAlign: "center",
+    marginTop: 8,
+    fontSize: 10,
+    textAlign: "justify",
   },
   menu:{
    
     alignSelf:"center",
     alignItems:"center",
-    marginVertical:16,
-    marginHorizontal:16,
+    marginVertical:35,
     borderWidth:2,
     borderRadius:12,
     borderColor:COLOURS.backgroundDarkBlue

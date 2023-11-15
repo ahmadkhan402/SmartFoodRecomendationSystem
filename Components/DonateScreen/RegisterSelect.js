@@ -51,7 +51,7 @@ const RegisterSelect = ({navigation}) => {
           <Text style={{
               color: COLOURS.white,
              
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: "300",
             }}>Already Registered NGO</Text>
         </TouchableOpacity>
@@ -60,7 +60,7 @@ const RegisterSelect = ({navigation}) => {
           <Text style={{
                color: COLOURS.white,
              
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: "300",
             }}>Click To Register NGO</Text>
         </TouchableOpacity>
