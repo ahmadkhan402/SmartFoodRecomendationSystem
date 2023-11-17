@@ -129,6 +129,11 @@ const GenralRoutes = ({ navigation }) => {
           component={NGOShowList}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="DonateFoodToNGO"
+          component={DonateFoodNGO}
+          options={{ headerShown: false }}
+        />
         {/* <Stack.Screen
           name="EditProfile"
           component={EditProfile}
@@ -147,6 +152,11 @@ const GenralRoutes = ({ navigation }) => {
           name="MosqueDonation"
           component={ViewDonate}
           options={{ headerShown: true }}
+        />
+           <Stack.Screen
+          name="DonateFoodToNGO"
+          component={DonateFoodNGO}
+          options={{ headerShown: false }}
         />
        <Stack.Screen
           name="Splash"

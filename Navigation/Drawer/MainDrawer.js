@@ -62,7 +62,7 @@ function CustomDrawerContent(props) {
   useFocusEffect(
     useCallback(() => {
       getMostRecentData();
-      setEmail(auth.currentUser.email);
+      setEmail(auth.currentUser?.email);
     },[]) // Empty dependency array means this will run when the screen gains focus
   );
 

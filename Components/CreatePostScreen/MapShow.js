@@ -50,9 +50,7 @@ const [ PickUpPoint, setPicupPoint] = useState('')
 
   return locationData ? (
     <View style={styles.container}>
-  
-      {/* <Text style={styles.text}><Text style={{fontWeight:"700"}}>Your Current Location is:</Text>{'\n'}{'\n'}{locationData.address}</Text> */}
-      <TouchableOpacity  style={{
+   <TouchableOpacity  style={{
         justifyContent: "center",
         backgroundColor: "rgba(77,181,255,0.4)", borderRadius: 10,
         borderWidth: 1, borderColor: "#2c2c6c", marginHorizontal: "25%",

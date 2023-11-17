@@ -7,7 +7,6 @@ import {db, auth, storage } from '../../firebase';
 import { Entypo } from '@expo/vector-icons';
 import { collection, addDoc } from "firebase/firestore"; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import InputForm from './InputForm';
 import MapShow from './MapShow';
 import { useNavigation } from '@react-navigation/native';
 
@@ -94,12 +93,7 @@ export default function ImagePickerExample(...props) {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('File available at', downloadURL);
-          // setShowImage(downloadURL);
-          // console.log("Image"+ShowImage);
-  
-          // Add title and description to Firebase database
-       
-          SetDataToFireStore(title,namcription,downloadURL,selectedNumber,Other,Time,PickUpPoint)
+           SetDataToFireStore(title,namcription,downloadURL,selectedNumber,Other,Time,PickUpPoint)
           
         },[]);
         alert("Post is Uploaded")
