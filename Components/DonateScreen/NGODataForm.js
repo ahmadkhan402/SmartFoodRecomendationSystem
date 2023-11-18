@@ -16,6 +16,8 @@ const NGOForm = ({  navigation}) => {
   const [locationData, setLocationData] = useState("Getting yours Location...");
   const [Coords, setCoords] = useState("");
   const [Disable, setDisable] = useState();
+  const [email, setemail] = useState();
+  const [phoneNumber, setphoneNumber] = useState();
   useEffect(() => {
     if (ngoName && numMembers && locationData && numPeopleServed) {
       setDisable(false);
@@ -58,6 +60,8 @@ const NGOForm = ({  navigation}) => {
     const userRef = doc(db, "NGO_Register", auth.currentUser.uid);
     await setDoc(userRef, {
       ngoName,
+      email,
+      phoneNumber,
       numMembers,
       numPeopleServed,
       locationData,
@@ -87,11 +91,12 @@ const NGOForm = ({  navigation}) => {
   
   return (
     <View style={styles.container}>
+  
     <View style={{paddingVertical:50}}>
    <Text style={{color:COLOURS.white , fontWeight:"300", fontSize:22}}>Fill the Required Field</Text>
    </View>
-  
-   <View style={styles.MinCont}>
+   <ScrollView style={{flex:1 }} contentContainerStyle={styles.MinCont}>
+   
    <Text style={{color:COLOURS.backgroundDarkBlue ,backgroundColor:COLOURS.backgroundMedium,borderRadius:20,marginVertical:20, fontWeight:"700", fontSize:26,textAlign:"center"}}>NGO Data</Text>
       <Text style={styles.Name}>NGO Name:</Text>
       <View style={styles.inputView}>
@@ -101,6 +106,22 @@ const NGOForm = ({  navigation}) => {
         onChangeText={(text) => setNgoName(text)}
       /> 
        </View>
+       <Text style={styles.Name}>Phone Number:</Text>
+       <View style={styles.inputView}>
+      <TextInput  style={styles.TextInput}
+        placeholder="Phone Number"
+        value={phoneNumber}
+        onChangeText={(text) => setphoneNumber(text)}
+      />
+      </View>
+      <Text style={styles.Name}>Email:</Text>
+      <View style={styles.inputView}>
+      <TextInput  style={styles.TextInput}
+        placeholder="Email"
+        value={email}
+        onChangeText={(text) => setemail(text)}
+      />
+      </View>
       <Text style={styles.Name}>Number of Members:</Text>
       <View style={styles.inputView}>
       <TextInput  style={styles.TextInput}
@@ -125,29 +146,14 @@ const NGOForm = ({  navigation}) => {
         editable={false}
       />
       </View>
-
-     
-
-      {/* <Text style={styles.Name}>Current Coords:</Text>
-      <View style={styles.inputViewNew}>
-      <Text style={{fontSize:14, paddingVertical:12, color:COLOURS.backgroundDarkBlue}}>
-        "accuracy": {Coords.accuracy}
-        {'\n'}
-        "altitude": {Coords.altitude}
-        {'\n'}
-        "altitudeAccuracy": {Coords.altitudeAccuracy}
-        {'\n'}
-        "latitude": {Coords.latitude}
-        {'\n'}
-        "longitude": {Coords.longitude}
-        </Text>
-    </View> */}
+   
     <TouchableOpacity disabled={Disable} style={[Disable ? styles.BtnRegDisable : styles.BtnReg]} onPress={handleNGOReg}>
       <Text>Register NGO</Text>
       </TouchableOpacity>
    
     
-      </View>
+   
+      </ScrollView>
     </View>
   );
 };

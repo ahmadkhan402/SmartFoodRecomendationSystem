@@ -28,6 +28,10 @@ import MasjidPortal from "../../Components/MasjidDonation/MasjidPortal";
 import ViewDonate from "../../Components/MasjidDonation/ViewDonate";
 import { LinearGradient } from "expo-linear-gradient";
 import EditProfile from "../Drawer/EditProfile";
+import DonationThanksScreen from "../../Components/DonateScreen/CardFunction/DonationThanksScreen";
+import ShowUserRegNgos from "../../Components/DonateScreen/CardFunction/ShowUserRegNgos";
+import CheckDonation from "../../Components/DonateScreen/CardFunction/CardShowDonation.js/CheckDonation";
+import CheckRequest from "../../Components/DonateScreen/CardFunction/CardShowDonation.js/CheckRequest";
 
 const Stack = createStackNavigator();
 
@@ -151,6 +155,26 @@ const GenralRoutes = ({ navigation }) => {
       <Stack.Screen
           name="MosqueDonation"
           component={ViewDonate}
+          options={{ headerShown: true }}
+        />
+         <Stack.Screen
+          name="ShowUserRegNgos"
+          component={ShowUserRegNgos}
+          options={{ headerShown: true }}
+        />
+           <Stack.Screen
+          name="checkDonations"
+          component={CheckDonation}
+          options={{ headerShown: true }}
+        />
+           <Stack.Screen
+          name="checkRequest"
+          component={CheckRequest}
+          options={{ headerShown: true }}
+        />
+         <Stack.Screen
+          name="DonationDone"
+          component={DonationThanksScreen}
           options={{ headerShown: true }}
         />
            <Stack.Screen

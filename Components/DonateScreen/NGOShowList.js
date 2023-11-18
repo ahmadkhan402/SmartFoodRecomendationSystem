@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { COLOURS } from "../../Database";
 import { TouchableOpacity } from "react-native";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { auth, db } from "../../firebase";
@@ -17,7 +17,7 @@ const NGOShowList = ({ navigation }) => {
   const [coords, setcords] = useState("");
   const [NGOList, setNGOList] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
      // Get the user's current location
@@ -39,6 +39,17 @@ const NGOShowList = ({ navigation }) => {
     getLocationAsync();
     console.log(userLocation)
     const ShowNGOList = async () => {
+
+const userId = auth.currentUser?.uid
+      try {
+        // Check if the document with the given userId already exists
+        const userQuery = query(collection(db, 'NGO_Register'), where('id', '==', userId));
+        const userQuerySnapshot = await getDocs(userQuery);
+  
+        if (!userQuerySnapshot.empty) {
+          // Document with the same ID already exists
+          setErrorMessage('User with this ID already exists.');
+        } else {
       let arr = [];
       let cords = [];
       const querySnapshot = await getDocs(collection(db, "NGO_Register"));
@@ -52,9 +63,16 @@ const NGOShowList = ({ navigation }) => {
       setcords(cords);
       setNGOList(arr);
       //console.log(NGOList);
-    };
+    
+     // Reset error message on successful addition
+     setErrorMessage(null);
+    }
+  } catch (error) {
+    console.error('Error adding user:', error);
+    setErrorMessage('Error adding user. Please try again.');
+  }
   
-
+}    
     ShowNGOList();
   }, [db]);
 
@@ -116,6 +134,10 @@ console.log(nearbyNGOs)
           </TouchableOpacity>
           </View>
         <Text style={styles.des}> {item.locationData}</Text>
+        <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+        <Text style={styles.data}> {item.email}</Text>
+        <Text style={styles.data}> {item.phoneNumber}</Text>
+        </View>
         <Text>Distance: {item.distance.toFixed(2)} km</Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate("DonateFoodToNGO")}>
@@ -146,7 +168,13 @@ console.log(nearbyNGOs)
             }}
           > List of Register NGOs</Text>
         </TouchableOpacity>
-        <View>
+        <View style={{justifyContent:"flex-end", alignItems:"flex-end" , marginBottom:15}}>
+        <TouchableOpacity style={styles.btnN} onPress={()=> navigation.navigate("ShowUserRegNgos")}>
+            <Text style={{ fontSize:14}}>Your Registered NGOs</Text>
+          </TouchableOpacity>
+        </View>
+      <View>
+
         <Text>Your location: {userLocation && `${userLocation.latitude}, ${userLocation.longitude}`}</Text>
       <Text>NGOs near you:</Text>
         </View>
@@ -179,6 +207,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#4db5ff",
     elevation: 15,
   },
+
+btnN: {
+  alignItems: "center",
+  justifyContent: "center",
+  paddingHorizontal:10,
+  width: "50%",
+  height: 30,
+  borderRadius: 15,
+  marginVertical:10,
+  backgroundColor: "#f8f8ff",
+  elevation: 15,
+},
   BtnReg: {
     paddingHorizontal: 12,
     borderRadius: 25,
@@ -216,6 +256,10 @@ const styles = StyleSheet.create({
   },
   des: {
     color: COLOURS.blue,
+  },
+  data:{
+color:COLOURS.backgroundLiteBlue,
+fontSize:11
   },
   Donate: {
     color: COLOURS.backgroundLight,

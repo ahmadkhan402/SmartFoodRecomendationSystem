@@ -23,7 +23,7 @@ import {
   push,
 } from "firebase/database";
 import { Entypo } from "@expo/vector-icons";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
@@ -178,7 +178,9 @@ export default function NgoFoodDonation() {
     PickUpPoint
   ) => {
     try {
-      const docRef = await addDoc(collection(db, "NGODonationPosts"), {
+      const userRef = doc(db, "NGODonationPosts", auth.currentUser.uid);
+      await setDoc(userRef, {
+    
         DonorName: DonorName,
         Email: Email,
         Title: title,
@@ -191,7 +193,7 @@ export default function NgoFoodDonation() {
         Id: auth.currentUser.uid,
       });
 
-      console.log("Document written with ID: ", docRef.id);
+      console.log("Document written with ID: ", userRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
