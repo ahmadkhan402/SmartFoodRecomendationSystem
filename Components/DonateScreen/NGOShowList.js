@@ -74,7 +74,7 @@ const userId = auth.currentUser?.uid
   
 }    
     ShowNGOList();
-  }, [db]);
+  }, []);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Earth radius in kilometers
@@ -140,10 +140,10 @@ console.log(nearbyNGOs)
         </View>
         <Text>Distance: {item.distance.toFixed(2)} km</Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate("DonateFoodToNGO")}>
+          <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate("DonateFoodToNGO", {data : item})}>
             <Text style={styles.Donate}>Donate</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity style={styles.btn}  onPress={()=> navigation.navigate("RequestNGO", {data : item})}>
             <Text style={styles.Donate}>Request</Text>
           </TouchableOpacity>
           

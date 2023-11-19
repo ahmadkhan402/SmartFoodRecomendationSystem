@@ -7,11 +7,16 @@ import { Entypo } from '@expo/vector-icons';
 import { db, auth } from '../../../firebase';
 import { COLOURS } from '../../../Database';
 import { push } from 'firebase/database';
+import { Ionicons,MaterialCommunityIcons} from '@expo/vector-icons';
 
+let id = ""
 const ShowUserRegNgos = ({ navigation }) => {
   const [NGOList, setNGOList] = useState([]);
+  const [NotNgo, setNotNgo] = useState(true);
   const userID = auth.currentUser?.uid;
   console.log(userID)
+
+
 
   useEffect(() => {
  
@@ -24,8 +29,19 @@ const ShowUserRegNgos = ({ navigation }) => {
         
         try {
             const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
             arr.push(docSnap.data())
-            setNGOList(arr)
+               id =   docSnap.id
+              console.log(" this issssss", arr);
+              setNotNgo(false)
+              setNGOList(arr)
+            }
+            else{
+              console.log("Array is empity");
+               setNotNgo(true)
+            }
+            
+         
             console.log(arr);
         } catch(error) {
             console.log(error)
@@ -34,7 +50,7 @@ const ShowUserRegNgos = ({ navigation }) => {
   
 
     fetchNGOList();
-  }, [db]);
+  }, []);
 
   
   const renderitem = ({ item }) => (
@@ -57,10 +73,10 @@ const ShowUserRegNgos = ({ navigation }) => {
         </View>
         <Text style={styles.des}> {item.locationData}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('checkDonations')}>
+          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('checkDonations', {data: item})}>
             <Text style={styles.Donate}>check Donation</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('checkRequest')}>
+          <TouchableOpacity style={styles.btn}onPress={() => navigation.navigate('checkRequests', {id: id})}>
             <Text style={styles.Donate}>Check Request</Text>
           </TouchableOpacity>
         </View>
@@ -69,13 +85,42 @@ const ShowUserRegNgos = ({ navigation }) => {
   );
 
   return (
-    <LinearGradient colors={['#4db5ff', '#4c669f', '#2c2c6c']} style={styles.container}>
-      <View>
-        <TouchableOpacity style={styles.BtnReg2}>
-          <Text style={{ color: COLOURS.white, fontSize: 20, fontWeight: '200' }}> Your Register NGOs</Text>
-        </TouchableOpacity>
-        <FlatList data={NGOList} renderItem={renderitem} keyExtractor={(item) => item.id} />
-      </View>
+    <LinearGradient
+      colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+      style={styles.container}
+    >
+      {NotNgo ?
+        (
+        <View style={styles.container}>
+          <View style={{ marginBottom: 20 }}>
+          <MaterialCommunityIcons name="emoticon-sad" size={200} color="#fff" />
+          </View>
+          <Text style={{color:"#fff",fontSize:22}}>No NGO Registered</Text>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate("NGOForm")}
+          >
+            <Text style={styles.Donate}>Register NGO</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View>
+          <TouchableOpacity style={styles.BtnReg2}>
+            <Text
+              style={{ color: COLOURS.white, fontSize: 20, fontWeight: "200" }}
+            >
+              {" "}
+              Your Register NGOs
+            </Text>
+          </TouchableOpacity>
+
+          <FlatList
+            data={NGOList}
+            renderItem={renderitem}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      ) }
     </LinearGradient>
   );
 };
@@ -95,7 +140,7 @@ const styles = StyleSheet.create({
       width: 120,
       height: 40,
       borderRadius: 5,
-      marginTop: 10,
+      marginTop: 15,
       backgroundColor: "#4db5ff",
       elevation: 15,
     },

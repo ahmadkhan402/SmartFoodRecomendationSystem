@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { collection, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
-import { useFocusEffect } from '@react-navigation/native';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { collection, collectionGroup, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { COLOURS } from '../../../../Database';
 import { auth, db } from '../../../../firebase';
+import { Image } from 'react-native';
 
+let ngoid = ""
 const CheckDonation = ({ navigation }) => {
   const [NGOList, setNGOList] = useState([]);
   const userID = auth.currentUser?.uid;
   console.log(userID)
+const route = useRoute()
+ngoid = route.params.data.id
+
 
   useEffect(() => {
  
     const fetchNGOList = async () => {
-        let arr = [];
-        let cords = [];
-      
-        const docRef = doc(db,  "NGODonationPosts",userID); 
-       
-        
-        try {
-            const docSnap = await getDoc(docRef);
-            arr.push(docSnap.data())
-            setNGOList(arr)
-            console.log("doantuon data",arr);
-        } catch(error) {
-            console.log(error)
-        }
-    }
+      try {
+        const arr = [];
+    
+        // Assuming userID is the ID of the document in the 'NGODonationPosts' collection
+        const userDocRef = doc(db, 'NGODonationPosts', userID);
+        const donationsRef = collection(userDocRef, 'donations');
+    
+        const querySnapshot = await getDocs(donationsRef);
+    
+        querySnapshot.forEach((doc) => {
+          arr.push(doc.data());
+        });
+    
+        setNGOList(arr);
+        console.log('Donation data:', arr);
+      } catch (error) {
+        console.error('Error fetching donation data:', error);
+      }
+    };
+    
+    
   
 
     fetchNGOList();
@@ -39,17 +50,23 @@ const CheckDonation = ({ navigation }) => {
   const renderitem = ({ item }) => (
     <View style={styles.Card}>
       <LinearGradient colors={['#f8f8ff', '#f5fffa', '#afeeee']} style={styles.Carditem}>
-        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 13 }}>
-          <Text style={styles.text}>Donor Name: {item.DonorName}</Text>
+      <View style={{flexDirection:"row"}}>
+      <View>
+        <Image style={{width:120,height:120, borderRadius:10}} source={{uri: item.ImageUrl}}/>
+      </View>
+    
+        <View style={{ justifyContent: 'center', marginLeft:8}}>
+          <Text style={styles.text}>Name: {item.DonorName}</Text>
+          <Text style={styles.de}>Time: {item.Time}</Text>
+      
+          <Text style={styles.des}>Product: {item.Title}</Text>
+       <Text style={styles.des}>Dec: {item.Description}</Text>
+       <Text style={styles.des}>Email: {item.Email}</Text>
+       <Text style={styles.des}>quantity: {item.SelectedNumber}</Text>
+       <TouchableOpacity style={styles.btn} onPress={()=>Alert.alert("This is your PickUp-location",item.PickUpPoint )}>
+       <Text style={styles.Donate}> Check PickUp-Point</Text>
+       </TouchableOpacity>
         </View>
-        <Text style={styles.des}> {item.Description}</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('checkDonations')}>
-            <Text style={styles.Donate}>check Donation</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('checkRequest')}>
-            <Text style={styles.Donate}>Check Request</Text>
-          </TouchableOpacity>
         </View>
       </LinearGradient>
     </View>
@@ -61,7 +78,7 @@ const CheckDonation = ({ navigation }) => {
         <TouchableOpacity style={styles.BtnReg2}>
           <Text style={{ color: COLOURS.white, fontSize: 20, fontWeight: '200' }}> Your Register NGOs</Text>
         </TouchableOpacity>
-        <FlatList data={NGOList} renderItem={renderitem}  />
+        <FlatList data={NGOList} renderItem={renderitem} keyExtractor={(item) => item.id} />
       </View>
     </LinearGradient>
   );
@@ -76,9 +93,16 @@ const styles = StyleSheet.create({
       alignItems: "center",
       // backgroundColor:COLOURS.backgroundDarkBlue
     },
+    PickUpPoint:{
+      backgroundColor:"#F0F8FF",
+      borderRadius:5,
+      padding:10,
+      fontWeight:"500"
+    },
     btn: {
       alignItems: "center",
       justifyContent: "center",
+   
       width: 120,
       height: 40,
       borderRadius: 5,
@@ -126,15 +150,16 @@ const styles = StyleSheet.create({
     },
     Carditem: {
       backgroundColor: COLOURS.backgroundMedium,
-      padding: 23,
+      padding: 10,
       borderRadius: 10,
     },
     text: {
-      fontSize: 18,
-      fontWeight: 700,
+      fontSize: 13,
+      fontWeight: 500,
     },
     des: {
       color: COLOURS.blue,
+      fontSize:12
     },
     Donate: {
         padding:2,

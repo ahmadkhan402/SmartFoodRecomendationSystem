@@ -32,6 +32,7 @@ import DonationThanksScreen from "../../Components/DonateScreen/CardFunction/Don
 import ShowUserRegNgos from "../../Components/DonateScreen/CardFunction/ShowUserRegNgos";
 import CheckDonation from "../../Components/DonateScreen/CardFunction/CardShowDonation.js/CheckDonation";
 import CheckRequest from "../../Components/DonateScreen/CardFunction/CardShowDonation.js/CheckRequest";
+import RequestNgO from "../../Components/DonateScreen/CardFunction/CardShowRequest/RequestNgO";
 
 const Stack = createStackNavigator();
 
@@ -133,10 +134,24 @@ const GenralRoutes = ({ navigation }) => {
           component={NGOShowList}
           options={{ headerShown: false }}
         />
+          <Stack.Screen
+          name="ShowUserRegNgos"
+          component={ShowUserRegNgos}
+          options={{ headerShown: true }}
+        />
         <Stack.Screen
           name="DonateFoodToNGO"
           component={DonateFoodNGO}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RequestNGO"
+          component={RequestNgO}
+          options={{ headerShown: true }}
+        /> <Stack.Screen
+          name="checkRequests"
+          component={CheckRequest}
+          options={{ headerShown: true }}
         />
         {/* <Stack.Screen
           name="EditProfile"
@@ -168,8 +183,13 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: true }}
         />
            <Stack.Screen
-          name="checkRequest"
+          name="checkRequests"
           component={CheckRequest}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="RequestNGO"
+          component={RequestNgO}
           options={{ headerShown: true }}
         />
          <Stack.Screen

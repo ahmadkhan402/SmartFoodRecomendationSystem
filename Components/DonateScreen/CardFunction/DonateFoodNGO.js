@@ -26,15 +26,16 @@ import { Entypo } from "@expo/vector-icons";
 import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { db, auth, storage } from "../../../firebase";
 import { LinearGradient } from "expo-linear-gradient";
-
+let ngoID = ""
+let ngoName = ""
 export default function NgoFoodDonation() {
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const [blobImage, setblob] = useState(null);
-  const [postContent, setPostContent] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
   const [title, setTitle] = useState("");
   const [productdiscription, setnamcrioption] = useState("");
   const [selectedNumber, setSelectedNumber] = useState();
@@ -45,17 +46,26 @@ export default function NgoFoodDonation() {
   const [Email, setEmail] = useState("");
   const [locationPermission, setLocationPermission] = useState(false);
   const [locationData, setLocationData] = useState("Getting yours Location...");
-  const [Coords, setCoords] = useState("");
-  const [Disable, setDisable] = useState();
+  const [Disable, setDisable] =useState(true)
+  // const [ngoName, setngoName] = useState("");
+  // const [ngoID, setNgoID] = useState([]);
+  const [ngodocID, setNgodocID] = useState([]);
 
-  useEffect(() => {
-    if (image && productdiscription && locationData && PickUpPoint) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
-  }, [image && productdiscription && locationData && PickUpPoint]);
-  const getCurrentLocation = async () => {
+
+  const x = image && productdiscription && Time && locationData 
+
+
+
+
+
+  const route = useRoute()
+  ngoName = route.params.data.ngoName
+  // setngoName(data)
+   ngoID = route.params.data.id
+// console.log("this is ngo",data)
+  const getCurrentLocation = async () => { 
+    
+  
     requestLocationPermission();
     try {
       const { coords } = await Location.getCurrentPositionAsync({});
@@ -90,7 +100,6 @@ export default function NgoFoodDonation() {
       console.log(location);
       setLocationData(location.address);
 
-      setCoords(location.coords);
     })();
 
     // Request location permission when the component mounts
@@ -154,13 +163,14 @@ export default function NgoFoodDonation() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
           SetDataToFireStore(
+            ngoID,
             title,
             productdiscription,
             downloadURL,
             selectedNumber,
             Other,
             Time,
-            PickUpPoint
+            locationData
           );
         }, []);
         alert("Post is Uploaded");
@@ -168,7 +178,11 @@ export default function NgoFoodDonation() {
       }
     );
   };
+
+
+ 
   const SetDataToFireStore = async (
+    ngoID,
     title,
     productdiscription,
     downloadURL,
@@ -178,22 +192,26 @@ export default function NgoFoodDonation() {
     PickUpPoint
   ) => {
     try {
-      const userRef = doc(db, "NGODonationPosts", auth.currentUser.uid);
-      await setDoc(userRef, {
-    
+      const ngoDocRef = doc(db, 'NGODonationPosts', ngoID);
+    await setDoc(ngoDocRef, { name: ngoName }, { merge: true });
+     
+    //   setNgodocID(ngoDocRef.id)
+       await addDoc(collection(db, 'NGODonationPosts', ngoID, 'donations'), {
+
         DonorName: DonorName,
         Email: Email,
+        PhoneNumber: phoneNumber,
         Title: title,
         Description: productdiscription,
         ImageUrl: downloadURL,
         SelectedNumber: selectedNumber,
         other: Other,
         Time: Time,
-        PickUpPoint: PickUpPoint,
+        PickUpPoint: locationData,
         Id: auth.currentUser.uid,
       });
 
-      console.log("Document written with ID: ", userRef.id);
+      console.log("Document written with ID: ", ngoDocRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -202,12 +220,8 @@ export default function NgoFoodDonation() {
   const handleNumberPress = (number) => {
     setSelectedNumber(number);
   };
-  const getData = (value) => {
-    console.log("there is the value", value);
-    setPicupPoint(value);
-  };
-  const [id, setid] = useState("");
-  const [ShowImage, setShowImage] = useState("");
+
+ 
   return (
     <LinearGradient
       colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
@@ -269,6 +283,17 @@ export default function NgoFoodDonation() {
                 numberOfLines={2}
                 onChangeText={(e) => setEmail(e)}
                 placeholder="Donor Email"
+                style={{ padding: 16 }}
+              />
+            </View>
+            <View style={styles.TextInput2}>
+              <TextInput
+                value={phoneNumber}
+                editable
+                multiline
+                numberOfLines={2}
+                onChangeText={(e) => setphoneNumber(e)}
+                placeholder="Donor PhoneNumber"
                 style={{ padding: 16 }}
               />
             </View>
@@ -366,9 +391,16 @@ export default function NgoFoodDonation() {
                 editable={false}
               />
             </View>
+            {x ? (
             <TouchableOpacity style={styles.Submit} onPress={uploadImage}>
               <Text style={styles.SubmitText}>Submit</Text>
+            </TouchableOpacity>) :
+            (
+              <TouchableOpacity style={styles.SubmitD} onPress={uploadImage}>
+              <Text style={styles.SubmitText}>Submit</Text>
             </TouchableOpacity>
+            )
+            }
           </View>
         </View>
       </ScrollView>
@@ -394,6 +426,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Submit: {
+    borderRadius: 17,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginHorizontal: "19%",
+    backgroundColor: "#4db5ff",
+    elevation: 15,
+  },
+  SubmitD: {
+    opacity:0.6,
     borderRadius: 17,
     height: 40,
     alignItems: "center",

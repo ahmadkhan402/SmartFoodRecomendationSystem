@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 import { COLOURS } from '../../Database';
 import { Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
 
 
@@ -58,7 +58,14 @@ const NGOForm = ({  navigation}) => {
   const handleNGOReg = async() => {
     console.log("runnnn")
     const userRef = doc(db, "NGO_Register", auth.currentUser.uid);
+    const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        
+        Alert.alert("Error", "Document with this ID already exists.");
+      } else {
     await setDoc(userRef, {
+      id:auth.currentUser.uid,
       ngoName,
       email,
       phoneNumber,
@@ -70,6 +77,8 @@ const NGOForm = ({  navigation}) => {
     });
     Alert.alert("Data Successfully Store in Firebase/Firestore");
    console.log("data saved")
+  }
+    
   navigation.navigate("NGOLogin")
    
   };
