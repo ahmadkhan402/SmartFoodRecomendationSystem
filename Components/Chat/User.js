@@ -43,6 +43,7 @@ const getUsers = async () => {
 
     querySnapshot.forEach((doc) => {
       tempData.push(doc.data());
+      console.log(doc.data())
     });
 
     setUsers(tempData);
@@ -72,11 +73,18 @@ const getUsers = async () => {
                 onPress={() => {
                   navigation.navigate('Chat', {data: item, id: id});
                 }}>
-                
+                {item.ImageUrl ? (
                 <Image
+                  source={{uri:item.ImageUrl}}
+                  style={styles.userIcon}
+                />
+                ):(
+                  <Image
                   source={require('../../assets/user.png')}
                   style={styles.userIcon}
                 />
+                )
+                }
                 <Text style={styles.name}>{item.Display_Name}</Text>
               </TouchableOpacity>
             );

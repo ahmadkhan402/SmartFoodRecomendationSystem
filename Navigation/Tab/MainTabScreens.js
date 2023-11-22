@@ -34,7 +34,7 @@ const Tab = createMaterialBottomTabNavigator();
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color="#bae0ff" size={25} />
           ),
-          headerShown: true
+          headerShown: false
         }}
       />
      
@@ -48,7 +48,7 @@ const Tab = createMaterialBottomTabNavigator();
             <FontAwesome5 name="sellsy" size={25} color="#bae0ff" />
             
           ),
-          headerShown: true
+          headerShown: false
         }}
       />
         <Tab.Screen
@@ -61,7 +61,7 @@ const Tab = createMaterialBottomTabNavigator();
             <FontAwesome5 name="hands-helping" size={24} color="#bae0ff" />
             
           ),
-          headerShown: true
+          headerShown: false
         }}
       />
       
@@ -76,7 +76,7 @@ const Tab = createMaterialBottomTabNavigator();
             <FontAwesome5 name="hands-helping" size={24} color="#bae0ff" />
             
           ),
-          headerShown: true
+          headerShown: false
         }}
       /> */}
       
@@ -90,7 +90,7 @@ const Tab = createMaterialBottomTabNavigator();
             <Entypo name="chat" size={24} color="#bae0ff" />
             
           ),
-          headerShown: true
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -101,7 +101,7 @@ const Tab = createMaterialBottomTabNavigator();
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="mosque"  color="#bae0ff" size={25} />
           ),
-          headerShown: true
+          headerShown: false
         }}
       />
       {/* <Tab.Screen
@@ -112,7 +112,7 @@ const Tab = createMaterialBottomTabNavigator();
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color="#bae0ff" size={25} />
           ),
-          headerShown: true
+          headerShown: false
         }}
       /> */}
     </Tab.Navigator>

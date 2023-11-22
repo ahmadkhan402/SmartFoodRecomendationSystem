@@ -33,11 +33,30 @@ import ShowUserRegNgos from "../../Components/DonateScreen/CardFunction/ShowUser
 import CheckDonation from "../../Components/DonateScreen/CardFunction/CardShowDonation.js/CheckDonation";
 import CheckRequest from "../../Components/DonateScreen/CardFunction/CardShowDonation.js/CheckRequest";
 import RequestNgO from "../../Components/DonateScreen/CardFunction/CardShowRequest/RequestNgO";
+import {  auth } from "../../firebase";
+import DonationReport from "../../Components/Report/DonationReport";
 
 const Stack = createStackNavigator();
 
 const GenralRoutes = ({ navigation }) => {
   const [showOnbording, setShowOnboarding] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in (you can replace this with your authentication logic)
+    const checkLoginStatus = async () => {
+      let currentUser = auth.currentUser.uid
+      if(currentUser){
+        const userIsLoggedIn = true; 
+        setLoggedIn(userIsLoggedIn);
+      }
+      
+    };
+
+    checkLoginStatus();
+  }, []);
+
+
 
   useEffect(() => {
     checkifalreadyOnboarded();
@@ -60,12 +79,33 @@ const GenralRoutes = ({ navigation }) => {
   if (showOnbording) {
     return (
       <Stack.Navigator initialRouteName="OnbordingScreen">
+      
         <Stack.Screen
           name="OnbordingScreen"
           component={OnbordingScreen}
           options={{ headerShown: false }}
         />
          <Stack.Screen
+          name="Registration_Page"
+          component={Signup}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+       <Stack.Screen
+          name="DrawerNavigator"
+          component={MainDrawer}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={{ headerShown: true }}
+        />
+       { /* <Stack.Screen
           name="NGOLogin"
           component={NGOLogin}
           options={{ headerShown: false }}
@@ -81,21 +121,8 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen
-          name="Registration_Page"
-          component={Signup}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="DrawerNavigator"
-          component={MainDrawer}
-          options={{ headerShown: false }}
-        />
+        
+        
         <Stack.Screen
           name="CreatePost"
           component={CreatePost}
@@ -152,24 +179,32 @@ const GenralRoutes = ({ navigation }) => {
           name="checkRequests"
           component={CheckRequest}
           options={{ headerShown: true }}
-        />
-        {/* <Stack.Screen
+        /> */
+        /* <Stack.Screen
           name="EditProfile"
           component={EditProfile}
           options={{ headerShown: false }}
-        /> */}
-        {/* <Stack.Screen
-        name="ShowPost"
-        component={ShowPost}
-        options={{ headerShown: false }} /> */}
+        /> */
+        /*  /> */}
       </Stack.Navigator>
     );
   } else {
     return (
       <Stack.Navigator initialRouteName="DrawerNavigator">
-      <Stack.Screen
+       {isLoggedIn ? (
+        <>
+        <Stack.Screen
           name="MosqueDonation"
           component={ViewDonate}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+        name="ShowPost"
+        component={ShowPost}
+        options={{ headerShown: false }}/>
+         <Stack.Screen
+          name="Report"
+          component={DonationReport}
           options={{ headerShown: true }}
         />
          <Stack.Screen
@@ -299,7 +334,27 @@ const GenralRoutes = ({ navigation }) => {
           component={Map}
           options={{ headerShown: false }}
         />
-        
+          </>
+        ):(
+          <>
+          <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Registration_Page"
+          component={Signup}
+          options={{ headerShown: false }}
+        />
+       <Stack.Screen
+          name="DrawerNavigator"
+          component={MainDrawer}
+          options={{ headerShown: false }}
+        />
+       </>
+        )
+       }
       </Stack.Navigator>
     );
   }

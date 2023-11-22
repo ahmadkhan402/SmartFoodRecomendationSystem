@@ -81,7 +81,7 @@ useFocusEffect(
         }}
       >
         <Text style={{ color: "#fff", fontSize: 30, fontWeight: "bold",  }}>
-          {data.Fulname}
+          {data.Display_Name}
         </Text>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ color: "#fff", fontSize: 14, fontWeight: "200", marginTop:3 }}>
@@ -124,7 +124,7 @@ useFocusEffect(
                 fontWeight: "300",
               }}
             >
-              {data.Fulname}
+              {data.Display_Name}
             </Text>
           </View>
         </View>

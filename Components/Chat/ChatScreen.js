@@ -6,6 +6,7 @@ import { collection, doc, query, onSnapshot, orderBy, addDoc } from 'firebase/fi
 import { db } from '../../firebase'; // Make sure your Firebase configuration is correctly imported
 
 const ChatScreen = () => {
+
   const [messageList, setMessageList] = useState([]);
   const route = useRoute();
 

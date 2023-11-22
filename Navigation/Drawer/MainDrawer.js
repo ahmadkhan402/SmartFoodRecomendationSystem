@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Text, View, TouchableOpacity, Button, useWindowDimensions, StyleSheet, Image } from 'react-native';
 
-import { NavigationContainer, useFocusEffect, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Icons from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, useDrawerStatus } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { AntDesign } from '@expo/vector-icons';
@@ -46,6 +46,9 @@ function CustomDrawerContent(props) {
   const [email, setEmail] = useState("")
   const [data,setData] = useState("")
 
+  const isDrawerOpen = useDrawerStatus()
+const isfocus = useIsFocused()
+useEffect(()=>{
   async function getMostRecentData(){
     const UserRef = doc(db, "users", auth.currentUser.uid)
     const docSnap = await getDoc(UserRef);
@@ -59,12 +62,13 @@ function CustomDrawerContent(props) {
     }
     
   }
-  useFocusEffect(
-    useCallback(() => {
+ if(isDrawerOpen){
       getMostRecentData();
+ }
       setEmail(auth.currentUser?.email);
-    },[]) // Empty dependency array means this will run when the screen gains focus
-  );
+
+    },[isDrawerOpen]) // Empty dependency array means this will run when the screen gains focus
+
 
   const navigation =  useNavigation()
   const Handlelogout=()=>{
@@ -98,7 +102,7 @@ function CustomDrawerContent(props) {
          )
          }
           <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{data? data.Fulname: "Your Name"}</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>{data? data.Display_Name: "Your Name"}</Text>
             <Text style={{ fontSize: 12, color: 'white' }}>{email? email : "your email"}</Text>
           </View>
         </View>
@@ -161,8 +165,12 @@ function CustomDrawerContent(props) {
 
 
 const LogoTitle = ({ navigation }) => {
+  
+
+ 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+   
       <Image
         source={require('../../assets/money.png')}
         style={{ width: 30, height: 30 }}
@@ -177,9 +185,11 @@ export default function DrawerNavigator() {
 
   return (
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}
+      
           screenOptions={{
+          
 
-              headerTitleAlign: 'left',
+            headerTitleAlign: 'left',
               headerTitle: props => <LogoTitle {...props} />,
               headerStyle: {
                   backgroundColor: '#4db5ff',
@@ -188,6 +198,9 @@ export default function DrawerNavigator() {
               headerTitleStyle: {
                   fontWeight: 'bold',
               },
+             
+              
+              
           }}>
       <Drawer.Screen name="Home" component={Screen} />
       <Drawer.Screen name="Profile" component={ProfileScreen} />

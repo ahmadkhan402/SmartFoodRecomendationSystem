@@ -20,6 +20,7 @@ import { Linking } from "react-native";
 import { getItem } from "../AsyncStorage/AsyscStorage";
 import { COLOURS } from "../Database";
 import { LinearGradient } from "expo-linear-gradient";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 
 const DashBoard = ({navigation}) => {
@@ -154,14 +155,19 @@ const DashBoard = ({navigation}) => {
       />
     );
   };
-  const viewEmail = async () => {
+  const isfocus = useIsFocused()
+  useEffect(() => {
+  async function viewEmail() {
     let getemail = await getItem("ShowEmail");
     console.log(" get email", getemail);
     setemails(getemail);
   };
-  useEffect(() => {
-    viewEmail();
-  }, []);
+ 
+    if(isfocus){
+      viewEmail();
+    }
+    
+  }, [isfocus]);
   return (
     <LinearGradient
     colors={["#fffaf0", "#ffff","#fff"]}
@@ -204,7 +210,7 @@ const DashBoard = ({navigation}) => {
                 <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>NGO's Portal</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Masjid")}>
+            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("MasjidPortal")}>
               <View style={{ flexDirection: "column" , alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:8,borderRadius:18}}>
              <View style={{padding:16}}>
               <FontAwesome5 name="mosque"  color= {COLOURS.backgroundLiteBlue} size={25}/>
@@ -212,7 +218,7 @@ const DashBoard = ({navigation}) => {
                <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>Donate to Masjid</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Donate")}>
+            <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("SellerOption")}>
               <View style={{ flexDirection: "column" , alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:8,borderRadius:18}}>
              <View style={{padding:16}}>
              <FontAwesome5 name="sellsy" size={25} color= {COLOURS.backgroundLiteBlue} />
@@ -222,7 +228,7 @@ const DashBoard = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: "row", paddingHorizontal:16,paddingVertical:16 }}>
-          <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Donate")}>
+          <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("ShowPost")}>
               <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
               <View style={{padding:16}}>
              <FontAwesome5 name="donate" size={25} color= {COLOURS.backgroundLiteBlue} />

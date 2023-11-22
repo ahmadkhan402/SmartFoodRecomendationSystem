@@ -119,7 +119,7 @@ uploadTask.on('state_changed',
   const setdatatofirbase = async (Display_Name,phoneNumber, downloadURL)=>{
   const userRef = doc(db, 'users', auth.currentUser.uid);
     await setDoc(userRef, {
-      Fulname: Display_Name,
+      Display_Name: Display_Name,
       phoneNumber,
       ImageUrl: downloadURL,
     });
