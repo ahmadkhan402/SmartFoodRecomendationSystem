@@ -68,7 +68,7 @@ export default function Signup({navigation}) {
 
     return (
         
-         <ImageBackground  style={styles.container} source={require("./../../../assets/bg3.gif")}>
+        
        <View style={styles.miniContainer}>
         {/* <Text style={{ color:"rgba(255,255,255,0.6)",fontWeight:"bold", fontSize:25, marginBottom:10,  fontFamily: 'serif'}}>Wellcome Back</Text> */}
             <Image style={styles.image} source={require("../../../assets/logo2p.png")} />
@@ -125,7 +125,6 @@ export default function Signup({navigation}) {
                 </TouchableOpacity>
             </View>
             </View>
-        </ImageBackground>
     );
 }
 const styles = StyleSheet.create({
@@ -135,20 +134,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     miniContainer: {
-        width: "80%",
-        height:"100%",
-        marginTop:80,
-        marginBottom:-40,
-        justifyContent: "flex-start",
-        paddingTop:20,
-        alignSelf:"flex-end",
+        flex:1,
         alignItems: "center",
-        borderTopLeftRadius: 100,
-        backgroundColor: "#2c2c6c",
-        opacity:0.8
-       
-        
-    },
+        justifyContent: "center",
+         paddingTop: 20,
+         backgroundColor: "#2c2c6c",
+         opacity: 1,
+       },
     image: {
         marginBottom: 5,
         width: "50%",

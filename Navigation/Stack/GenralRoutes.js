@@ -35,6 +35,7 @@ import CheckRequest from "../../Components/DonateScreen/CardFunction/CardShowDon
 import RequestNgO from "../../Components/DonateScreen/CardFunction/CardShowRequest/RequestNgO";
 import {  auth } from "../../firebase";
 import DonationReport from "../../Components/Report/DonationReport";
+import User from "../../Components/Chat/User";
 
 const Stack = createStackNavigator();
 
@@ -100,11 +101,11 @@ const GenralRoutes = ({ navigation }) => {
           component={MainDrawer}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
+         {/* <Stack.Screen
           name="Chat"
           component={ChatScreen}
           options={{ headerShown: true }}
-        />
+        /> */}
        { /* <Stack.Screen
           name="NGOLogin"
           component={NGOLogin}
@@ -191,8 +192,7 @@ const GenralRoutes = ({ navigation }) => {
   } else {
     return (
       <Stack.Navigator initialRouteName="DrawerNavigator">
-       {isLoggedIn ? (
-        <>
+       
         <Stack.Screen
           name="MosqueDonation"
           component={ViewDonate}
@@ -210,7 +210,9 @@ const GenralRoutes = ({ navigation }) => {
          <Stack.Screen
           name="ShowUserRegNgos"
           component={ShowUserRegNgos}
-          options={{ headerShown: true }}
+          options={{ headerShown: true ,
+          headerTitle:"Your NGOs"
+          }}
         />
            <Stack.Screen
           name="checkDonations"
@@ -305,7 +307,7 @@ const GenralRoutes = ({ navigation }) => {
           options={{ headerShown: false }}
         />
          <Stack.Screen
-          name="Chat"
+          name="ChatSceens"
           component={ChatScreen}
           options={{ headerShown: true }}
         />
@@ -334,10 +336,7 @@ const GenralRoutes = ({ navigation }) => {
           component={Map}
           options={{ headerShown: false }}
         />
-          </>
-        ):(
-          <>
-          <Stack.Screen
+          {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{ headerShown: false }}
@@ -351,10 +350,9 @@ const GenralRoutes = ({ navigation }) => {
           name="DrawerNavigator"
           component={MainDrawer}
           options={{ headerShown: false }}
-        />
-       </>
-        )
-       }
+        /> */}
+       
+        
       </Stack.Navigator>
     );
   }

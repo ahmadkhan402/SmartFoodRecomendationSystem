@@ -8,6 +8,7 @@ import { db } from '../../firebase'; // Make sure your Firebase configuration is
 const ChatScreen = () => {
 
   const [messageList, setMessageList] = useState([]);
+  console.log(messageList)
   const route = useRoute();
 
   useEffect(() => {

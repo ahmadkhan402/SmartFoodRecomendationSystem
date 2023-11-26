@@ -79,7 +79,7 @@ const NGOForm = ({  navigation}) => {
    console.log("data saved")
   }
     
-  navigation.navigate("NGOLogin")
+  navigation.navigate("ShowUserRegNgos")
    
   };
   

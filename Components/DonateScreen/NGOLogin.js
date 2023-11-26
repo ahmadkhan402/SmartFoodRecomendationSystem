@@ -16,7 +16,7 @@ const NGOLogin = ({navigation}) => {
       <Text  style={{color:COLOURS.white, paddingVertical:2,fontSize:30, fontWeight:"200" ,}}>in this Pandamic!</Text>
       </View>
       </View>
-    <View style={{ marginTop:"22%"}}>
+    <View style={{ marginTop:"30%"}}>
     <Text style={{fontSize:23,fontWeight:"300",textAlign:"center"}}>Choose your Catagory</Text>
     <View style={{flexDirection:"row" , marginVertical:30}}>
       

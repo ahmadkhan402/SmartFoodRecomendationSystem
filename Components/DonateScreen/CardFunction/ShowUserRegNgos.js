@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { collection, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { db, auth } from '../../../firebase';
@@ -17,7 +17,7 @@ const ShowUserRegNgos = ({ navigation }) => {
   console.log(userID)
 
 
-
+let isfocus = useIsFocused()
   useEffect(() => {
  
     const fetchNGOList = async () => {
@@ -48,9 +48,10 @@ const ShowUserRegNgos = ({ navigation }) => {
         }
     }
   
-
+if(isfocus){
     fetchNGOList();
-  }, []);
+}
+  }, [isfocus]);
 
   
   const renderitem = ({ item }) => (

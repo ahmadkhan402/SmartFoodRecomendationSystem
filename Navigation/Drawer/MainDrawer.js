@@ -45,7 +45,7 @@ function Screen(){
 function CustomDrawerContent(props) {
   const [email, setEmail] = useState("")
   const [data,setData] = useState("")
-
+  const [Null,setNull] = useState(false)
   const isDrawerOpen = useDrawerStatus()
 const isfocus = useIsFocused()
 useEffect(()=>{
@@ -57,6 +57,7 @@ useEffect(()=>{
       console.log("Document data:", docSnap.data());
       setData(docSnap.data())
     } else {
+      setData({Display_Name: "Your Name", ImageUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0K8CiKG5CuQyWV9L2YOepIHMnzTxwYNFXTw&usqp=CAU"})
       // docSnap.data() will be undefined in this case
       console.log("No such document!");
     }
@@ -185,23 +186,16 @@ export default function DrawerNavigator() {
 
   return (
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}
-      
-          screenOptions={{
-          
-
-            headerTitleAlign: 'left',
-              headerTitle: props => <LogoTitle {...props} />,
-              headerStyle: {
-                  backgroundColor: '#4db5ff',
-              },
-              headerTintColor: 'pink',
-              headerTitleStyle: {
-                  fontWeight: 'bold',
-              },
-             
-              
-              
-          }}>
+       screenOptions={{
+        headerTitleAlign: 'left',
+        headerTitle: props => <LogoTitle {...props} />,
+        headerStyle: {
+          backgroundColor: '#2c2c6c', // Instagram's header color
+        },
+        headerTintColor: '#fff', // Instagram's header text color
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },}}>
       <Drawer.Screen name="Home" component={Screen} />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="EditProfile" component={EditProfile} />

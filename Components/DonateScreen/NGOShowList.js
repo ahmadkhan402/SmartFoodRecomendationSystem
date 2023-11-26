@@ -4,7 +4,7 @@ import { COLOURS } from "../../Database";
 import { TouchableOpacity } from "react-native";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { auth, db } from "../../firebase";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
@@ -18,6 +18,7 @@ const NGOShowList = ({ navigation }) => {
   const [NGOList, setNGOList] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  let isfocus = useIsFocused()
 
   useEffect(() => {
      // Get the user's current location
@@ -73,7 +74,9 @@ const userId = auth.currentUser?.uid
   }
   
 }    
+
     ShowNGOList();
+
   }, []);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -92,7 +95,7 @@ const userId = auth.currentUser?.uid
   };
   const getNearbyNGOs = () => {
     if (!userLocation || !NGOList.length) return [];
-  
+
     return NGOList.map((ngo) => {
       const { latitude, longitude } = ngo.Coords; 
   

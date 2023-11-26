@@ -20,8 +20,11 @@ import { auth, db } from '../../firebase';
     const [mode, setMode] = useState('LIGHT');
     const isFocued = useIsFocused();
     useEffect(() => {
-      getUsers();
-    }, []);
+      if(isFocued){
+
+      
+      getUsers();}
+    }, [isFocued]);
     useEffect(() => {
       getMode();
     }, [isFocued]);
@@ -71,12 +74,12 @@ const getUsers = async () => {
               <TouchableOpacity
                 style={[styles.userItem, {backgroundColor: 'white'}]}
                 onPress={() => {
-                  navigation.navigate('Chat', {data: item, id: id});
+                  navigation.navigate('ChatSceens', {data: item, id: id});
                 }}>
                 {item.ImageUrl ? (
                 <Image
                   source={{uri:item.ImageUrl}}
-                  style={styles.userIcon}
+                  style={styles.userIconImage}
                 />
                 ):(
                   <Image
@@ -124,9 +127,15 @@ const getUsers = async () => {
       paddingLeft: 20,
       alignItems: 'center',
     },
+    userIconImage:{
+      borderRadius:25,
+      width: 50,
+      height: 50,
+    },
     userIcon: {
-      width: 40,
-      height: 40,
+      borderRadius:20,
+      width: 50,
+      height: 50,
     },
     name: {color: 'black', marginLeft: 20, fontSize: 20},
   });
