@@ -18,13 +18,9 @@ const NGOForm = ({  navigation}) => {
   const [Disable, setDisable] = useState();
   const [email, setemail] = useState();
   const [phoneNumber, setphoneNumber] = useState();
-  useEffect(() => {
-    if (ngoName && numMembers && locationData && numPeopleServed) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
-  }, [ngoName, numMembers, locationData, numPeopleServed]);
+
+let  x = ngoName && numMembers && locationData && numPeopleServed
+
     const getCurrentLocation = async () => {
       requestLocationPermission();
     try {
@@ -62,7 +58,7 @@ const NGOForm = ({  navigation}) => {
 
       if (userDoc.exists()) {
         
-        Alert.alert("Error", "Document with this ID already exists.");
+        Alert.alert("NGO Already exist", "Document with this ID already exists.");
       } else {
     await setDoc(userRef, {
       id:auth.currentUser.uid,
@@ -155,10 +151,17 @@ const NGOForm = ({  navigation}) => {
         editable={false}
       />
       </View>
-   
-    <TouchableOpacity disabled={Disable} style={[Disable ? styles.BtnRegDisable : styles.BtnReg]} onPress={handleNGOReg}>
-      <Text>Register NGO</Text>
+   {
+    x ? (
+      <TouchableOpacity style={[ styles.BtnReg]} onPress={handleNGOReg}>
+      <Text  style={{color:"#fff",}}>Register NGO</Text>
       </TouchableOpacity>
+    ):
+    <TouchableOpacity style={styles.BtnRegDisable} disabled={true}>
+      <Text style={{color:"#fff",}}>Register NGO</Text>
+      </TouchableOpacity>
+   }
+   
    
     
    
@@ -186,7 +189,8 @@ const styles = StyleSheet.create({
          justifyContent: "center",
          backgroundColor: "#4db5ff",
          elevation: 40,
-         marginVertical:20
+         marginVertical:20,
+         color:"#fff"
        },
       MinCont:{
        
@@ -228,6 +232,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
       },
       BtnRegDisable:{
+        
         opacity:0.3,
         marginTop:24,
         paddingHorizontal:25,

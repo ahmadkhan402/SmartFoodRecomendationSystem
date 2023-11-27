@@ -23,6 +23,8 @@ import { FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Card } from "galio-framework";
+import { LinearGradient } from "expo-linear-gradient";
+import { COLOURS } from "../../Database";
 
 let id = "";
 const ShowPost = ({ navigation }) => {
@@ -56,17 +58,33 @@ const ShowPost = ({ navigation }) => {
   const renderItem = ({ item, index }) => (
     <View style={styles.card}>
       <View style={styles.textContainer} key={index}>
-        <Text style={styles.PostUser}>POSTED BY: {item.Email}</Text>
-        <Text style={styles.textTitle}> {item.Title}</Text>
-        <Text style={styles.txt}>{item.Description}</Text>
-        <Text style={styles.txt}>Time: {item.Time}</Text>
-        <Text style={styles.txt}>Quantity of Meal: {item.SelectedNumber}</Text>
+        <Text style={styles.PostUser}>
+          <Text>POSTED BY:</Text> {item.DonorName}
+        </Text>
+
+        <Text style={styles.txt}>
+          Want to Donate: <Text style={styles.infoText}>{item.Title}</Text>
+        </Text>
+        <Text style={styles.txt}>
+          Email: <Text style={styles.infoText}>{item.Email}</Text>
+        </Text>
+        <Text style={styles.txt}>
+          Des: <Text style={styles.infoText}>{item.Description}</Text>
+        </Text>
+        <Text style={styles.txt}>
+          Time: <Text style={styles.infoText}>{item.Time}</Text>
+        </Text>
+        <Text style={styles.txt}>
+          Quality of Meal:{" "}
+          <Text style={styles.infoText}>{item.SelectedNumber}</Text>
+        </Text>
+
         <Text style={styles.PickUpPoint}>
           Pick-Up Point: {item.PickUpPoint}
         </Text>
       </View>
       <Image source={{ uri: item.ImageUrl }} style={styles.Image} />
-      <View style={{ position: "absolute", bottom: 10, right: 20 }}>
+      <View style={{ position: "absolute", Top: 0, marginTop: 5, right: 20 }}>
         <View
           style={{
             elevation: 40,
@@ -78,7 +96,9 @@ const ShowPost = ({ navigation }) => {
           }}
         >
           <TouchableOpacity
-            onPress={() => navigation.navigate("Chat", { data: item, id: id })}
+            onPress={() =>
+              navigation.navigate("ChatSceens", { data: item, id: id })
+            }
           >
             <Text>
               <Ionicons
@@ -94,14 +114,16 @@ const ShowPost = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+      style={styles.container}
+    >
       <FlatList
-      data={Data} // Assuming Data is an array of posts
-      keyExtractor={(item, index) => index.toString()} // Use index as the key
-      renderItem={renderItem}
-      contentContainerStyle={styles.scrollContainer}
-    />
-  
+        data={Data} // Assuming Data is an array of posts
+        keyExtractor={(item, index) => index.toString()} // Use index as the key
+        renderItem={renderItem}
+        contentContainerStyle={styles.scrollContainer}
+      />
 
       <View style={{ padding: 35, position: "absolute", bottom: 0, right: 0 }}>
         <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
@@ -110,7 +132,7 @@ const ShowPost = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -145,7 +167,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   textTitle: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
     marginBottom: 10,
   },
@@ -156,22 +178,22 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   PostUser: {
+    width: "60%",
     backgroundColor: "#eee",
     fontSize: 12,
-    fontWeight: "500",
+    fontWeight: "900",
     padding: 5,
     color: "#2c2c6c",
   },
   txt: {
-    fontSize: 14,
-    fontWeight: "500",
-    padding: 5,
+   
+    fontSize: 16,
+    color: '#555', 
+    marginTop: 5,
+  },
+  infoText: {
+
+    fontWeight: 'bold',
+    color: COLOURS.backgroundDarkBlue
   },
 });
-
-// const listRef = ref(storage, "DonationPosts/");
-// const res = await listAll(listRef);
-// res.items.forEach(async (itemRef) => {
-//   const url = await getDownloadURL(itemRef);
-//   seturl(urls => [...urls, url])
-// })

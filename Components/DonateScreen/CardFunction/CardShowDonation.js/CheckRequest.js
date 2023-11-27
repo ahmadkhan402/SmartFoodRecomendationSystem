@@ -84,6 +84,7 @@ const CheckRequest = () => {
         colors={["#f8f8ff", "#f5fffa", "#afeeee"]}
         style={styles.Carditem}
       >
+       <Text style={styles.dataTile}>Request For {item.type}</Text>
        <Text style={styles.data}>Name: {item.name}</Text>
       <Text style={styles.data}>PH NUM: {item.numb}</Text>
       <Text style={styles.data}>Location: {item.location}</Text>
@@ -122,6 +123,14 @@ const styles = StyleSheet.create({
   des: {
     color: COLOURS.blue,
   },
+  dataTile:{
+    color:COLOURS.backgroundDarkBlue,
+fontSize:15,
+fontWeight:"900",
+justifyContent:"center",
+alignItems:"center",
+marginVertical:8
+  },
   data:{
 color:COLOURS.backgroundLiteBlue,
 fontSize:12
@@ -148,7 +157,8 @@ fontSize:12
   },
   Carditem: {
     backgroundColor: COLOURS.backgroundMedium,
-    padding: 23,
+   paddingHorizontal:25,
+   paddingVertical:15,
     borderRadius: 10,
   },
   btnd: {

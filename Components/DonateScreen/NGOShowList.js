@@ -4,7 +4,7 @@ import { COLOURS } from "../../Database";
 import { TouchableOpacity } from "react-native";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect } from "react";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { auth, db } from "../../firebase";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
@@ -18,7 +18,6 @@ const NGOShowList = ({ navigation }) => {
   const [NGOList, setNGOList] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  let isfocus = useIsFocused()
 
   useEffect(() => {
      // Get the user's current location
@@ -43,20 +42,20 @@ const NGOShowList = ({ navigation }) => {
 
 const userId = auth.currentUser?.uid
       try {
-        // Check if the document with the given userId already exists
-        const userQuery = query(collection(db, 'NGO_Register'), where('id', '==', userId));
-        const userQuerySnapshot = await getDocs(userQuery);
+        // // Check if the document with the given userId already exists
+        // const userQuery = query(collection(db, 'NGO_Register'), where('id', '==', userId));
+        // const userQuerySnapshot = await getDocs(userQuery);
   
-        if (!userQuerySnapshot.empty) {
-          // Document with the same ID already exists
-          setErrorMessage('User with this ID already exists.');
-        } else {
+        // if (!userQuerySnapshot.empty) {
+        //   // Document with the same ID already exists
+        //   setErrorMessage('User with this ID already exists.');
+        // } else {
       let arr = [];
       let cords = [];
       const querySnapshot = await getDocs(collection(db, "NGO_Register"));
       querySnapshot.forEach((doc) => {
         var data = doc.data();
-  
+  console.log(data)
         cords.push("id", doc.id, "=>", "data", doc.data().Coords);
         var id = doc.id;
         arr.push({ id, ...data });
@@ -67,16 +66,14 @@ const userId = auth.currentUser?.uid
     
      // Reset error message on successful addition
      setErrorMessage(null);
-    }
+    
   } catch (error) {
     console.error('Error adding user:', error);
     setErrorMessage('Error adding user. Please try again.');
   }
   
 }    
-
     ShowNGOList();
-
   }, []);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -95,7 +92,7 @@ const userId = auth.currentUser?.uid
   };
   const getNearbyNGOs = () => {
     if (!userLocation || !NGOList.length) return [];
-
+  
     return NGOList.map((ngo) => {
       const { latitude, longitude } = ngo.Coords; 
   

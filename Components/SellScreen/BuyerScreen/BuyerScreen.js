@@ -15,6 +15,7 @@ import { Items, COLOURS } from "../../../Database";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { compose } from "redux";
+import { LinearGradient } from "expo-linear-gradient";
 
 const BuyerScreen = ({ navigation }) => {
   const [accessory, setAccessory] = useState([]);
@@ -120,36 +121,38 @@ const BuyerScreen = ({ navigation }) => {
           <Image
             source={{uri:data.ImageUrl}}
             style={{
-              width: "80%",
-              height: "80%",
-              resizeMode: "contain",
+              width: "60%",
+              height: "60%",
+              borderRadius:10,
+              resizeMode: "center",
             }}
           />
         </View>
         <Text
           style={{
             fontSize: 12,
-            color: COLOURS.black,
+            color:  COLOURS.white,
             fontWeight: "600",
             marginBottom: 2,
           }}
         >
           {data.ProductName}
         </Text>
-        <Text>RS: {data.ProductPrice}</Text>
+        <Text style={{color: COLOURS.white,}}>RS: {data.ProductPrice}</Text>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View
-      style={{
+    <LinearGradient
+    colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+    style={{
         width: "100%",
         height: "100%",
-        backgroundColor: COLOURS.white,
+        
       }}
     >
-      <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
+      {/* <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" /> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
@@ -236,7 +239,7 @@ const BuyerScreen = ({ navigation }) => {
               <Text
                 style={{
                   fontSize: 18,
-                  color: COLOURS.black,
+                  color: COLOURS.white,
                   fontWeight: "500",
                   letterSpacing: 1,
                 }}
@@ -246,7 +249,7 @@ const BuyerScreen = ({ navigation }) => {
               <Text
                 style={{
                   fontSize: 14,
-                  color: COLOURS.black,
+                  color: COLOURS.white,
                   fontWeight: "400",
                   opacity: 0.5,
                   marginLeft: 10,
@@ -299,7 +302,7 @@ const BuyerScreen = ({ navigation }) => {
               <Text
                 style={{
                   fontSize: 18,
-                  color: COLOURS.black,
+                  color:  COLOURS.white,
                   fontWeight: "500",
                   letterSpacing: 1,
                 }}
@@ -309,7 +312,7 @@ const BuyerScreen = ({ navigation }) => {
               <Text
                 style={{
                   fontSize: 14,
-                  color: COLOURS.black,
+                  color:  COLOURS.white,
                   fontWeight: "400",
                   opacity: 0.5,
                   marginLeft: 10,
@@ -341,7 +344,7 @@ const BuyerScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 };
 

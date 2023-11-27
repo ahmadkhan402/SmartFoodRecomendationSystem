@@ -137,9 +137,11 @@ const styles = StyleSheet.create({
     elevation: 15,
   },
   BtnReg2: {
+    marginVertical:20,
+    
     borderRadius: 5,
     padding: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 25,
     alignItems: "center",
     justifyContent: "center",
     color: "#fff",

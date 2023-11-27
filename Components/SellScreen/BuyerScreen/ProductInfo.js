@@ -18,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../../../firebase';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const ProductInfo = ({route, navigation}) => {
  // useState
@@ -132,8 +133,9 @@ querySnapshot.forEach((doc) => {
         <Image
           source={{uri:item.ImageUrl}}
           style={{
-            width: '100%',
-            height: '100%',
+            width: '80%',
+            height: '80%',
+            borderRadius:10,
             resizeMode: 'contain',
           }}
         />
@@ -142,13 +144,14 @@ querySnapshot.forEach((doc) => {
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: COLOURS.white,
-        position: 'relative',
-      }}>
+    <LinearGradient
+    colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+    style={{
+        width: "100%",
+        height: "100%",
+        
+      }}
+    >
       <StatusBar
         backgroundColor={COLOURS.backgroundLight}
         barStyle="dark-content"
@@ -223,7 +226,7 @@ querySnapshot.forEach((doc) => {
                       style={{
                         width: '16%',
                         height: 2.4,
-                        backgroundColor: COLOURS.black,
+                        backgroundColor: COLOURS.white,
                         opacity,
                         marginHorizontal: 4,
                         borderRadius: 100,
@@ -255,7 +258,7 @@ querySnapshot.forEach((doc) => {
             <Text
               style={{
                 fontSize: 12,
-                color: COLOURS.black,
+                color: COLOURS.white,
               }}>
               Shopping
             </Text>
@@ -273,7 +276,7 @@ querySnapshot.forEach((doc) => {
                 fontWeight: '600',
                 letterSpacing: 0.5,
                 marginVertical: 4,
-                color: COLOURS.black,
+                color: COLOURS.white,
                 maxWidth: '84%',
               }}>
               {product.ProductName}
@@ -292,7 +295,7 @@ querySnapshot.forEach((doc) => {
           <Text
             style={{
               fontSize: 12,
-              color: COLOURS.black,
+              color: COLOURS.white,
               fontWeight: '400',
               letterSpacing: 1,
               opacity: 0.5,
@@ -357,12 +360,12 @@ querySnapshot.forEach((doc) => {
                 fontSize: 18,
                 fontWeight: '500',
                 maxWidth: '85%',
-                color: COLOURS.black,
+                color: COLOURS.white,
                 marginBottom: 4,
               }}>
               Rs: {product.ProductPrice}.00
             </Text>
-            <Text>
+            <Text style={{  color: COLOURS.white,}}>
             Tax Rate 2%~ Rs: {parseFloat(product.ProductPrice) / 20} (Rs:
              {parseFloat(product.ProductPrice) + parseFloat(product.ProductPrice) / 20})
             </Text>
@@ -401,7 +404,7 @@ querySnapshot.forEach((doc) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

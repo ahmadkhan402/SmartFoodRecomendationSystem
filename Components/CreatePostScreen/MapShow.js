@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet,TouchableOpacity, Text, View, Pressable } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { COLOURS } from '../../Database';
 
 
 const getCurrentLocation = async () => {
@@ -50,12 +51,17 @@ const [ PickUpPoint, setPicupPoint] = useState('')
 
   return locationData ? (
     <View style={styles.container}>
+    <View style={styles.btn}>
    <TouchableOpacity  style={{
+    padding:3,
         justifyContent: "center",
-        backgroundColor: "rgba(77,181,255,0.4)", borderRadius: 10,
-        borderWidth: 1, borderColor: "#2c2c6c", marginHorizontal: "25%",
+        backgroundColor: COLOURS.backgroundLight, borderRadius: 10,
+        borderWidth: 1,  marginHorizontal: "25%",
         alignItems: "center"
-      }} onPress={()=> alert('PickupPoint has been Set successfully')} ><Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text></TouchableOpacity>
+      }} onPress={()=> alert('PickupPoint has been Set successfully')} >
+      <Text style={{ fontSize: 17, color: "#2c2c6c", fontWeight: "500" }}>Set the Pic Point</Text>
+      </TouchableOpacity>
+      </View>
       <MapViewWithMarker coords={locationData.coords} /> 
       
     </View>
@@ -65,8 +71,15 @@ const [ PickUpPoint, setPicupPoint] = useState('')
 };
 
 const styles = StyleSheet.create({
+btn:{
+  marginVertical:5,
+},
   container: {
-    flex: 0.5,
+    
+    flex: 0.4,
+   backgroundColor:COLOURS.black,
+   borderRadius:30
+  
   },
   text: {
     padding: 10,

@@ -12,6 +12,7 @@ import { collection, getDocs } from "firebase/firestore";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Items,COLOURS } from '../../../Database';
 import { db } from '../../../firebase';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const MyCart = ({navigation}) => {
   const [product, setProduct] = useState();
@@ -237,13 +238,14 @@ const MyCart = ({navigation}) => {
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: COLOURS.white,
-        position: 'relative',
-      }}>
+    <LinearGradient
+    colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+    style={{
+        width: "100%",
+        height: "100%",
+        
+      }}
+    >
       <ScrollView>
         <View
           style={{
@@ -568,7 +570,7 @@ const MyCart = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

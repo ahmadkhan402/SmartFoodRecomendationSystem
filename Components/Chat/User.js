@@ -13,6 +13,8 @@ import {
   import AsyncStorage from '@react-native-async-storage/async-storage';
   import {useIsFocused, useNavigation} from '@react-navigation/native';
 import { auth, db } from '../../firebase';
+import { LinearGradient } from 'expo-linear-gradient';
+import { COLOURS } from '../../Database';
   let id = '';
   const User = () => {
     const [users, setUsers] = useState([]);
@@ -58,11 +60,14 @@ const getUsers = async () => {
 };
 
     return (
-      <View
-        style={[
+      <LinearGradient
+      colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+      style={[
           styles.container,
           {backgroundColor: mode == 'LIGHT' ? 'white' : '#212121'},
-        ]}>
+        ]}
+      >
+      
         <View style={styles.header}>
           <Text style={styles.title}>Chat Available</Text>
         </View>
@@ -93,7 +98,7 @@ const getUsers = async () => {
             );
           }}
         />
-      </View>
+      </LinearGradient>
     );
   };
   
@@ -106,13 +111,13 @@ const getUsers = async () => {
     header: {
       width: '100%',
       height: 60,
-      backgroundColor: 'white',
+      backgroundColor: COLOURS.backgroundLiteBlue,
       elevation: 5,
       justifyContent: 'center',
       alignItems: 'center',
     },
     title: {
-      color: 'purple',
+      color: COLOURS.white,
       fontSize: 20,
       fontWeight: '600',
     },

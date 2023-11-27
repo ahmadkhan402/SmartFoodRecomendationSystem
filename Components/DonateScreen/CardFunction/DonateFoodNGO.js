@@ -324,7 +324,7 @@ export default function NgoFoodDonation() {
               <Text
                 style={{ fontSize: 24, fontWeight: "bold", color: "#5D8AA8" }}
               >
-                Quantity
+                Quality
               </Text>
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -396,7 +396,7 @@ export default function NgoFoodDonation() {
               <Text style={styles.SubmitText}>Submit</Text>
             </TouchableOpacity>) :
             (
-              <TouchableOpacity style={styles.SubmitD} onPress={uploadImage}>
+              <TouchableOpacity disabled={true} style={styles.SubmitD}>
               <Text style={styles.SubmitText}>Submit</Text>
             </TouchableOpacity>
             )
@@ -414,6 +414,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  SubmitText:{
+    color:"#fff"
   },
   ImaageText: {
     justifyContent: "center",

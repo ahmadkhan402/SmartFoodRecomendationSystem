@@ -20,6 +20,8 @@ import { auth, db, storage } from '../../../firebase';
 import { addDoc, collection, doc } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { Picker } from '@react-native-picker/picker';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet } from 'react-native';
 
 
 const SellerScreen = ({navigation}) => {
@@ -146,18 +148,17 @@ const [Download,setDownload]  = useState("")
 
 
   return (
-    <ScrollView contentContainerStyle={styles.SCROLL }>
-    <StatusBar
-        backgroundColor={COLOURS.backgroundLight}
-        barStyle="dark-content"
-      />
+    <LinearGradient
+    colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
+    style={styles.container}
+    >
       <View style={{justifyContent:"center",alignItems:"center"}}>
-      <Text style={{ color:COLOURS.black, fontWeight:900,fontSize:26}}>Sell Your item</Text>
-      <Text style={{color:COLOURS.white, fontWeight:400,fontSize:15}}>Fill the form data according to yours selling product</Text></View>
+      <Text style={{ color:COLOURS.white, fontWeight:900,fontSize:26}}>Sell Your item</Text>
+      <Text style={{color:COLOURS.white, fontWeight:400,fontSize:12}}>Fill the form data according to yours selling product</Text></View>
       {/* <Text>ID:</Text>
       <TextInput value={id} style={styles.input} /> */}
 
-      <Text>Category:</Text>
+      <Text style={styles.Categoryy}>Category:</Text>
       <Picker
            style={styles.input}
         selectedValue={category}
@@ -168,28 +169,28 @@ const [Download,setDownload]  = useState("")
       </Picker>
 
 
-      <Text>Product Name:</Text>
+      <Text style={styles.Categoryy}>Product Name:</Text>
       <TextInput
         placeholder="Enter the text"
         onChangeText={(e)=>setproductName(e)}
         style={styles.input}
       />
 
-      <Text>Product Price:</Text>
+      <Text style={styles.Categoryy}>Product Price:</Text>
        <TextInput placeholder="Enter the text" onChangeText={(e)=>setproductPrice(e)} style={styles.input} /> 
 
-      <Text>Description:</Text>
+      <Text style={styles.Categoryy}>Description:</Text>
       <TextInput placeholder="Enter the text" onChangeText={(e)=>setdescription(e)} style={styles.input} />
 
-      <Text>Off Percentage:</Text>
+      <Text style={styles.Categoryy}>Off Percentage:</Text>
       <TextInput placeholder="Enter the text" onChangeText={(e)=>setoffPercentage(e)} style={styles.input} />
 
-      <Text>Product Image:</Text>
+      <Text style={styles.Categoryy}>Product Image:</Text>
       {productImage ? (
         <Image source={{ uri: productImage }} style={styles.imagePreview} />
       ) : (
         <TouchableOpacity onPress={handleSelectImage} style={styles.imagePicker}>
-          <Text>Select Image from Gallery</Text>
+          <Text style={{color:COLOURS.white}}>Select Image from Gallery</Text>
         </TouchableOpacity>
       )}
 
@@ -204,11 +205,21 @@ const [Download,setDownload]  = useState("")
     <TouchableOpacity onPress={SaveDataToDatabase}  style={styles.saveButton}>
         <Text>Save Data</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </LinearGradient>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+   paddingHorizontal:25,
+    justifyContent: "center",
+  },
+Categoryy:{
+color:COLOURS.white,
+marginBottom:10
+},
   SCROLL:{
     padding:20,
     backgroundColor:COLOURS.backgroundMedium
@@ -223,9 +234,10 @@ const styles = {
     marginBottom: 10,
   },
   imagePicker: {
+   
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 10,
     marginBottom: 10,
     alignItems: 'center',
@@ -245,12 +257,12 @@ const styles = {
     marginBottom: 10,
   },
   saveButton:{
-    backgroundColor: COLOURS.backgroundDark,
+    backgroundColor:COLOURS.backgroundLiteBlue,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     alignItems: 'center',
-    marginBottom: 10,
+    marginTop:20,
   }
-};
+});
 
 export default SellerScreen;

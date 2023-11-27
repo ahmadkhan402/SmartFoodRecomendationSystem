@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   Share,
 } from "react-native";
-import { FontAwesome5,MaterialIcons } from '@expo/vector-icons'; 
+import { FontAwesome5,MaterialIcons ,Entypo} from '@expo/vector-icons'; 
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
@@ -141,33 +141,22 @@ const DashBoard = ({navigation}) => {
     </View>
   );
 
-  const { height } = Dimensions.get("window");
-  const [state, setState] = useState({ screenHeight: 0 });
 
-  const Separator = () => {
-    return (
-      <View
-        style={{
-          height: "80%",
-          width: 1,
-          backgroundColor: "white",
-        }}
-      />
-    );
-  };
+  
   const isfocus = useIsFocused()
-  useEffect(() => {
-  async function viewEmail() {
-    let getemail = await getItem("ShowEmail");
-    console.log(" get email", getemail);
-    setemails(getemail);
-  };
- 
-    if(isfocus){
-      viewEmail();
-    }
+  // useEffect(() => {
+  
+  // // async function viewEmail() {
+  // //   let getemail = await getItem("ShowEmail");
+  // //   console.log(" get email", getemail);
     
-  }, [isfocus]);
+  // // };
+ 
+  
+  //     viewEmail();
+    
+    
+  // }, []);
   return (
     <LinearGradient
     colors={["#fffaf0", "#ffff","#fff"]}
@@ -178,7 +167,7 @@ const DashBoard = ({navigation}) => {
         <View style={styles.MiniContainer}>
           <View style={styles.TextContainer}>
             <Text style={styles.Text1}>
-              Hello, <Text style={styles.Text2}>{emails}!</Text>{" "}
+              Hello, <Text style={styles.Text2}>{auth.currentUser?.email}!</Text>{" "}
             </Text>
             <Text style={styles.greeting}>{greeting}</Text>
             <Text style={styles.time}>{formattedTime}</Text>
@@ -228,9 +217,17 @@ const DashBoard = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: "row", paddingHorizontal:16,paddingVertical:16 }}>
+          <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("chats")}>
+              <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
+              <View style={{padding:16,paddingHorizontal:18}}>
+              <Entypo name="chat"  size={25} color={COLOURS.backgroundLiteBlue} />
+             </View>
+                <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>Chats</Text>
+              </View>
+            </TouchableOpacity>
           <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("ShowPost")}>
               <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
-              <View style={{padding:16}}>
+              <View style={{padding:16,paddingHorizontal:18}}>
              <FontAwesome5 name="donate" size={25} color= {COLOURS.backgroundLiteBlue} />
              </View>
                 <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>Donate</Text>
@@ -238,7 +235,7 @@ const DashBoard = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity style={{paddingHorizontal:5}} onPress={() => navigation.navigate("Report")}>
               <View style={{  flexDirection: "column",alignItems:"center",backgroundColor:COLOURS.backgroundDarkBlue,padding:9,borderRadius:18}}>
-              <View style={{padding:16}}>
+              <View style={{padding:16,paddingHorizontal:18}}>
               <MaterialIcons name="report" size={24} color= {COLOURS.backgroundLiteBlue} />
              </View>
                 <Text style={{fontSize:9,fontWeight:400, color:COLOURS.backgroundLiteBlue}}>Report</Text>
@@ -265,12 +262,13 @@ const DashBoard = ({navigation}) => {
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
             horizontal={true}
-            ItemSeparatorComponent={Separator}
             showsHorizontalScrollIndicator={false}
-            style={styles.flatList}
+           
           />
         </View>
+        
       </ScrollView>
+      
      </LinearGradient>
   );
 };
@@ -289,14 +287,15 @@ const styles = StyleSheet.create({
     height: "28%",
     borderBottomRightRadius: 175,
     justifyContent: "center",
-    marginBottom:"20%",
+    marginBottom:100
   },
   FlatListContainer: {
     backgroundColor: "#D8DDAD",
     marginVertical: "5%",
     marginHorizontal : "3.5%",
     borderRadius: 10,
-    paddingBottom:60
+    paddingBottom:60,
+    
   },
   flatList: {
     marginLeft: "2.5%",

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { collection, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { collection, deleteDoc, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo ,AntDesign} from '@expo/vector-icons';
 import { db, auth } from '../../../firebase';
 import { COLOURS } from '../../../Database';
 import { push } from 'firebase/database';
@@ -13,11 +13,24 @@ let id = ""
 const ShowUserRegNgos = ({ navigation }) => {
   const [NGOList, setNGOList] = useState([]);
   const [NotNgo, setNotNgo] = useState(true);
+  const [docid, setDocid] = useState(true);
   const userID = auth.currentUser?.uid;
   console.log(userID)
 
 
 let isfocus = useIsFocused()
+
+const deleteDocument = async () => {
+  const docRef = doc(db, "NGO_Register", docid);
+
+  try {
+    await deleteDoc(docRef);
+    Alert.alert(`Document with ID ${docid} successfully deleted.`);
+  } catch (error) {
+    console.error('Error deleting document:', error);
+  }
+};
+
   useEffect(() => {
  
     const fetchNGOList = async () => {
@@ -32,6 +45,7 @@ let isfocus = useIsFocused()
             if (docSnap.exists()) {
             arr.push(docSnap.data())
                id =   docSnap.id
+               setDocid(id)
               console.log(" this issssss", arr);
               setNotNgo(false)
               setNGOList(arr)
@@ -59,6 +73,13 @@ if(isfocus){
       <LinearGradient colors={['#f8f8ff', '#f5fffa', '#afeeee']} style={styles.Carditem}>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 13 }}>
           <Text style={styles.text}>{item.ngoName}</Text>
+          <View style={{flexDirection:"row", }}>
+          
+          <TouchableOpacity
+            style={styles.btnDlt}
+            onPress={deleteDocument}>
+            <AntDesign name="delete" size={30} color="#4c669f" />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.btnMap}
             onPress={() => {
@@ -71,6 +92,7 @@ if(isfocus){
           >
             <Entypo name="location" size={30} color="#4c669f" />
           </TouchableOpacity>
+          </View>
         </View>
         <Text style={styles.des}> {item.locationData}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -200,6 +222,12 @@ const styles = StyleSheet.create({
         fontSize:13,
         textAlign:"center",
       color: COLOURS.backgroundLight,
+    },
+    btnDlt:{
+      alignItems: "center",
+      justifyContent: "center",
+      elevation: 14,
+      paddingHorizontal:28
     },
     btnMap:{ 
       alignItems: "center",

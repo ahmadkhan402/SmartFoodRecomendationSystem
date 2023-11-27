@@ -35,8 +35,7 @@ const MasjidPortal = ({ navigation }) => {
       Name: "Al-khidmat",
       des: "Alkhidmat is the largest NGO. From raising Orphans to providing affordable Health-Care & Relief in crisis, we work in all domains of social welfare",
       Link: "https://alkhidmat.com/donate/masjid-rehabiliation/",
-      image:"https://scontent.fisb10-1.fna.fbcdn.net/v/t39.30808-1/310833256_469884035173802_7932615145688035036_n.jpg?stp=dst-jpg_p200x200&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dPDQ2z2B6soAX_ZSsJh&_nc_ht=scontent.fisb10-1.fna&oh=00_AfAlAyuqNaXw7-Scv0_Qahss0gEqa5CIKutuidR050w8TQ&oe=6557C8A9",
-    },
+      image:"https://alkhidmat.com/wp-content/themes/ak/img/alkhidmat-logo-2.png" },
     {
         id: 4,
         Name: "Zaimah Foundation",

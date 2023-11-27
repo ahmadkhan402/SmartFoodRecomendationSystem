@@ -26,16 +26,8 @@ export default function ImagePickerExample(...props) {
   const [Time, settime] =useState('')
   const [DonorName, setDonorName] =useState('')
   const [Email, setEmail] =useState('')
-  // function writeUserData(userId, title, namcription, selectedNumber, ShowImage) {
-  //   const dbRef = db.ref('post');
-  //   dbRef.push({
-  //     title: title,
-  //     description: namcription,
-  //     selectedNumber: selectedNumber,
-  //     imageUrl: ShowImage
-  //   });
-  // }
 
+  let x = image && title && namcription && selectedNumber && PickUpPoint && Time && Email
 
 
   const pickImage = async () => {
@@ -248,61 +240,20 @@ setPicupPoint(value)
 
             </View>
           </View>
-          <TouchableOpacity style={styles.Submit} onPress={uploadImage }>
+          {x ? (
+            <TouchableOpacity style={styles.Submit} onPress={uploadImage }>
             <Text style={styles.SubmitText}>Submit</Text>
           </TouchableOpacity>
+          ): (
+            <TouchableOpacity disabled={true} style={styles.Submitd} >
+            <Text style={styles.SubmitText}>Submit</Text>
+          </TouchableOpacity>
+          )}
+          
         </View>
       
       </ScrollView>
       <MapShow  getPointData= {getData}/>
-
-
-
-
-
-
-
-
-
-
-
-      {/* <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Create a post</Text>
-      <View style={styles.ImageSection}>
-
-        <TextInput
-          style={{ marginTop: 16, borderWidth: 1, borderColor: 'gray', width: "86%", borderRadius: 8, padding: 8 }}
-          placeholder="What's on your mind?"
-          multiline={true}
-          numberOfLines={4}
-          value={postContent}
-          onChangeText={setPostContent}
-
-        />
-
-        <TouchableOpacity
-          style={{ padding: 10 }}
-          onPress={pickImage}
-        >
-          <Text><Entypo name="images" size={35} color="rgba(77,181,255,0.4)" /></Text>
-        </TouchableOpacity>
-      </View>
-      {image && (
-        <View style={{ marginTop: 16 }}>
-          <Image source={{ uri: image }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
-        </View>
-      )}
-      <TouchableOpacity
-        style={{ marginTop: 27, marginRight: "70%", justifyContent: "center", borderColor: "blue", alignItems: "center", backgroundColor: '#3457D5', padding: 8, borderWidth: 1, borderRadius: 8 }}
-        onPress={() => {
-          uploadImage(),
-            navigation.navigate('ShowPost')
-        }}
-      >
-        <Text style={{ color: 'white' }}>Post</Text>
-      </TouchableOpacity> */}
-      {/* <View style={{width:'50%',backgroundColor:"black", height:'40%'}}>
-       <Image source={{uri: ShowImage}}  style={{ width: '100%', height: 200 }} resizeMode="cover"  /> 
-      </View> */}
 
 
     </View>
@@ -328,8 +279,21 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center"
   },
+  Submitd: {
+marginBottom:20,
+    width: "80%",
+    borderRadius: 17,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginHorizontal: "9%",
+    backgroundColor: "#4db5ff",
+    elevation: 40,
+    opacity:0.6
+  },
   Submit: {
-
+    marginBottom:20,
     width: "80%",
     borderRadius: 17,
     height: 40,
