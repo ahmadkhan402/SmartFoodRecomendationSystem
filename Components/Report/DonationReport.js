@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import { View, Text, StyleSheet, FlatList, ScrollView, TouchableOpacity } from "react-native";
 import {
   collection,
   getDocs,
@@ -9,6 +9,9 @@ import {
 import { db } from "../../firebase";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOURS } from "../../Database";
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+
 
 const DonationReport = () => {
   const [Sellbuy, setSellbuy] = useState([]);
@@ -71,13 +74,30 @@ const DonationReport = () => {
     fetchSellbuy();
   }, []);
 
+  const handleDownloadCSV = async () => {
+    try {
+   
+      const PersonalDData = PersonalDonation.map(item => `${item.DonorName},${item.Title},${item.Description},${item.Time}`).join('\n');
+const sellbdata = Sellbuy.map(item => `${item.ProductName},${item.Category},${item.Description},${item.ProductPrice}`).join('\n');
+    const csvData = PersonalDData + sellbdata
+const fileUri = `${FileSystem.documentDirectory}donation_report.csv`;
 
+      await FileSystem.writeAsStringAsync(fileUri, csvData, { encoding: FileSystem.EncodingType.UTF8 });
+
+      await Sharing.shareAsync(fileUri, { mimeType: 'text/csv', dialogTitle: 'Share Donation Report' });
+    } catch (error) {
+      console.error('Error handling download:', error);
+    }
+  };
   return (
     <LinearGradient
     colors={["#FFF", "#4c669f", "#2c2c6c"]}
     style={styles.container}
   >
       <Text style={styles.heading}>Combined Donation Report</Text>
+      <TouchableOpacity style={styles.downloadButton} onPress={handleDownloadCSV}>
+        <Text style={styles.downloadButtonText}>Download CSV</Text>
+      </TouchableOpacity>
       <ScrollView>
 <View>
 {PersonalDonation && (
@@ -166,6 +186,16 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     marginBottom: 16,
+  },
+  downloadButton: {
+    backgroundColor: COLOURS.backgroundLiteBlue,
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  downloadButtonText: {
+    color: 'white',
+    textAlign: 'center',
   },
   label: {
     fontWeight: "bold",
