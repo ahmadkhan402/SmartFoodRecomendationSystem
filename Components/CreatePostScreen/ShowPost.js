@@ -25,35 +25,83 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Card } from "galio-framework";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLOURS } from "../../Database";
+import { Entypo } from "@expo/vector-icons";
 
+import * as Location from "expo-location";
 let id = "";
 const ShowPost = ({ navigation }) => {
   const [Data, setData] = useState([]);
   const [ID, setid] = useState([]);
-  console.log("the data is ", Data);
-
-  // console.log('the description is ', Data.description)
-  const [urls, seturl] = useState([]);
-  // console.log("here is the title", Data.title)
-
   const isFocused = useIsFocused();
-  //setData(newArray)
+
   useEffect(() => {
-    async function fetchImages() {
-      id = await AsyncStorage.getItem("onLogin");
-      const querySnapshot = await getDocs(collection(db, "Posts"));
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        const id = doc.id;
-        Data.length = 0;
-        setid(id);
-        setData((Data) => [...Data, data]);
-      });
-    }
+    const fetchImages = async () => {
+      try {
+        const id = await AsyncStorage.getItem("onLogin");
+
+        // Get user's current location
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          console.error("Permission to access location was denied");
+          return;
+        }
+
+        const location = await Location.getCurrentPositionAsync({});
+        const userLatitude = location.coords.latitude;
+        const userLongitude = location.coords.longitude;
+
+        // Fetch posts from the Firestore collection "Posts"
+        const querySnapshot = await getDocs(collection(db, "Posts"));
+
+        // Filter and set nearby posts
+        const nearbyPosts = [];
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          console.log("fefef", post);
+          const postLatitude = post.PickUpPoint.coords.latitude; // Replace with the actual latitude property of your post
+          const postLongitude = post.PickUpPoint.coords.longitude; // Replace with the actual longitude property of your post
+
+          // Calculate distance between user and post
+          const distance = calculateDistance(
+            userLatitude,
+            userLongitude,
+            postLatitude,
+            postLongitude
+          );
+
+          // Consider posts within a certain distance range, e.g., 10 kilometers
+          if (distance) {
+            console.log("dis");
+            nearbyPosts.push({ ...post, distance });
+          }
+        });
+        console.log("cecnmeklnckle", nearbyPosts);
+        // Update state with nearby posts
+        setData(nearbyPosts);
+      } catch (error) {
+        console.error("Error fetching nearby posts:", error);
+      }
+    };
+
     if (isFocused) {
       fetchImages();
     }
   }, [isFocused]);
+
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+        Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in kilometers
+    return distance;
+  };
 
   const renderItem = ({ item, index }) => (
     <View style={styles.card}>
@@ -80,8 +128,23 @@ const ShowPost = ({ navigation }) => {
         </Text>
 
         <Text style={styles.PickUpPoint}>
-          Pick-Up Point: {item.PickUpPoint}
+          Distance from you: {item.distance.toFixed(2)} Km
         </Text>
+        <View>
+          <TouchableOpacity
+            style={styles.btnMap}
+            onPress={() => {
+              navigation.navigate("MapDonors", {
+                id: item.id,
+                Coords: item.PickUpPoint.coords,
+                Data,
+              });
+            }}
+          >
+            <Text style={{ color: "#fff" }}>CLICK TO LOCATE USER</Text>
+            <Entypo name="location" size={30} color="#fff" />
+          </TouchableOpacity>
+        </View>
       </View>
       <Image source={{ uri: item.ImageUrl }} style={styles.Image} />
       <View style={{ position: "absolute", Top: 0, marginTop: 5, right: 20 }}>
@@ -118,12 +181,16 @@ const ShowPost = ({ navigation }) => {
       colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
       style={styles.container}
     >
-      <FlatList
-        data={Data} // Assuming Data is an array of posts
-        keyExtractor={(item, index) => index.toString()} // Use index as the key
-        renderItem={renderItem}
-        contentContainerStyle={styles.scrollContainer}
-      />
+      {Data.length === 0 ? (
+        <Text style={{ color: "#fff" }}>No nearby posts found.</Text>
+      ) : (
+        <FlatList
+          data={Data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.scrollContainer}
+        />
+      )}
 
       <View style={{ padding: 35, position: "absolute", bottom: 0, right: 0 }}>
         <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
@@ -162,6 +229,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
+  btnMap: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: COLOURS.backgroundDarkBlue,
+    padding: 10,
+    alignItems: "center",
+    borderRadius:10
+  },
   Image: {
     height: 200,
     width: "100%",
@@ -186,14 +261,12 @@ const styles = StyleSheet.create({
     color: "#2c2c6c",
   },
   txt: {
-   
     fontSize: 16,
-    color: '#555', 
+    color: "#555",
     marginTop: 5,
   },
   infoText: {
-
-    fontWeight: 'bold',
-    color: COLOURS.backgroundDarkBlue
+    fontWeight: "bold",
+    color: COLOURS.backgroundDarkBlue,
   },
 });

@@ -43,8 +43,8 @@ const [ PickUpPoint, setPicupPoint] = useState('')
   useEffect(() => {
     (async () => {
       const location = await getCurrentLocation();
-      props.getPointData(location.address)
-      
+      props.getPointData({coords: location.coords})
+   
       setLocationData(location);
     })();
   }, []);

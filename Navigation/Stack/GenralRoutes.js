@@ -36,6 +36,7 @@ import RequestNgO from "../../Components/DonateScreen/CardFunction/CardShowReque
 import {  auth } from "../../firebase";
 import DonationReport from "../../Components/Report/DonationReport";
 import User from "../../Components/Chat/User";
+import MapDonor from "../../Components/CreatePostScreen/MapDonor";
 
 const Stack = createStackNavigator();
 
@@ -198,6 +199,10 @@ const GenralRoutes = ({ navigation }) => {
           component={ViewDonate}
           options={{ headerShown: true }}
         />
+        <Stack.Screen
+        name="MapDonors"
+        component={MapDonor}
+        options={{ headerShown: false }}/>
         <Stack.Screen
         name="ShowPost"
         component={ShowPost}
