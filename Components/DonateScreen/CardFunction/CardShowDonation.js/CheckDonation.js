@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
-import { collection, collectionGroup, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, collectionGroup, doc, documentId, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
@@ -28,7 +28,11 @@ ngoid = route.params.data.id
         const donationsRef = collection(userDocRef, 'donations');
     
         const querySnapshot = await getDocs(donationsRef);
-    
+        const hasDonations = !querySnapshot.empty;
+
+        const ngoDocRef = doc(db, 'NGO_Register', userID);
+        await updateDoc(ngoDocRef, { foodAvailability: hasDonations });
+
         querySnapshot.forEach((doc) => {
           arr.push(doc.data());
         });

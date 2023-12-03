@@ -24,6 +24,7 @@ import { getItem } from "../../../AsyncStorage/AsyscStorage";
 import { isEmpty } from "@firebase/util";
 import { useNavigation } from "@react-navigation/native";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { COLOURS } from "../../../Database";
 
 export default function Login({ navigation }) {
   //Hooks
@@ -96,10 +97,12 @@ export default function Login({ navigation }) {
   return (
       <View style={styles.miniContainer}>
         {/* <Text style={{ color:"rgba(255,255,255,0.6)",fontWeight:"bold", fontSize:25, marginBottom:10,  fontFamily: 'serif'}}>Wellcome Back</Text> */}
+       
         <Image
           style={styles.image}
           source={require("../../../assets/logo2p.png")}
         />
+        
         <StatusBar style="auto" />
 
         <View style={styles.inputView}>
@@ -120,10 +123,14 @@ export default function Login({ navigation }) {
             secureTextEntry={true}
             onChangeText={(password) => setPassword(password)}
           />
+
         </View>
+        <View style={{alignItems:"center"}}>
         <TouchableOpacity onPress={() => handleForgetPassword()}>
           <Text style={styles.forgot_button}>Forgot Password?</Text>
         </TouchableOpacity>
+        </View>
+        <View style={{alignItems:"center"}}>
         <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
@@ -145,6 +152,7 @@ export default function Login({ navigation }) {
             <Text style={{ fontWeight: "bold", color: "#4db5ff" }}>Signup</Text>
           </TouchableOpacity>
         </View>
+        </View>
       </View>
      
   );
@@ -158,35 +166,34 @@ const styles = StyleSheet.create({
   },
   miniContainer: {
    flex:1,
-   alignItems: "center",
    justifyContent: "center",
-    paddingTop: 20,
+    
     backgroundColor: "#2c2c6c",
     opacity: 1,
   },
   image: {
+    alignItems:"center",
+    alignSelf:"center",
     marginBottom: 5,
     width: "50%",
     height: "25%",
   },
   inputView: {
-    backgroundColor: "transparent",
     borderColor: "#4db5ff",
     borderWidth: 1,
     borderRadius: 30,
-    width: "70%",
     height: 45,
     marginBottom: 20,
-    alignItems: "center",
-    elevation: 40,
+    marginHorizontal:50
   },
   TextInput: {
-    height: 50,
+    textAlign:"center",
     flex: 1,
     padding: 10,
-    marginLeft: 20,
+   
   },
   forgot_button: {
+    
     height: 30,
     marginBottom: 30,
     color: "#4db5ff",

@@ -12,13 +12,6 @@ const handleDone =()=>{
   navigation.navigate("Login")
   setItem('onbording','1')
 }
-// const doneBtn =({...props})=>{
-//   return(
-// <TouchableOpacity {...props}>
-// <Text style={{padding:18, borderRadius:35,backgroundColor:"#FFC4DD"}}><Ionicons name="ios-checkmark-done" size={24} color="black" /></Text>
-// </TouchableOpacity>
-//   )
-// }
 
   return (
     <View style={styles.container}>

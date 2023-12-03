@@ -20,18 +20,19 @@ import { COLOURS } from '../../Database';
     const [users, setUsers] = useState([]);
     const navigation = useNavigation();
     const [mode, setMode] = useState('LIGHT');
+
+
     const isFocued = useIsFocused();
     useEffect(() => {
-      if(isFocued){
-
-      
-      getUsers();}
+      if (isFocued) {
+        getUsers();
+      }
     }, [isFocued]);
     useEffect(() => {
       getMode();
     }, [isFocued]);
     const getMode = async () => {
-      setMode(await AsyncStorage.getItem('MODE'));
+      setMode(await AsyncStorage.getItem("MODE"));
     };
 
 

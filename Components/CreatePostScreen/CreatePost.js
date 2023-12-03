@@ -32,10 +32,10 @@ export default function ImagePickerExample(...props) {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All, // We can  specify whether we need only Images or Videos
+      mediaTypes: ImagePicker.MediaTypeOptions.All, 
       allowsEditing: true,
       aspect: [1,1],
-      quality: 1,   // 0 means compress for small size, 1 means  compress for maximum quality
+      quality: 1,   
     });
 
     console.log(result.assets[0].uri);

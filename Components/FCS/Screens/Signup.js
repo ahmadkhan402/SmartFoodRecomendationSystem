@@ -135,36 +135,33 @@ const styles = StyleSheet.create({
     },
     miniContainer: {
         flex:1,
-        alignItems: "center",
         justifyContent: "center",
          paddingTop: 20,
          backgroundColor: "#2c2c6c",
          opacity: 1,
        },
-    image: {
+       image: {
+        alignItems:"center",
+        alignSelf:"center",
         marginBottom: 5,
         width: "50%",
-        height: "25%"
-
-    },
-    inputView: {
-        backgroundColor: "transparent",
-        borderColor:"#4db5ff",
-        borderWidth:1,
+        height: "25%",
+      },
+      inputView: {
+        borderColor: "#4db5ff",
+        borderWidth: 1,
         borderRadius: 30,
-        width: "70%",
         height: 45,
         marginBottom: 20,
-        alignItems: "center",
-        elevation:40,
-    },
-    TextInput: {
-        height: 50,
+        marginHorizontal:50
+      },
+      TextInput: {
+        textAlign:"center",
         flex: 1,
         padding: 10,
-        marginLeft: 20,
-        
-    },
+       
+      },
+   
     already_button: {
         height: 30,
         
@@ -182,5 +179,6 @@ const styles = StyleSheet.create({
         marginTop: 40,
         backgroundColor: "#4db5ff",
         elevation:40,
+        alignSelf:"center"
     },
 })

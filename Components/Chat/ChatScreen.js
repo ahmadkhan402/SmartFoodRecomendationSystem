@@ -35,8 +35,7 @@ const ChatScreen = () => {
   const onSend = useCallback(async (messages = []) => {
     const msg = messages[0];
 
-    // Assuming you have valid authentication, use the authenticated user's email as the user ID
-    const userId = route.params.id; // Replace with your actual user ID
+    const userId = route.params.id; 
 
     const myMsg = {
       ...msg,
@@ -67,7 +66,7 @@ const ChatScreen = () => {
         messages={messageList}
         onSend={(messages) => onSend(messages)}
         user={{
-          _id: route.params.id, // Replace with your actual user ID
+          _id: route.params.id,
         }}
       />
     </View>

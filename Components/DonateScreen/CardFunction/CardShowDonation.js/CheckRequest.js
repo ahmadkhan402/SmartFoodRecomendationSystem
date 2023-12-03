@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import { collection, getDocs, doc, updateDoc, query, where } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, query, where, getDoc, increment } from 'firebase/firestore';
 
 import { useRoute } from '@react-navigation/native';
 import { auth, db } from '../../../../firebase';
@@ -40,16 +40,36 @@ const CheckRequest = () => {
     }
   };
 
+ 
   useEffect(() => {
     fetchRequests();
   }, [ngoId]);
 
-  const handleAcceptRequest = async (requestId) => {
+
+  const handleAcceptRequest = async (requestId,donationAmount) => {
     try {
       if (!ngoId) {
         console.error('NGO ID is missing.');
         return;
       }
+      const ngoDocRef = doc(db, 'NGO_Register', ngoId);
+      const ngoDocSnapshot = await getDoc(ngoDocRef);
+  
+      let currentDonationAmount = 0;
+  
+      if (ngoDocSnapshot.exists()) {
+        const ngoData = ngoDocSnapshot.data();
+        currentDonationAmount = typeof ngoData.donateFood === 'number' ? ngoData.donateFood : 0;
+      } else {
+        // Handle the case where the document doesn't exist
+        console.error('NGO document does not exist.');
+      }
+  
+      // Update the donateFood field
+      await updateDoc(ngoDocRef, {
+        donateFood: increment(1),
+      });
+  
 
       const requestDocRef = doc(db, 'NGORequestData', ngoId, 'requests', requestId);
       await updateDoc(requestDocRef, { status: 'accepted' });
