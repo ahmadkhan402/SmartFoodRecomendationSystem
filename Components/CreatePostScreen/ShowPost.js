@@ -28,6 +28,7 @@ import { COLOURS } from "../../Database";
 import { Entypo } from "@expo/vector-icons";
 
 import * as Location from "expo-location";
+import AnimatedLoader from "react-native-animated-loader";
 let id = "";
 const ShowPost = ({ navigation }) => {
   const [Data, setData] = useState([]);
@@ -36,8 +37,8 @@ const ShowPost = ({ navigation }) => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      try {
-        const id = await AsyncStorage.getItem("onLogin");
+    
+      id = await AsyncStorage.getItem("onLogin");
 
         // Get user's current location
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -57,6 +58,8 @@ const ShowPost = ({ navigation }) => {
         const nearbyPosts = [];
         querySnapshot.forEach((doc) => {
           const post = doc.data();
+
+          // id = doc.id
           console.log("fefef", post);
           const postLatitude = post.PickUpPoint.coords.latitude; // Replace with the actual latitude property of your post
           const postLongitude = post.PickUpPoint.coords.longitude; // Replace with the actual longitude property of your post
@@ -78,9 +81,7 @@ const ShowPost = ({ navigation }) => {
         console.log("cecnmeklnckle", nearbyPosts);
         // Update state with nearby posts
         setData(nearbyPosts);
-      } catch (error) {
-        console.error("Error fetching nearby posts:", error);
-      }
+     
     };
 
     if (isFocused) {
@@ -182,8 +183,17 @@ const ShowPost = ({ navigation }) => {
       style={styles.container}
     >
       {Data.length === 0 ? (
-        <Text style={{ color: "#fff" }}>No nearby posts found.</Text>
-      ) : (
+        <>
+        <AnimatedLoader
+      visible={true}
+      // overlayColor="rgba(255,255,255,0.75)"
+      animationStyle={styles.lottie}
+      speed={1}>
+       <Text style={{ color: "#fff" }}>Searching for nearby posts found.</Text>
+    </AnimatedLoader>
+      
+        </>
+         ) : (
         <FlatList
           data={Data}
           keyExtractor={(item, index) => index.toString()}
@@ -210,6 +220,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  lottie: {
+    width: 100,
+    height: 100,
   },
   scrollContainer: {
     padding: 10,
