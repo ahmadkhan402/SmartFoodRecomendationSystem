@@ -7,6 +7,7 @@ import { db, auth } from '../../../../firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
 import { COLOURS } from '../../../../Database';
+import { Picker } from '@react-native-picker/picker';
 
 const RequestNgO = () => {
   const [location, setLocation] = useState('');
@@ -14,6 +15,7 @@ const RequestNgO = () => {
   const [numb, setnumb] = useState('');setname
   const [type, settype] = useState('');
   const [name, setname] = useState('');
+
   const route = useRoute();
   const ngoId = route.params.data.id;
 
@@ -92,12 +94,18 @@ const RequestNgO = () => {
       />
         </View>
         <Text style={styles.Name}>Type of Donation:</Text>
+      
       <View style={styles.inputView}>
-      <TextInput  style={styles.TextInput}
-        placeholder="What you want?"
-        onChangeText={(text) => settype(text)}
-     
-      />
+        <Picker
+          selectedValue={type}
+          onValueChange={(itemValue) => settype(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Food" value="Food" />
+          <Picker.Item label="Fruit" value="Fruit" />
+          <Picker.Item label="Other" value="Other" />
+        </Picker>
+      
         </View>
         <Text style={styles.Name}>Type Your Location:</Text>
       <View style={styles.inputView}>
@@ -125,6 +133,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // backgroundColor:COLOURS.backgroundDarkBlue
+  },
+  picker: {
+    height: 40,
+    color: COLOURS.backgroundDarkBlue,
   },
   btn: {
     alignItems: "center",
@@ -166,7 +178,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     width: 230,
-
+justifyContent:"center",
     marginBottom: 20,
     padding: 10,
   },

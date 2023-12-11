@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { Entypo } from '@expo/vector-icons';
+import { Entypo,Ionicons } from '@expo/vector-icons';
 import DashBoard from '../../Components/DashBoard';
 import ShowPost from '../../Components/CreatePostScreen/ShowPost';
 import Login from "../../Components/FCS/Screens/Login"
@@ -15,6 +15,8 @@ import DonationForm from '../../Components/MasjidDonation/DonationForm';
 import { COLOURS } from '../../Database';
 import { StyleSheet } from 'react-native';
 import { getFocusedRouteNameFromRoute, useIsFocused } from '@react-navigation/native';
+
+import RecomendationOptionScreen from '../../Components/FoodRecomendation/RecomendationOptionScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -46,6 +48,16 @@ export default function MainTabScreens({ route }) {
           ),
         }}
       />
+      
+      <Tab.Screen
+        name="Recomendation"
+        component={RecomendationOptionScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="fast-food"  color="#fff" size={25} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Sell"
         component={SellOptionScreen}
@@ -73,7 +85,7 @@ export default function MainTabScreens({ route }) {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Masjid"
         component={MasjidPortal}
         options={{
@@ -82,7 +94,7 @@ export default function MainTabScreens({ route }) {
             <FontAwesome5 name="mosque" color="#fff" size={25} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

@@ -37,6 +37,10 @@ import {  auth } from "../../firebase";
 import DonationReport from "../../Components/Report/DonationReport";
 import User from "../../Components/Chat/User";
 import MapDonor from "../../Components/CreatePostScreen/MapDonor";
+import WeightLossScreen from "../../Components/FoodRecomendation/WeightLossScreen";
+import WeightGainScreen from "../../Components/FoodRecomendation/WeightGainScreen";
+import ResultWeightLoss from "../../Components/FoodRecomendation/Result/ResultWeightLoss";
+import ResultWeightGain from "../../Components/FoodRecomendation/Result/ResultWeightGain";
 
 const Stack = createStackNavigator();
 
@@ -193,12 +197,33 @@ const GenralRoutes = ({ navigation }) => {
   } else {
     return (
       <Stack.Navigator initialRouteName="DrawerNavigator">
-       
+    
         <Stack.Screen
           name="MosqueDonation"
           component={ViewDonate}
           options={{ headerShown: true }}
         />
+         <Stack.Screen
+          name="WeightLoss"
+          component={WeightLossScreen}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="ResultWeightLoss"
+          component={ResultWeightLoss}
+          options={{ headerShown: true }}
+        />
+         <Stack.Screen
+          name="ResultWeightGain"
+          component={ResultWeightGain}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="WeightGain"
+          component={WeightGainScreen}
+          options={{ headerShown: true }}
+        />
+
         <Stack.Screen
         name="MapDonors"
         component={MapDonor}
