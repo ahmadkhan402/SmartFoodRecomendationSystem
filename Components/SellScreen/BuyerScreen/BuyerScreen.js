@@ -118,6 +118,7 @@ const BuyerScreen = ({ navigation }) => {
               </Text>
             </View>
           ) : null}
+         
           <Image
             source={{uri:data.ImageUrl}}
             style={{
@@ -128,6 +129,19 @@ const BuyerScreen = ({ navigation }) => {
             }}
           />
         </View>
+        <View style={{
+                
+                backgroundColor: COLOURS.green,
+                borderTopLeftRadius: 10,
+          paddingHorizontal:4,
+          
+          marginBottom:5,
+                borderBottomRightRadius: 10,
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+            <Text style={{fontSize:10,color:"#fff",}}>Expire-Date: {data.date}</Text>
+          </View>
         <Text
           style={{
             fontSize: 12,
@@ -255,7 +269,7 @@ const BuyerScreen = ({ navigation }) => {
                   marginLeft: 10,
                 }}
               >
-                41
+                
               </Text>
             </View>
             <Text
@@ -318,7 +332,7 @@ const BuyerScreen = ({ navigation }) => {
                   marginLeft: 10,
                 }}
               >
-                78
+                
               </Text>
             </View>
             <Text

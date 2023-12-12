@@ -17,18 +17,21 @@ import { nativeID } from 'deprecated-react-native-prop-types/DeprecatedTextPropT
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { COLOURS, Items } from '../../../Database';
 import { auth, db, storage } from '../../../firebase';
-import { addDoc, collection, doc } from 'firebase/firestore';
+import { addDoc, collection, doc, serverTimestamp } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { Picker } from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Button } from 'react-native';
+
 
 
 const SellerScreen = ({navigation}) => {
  // const [id, setid] = useState(uniqueId('Product id : '));
 
   const [blobImage, setblob] = useState(null)
-  const [ category, setcategory] = useState("")
+  const [ category, setcategory] = useState("Fruit")
   const [ productName, setproductName ] = useState("")
   const [ productPrice,setproductPrice ] = useState("")
   const [ description,setdescription ] = useState("")
@@ -37,8 +40,14 @@ const SellerScreen = ({navigation}) => {
   const [isAvailable, setisAvailable] = useState(false)
   const [productImageList,setproductImageListsetset ] = useState([])
 const [Download,setDownload]  = useState("")
+const [date, setDate] = useState(new Date());
+const [showDatePicker, setShowDatePicker] = useState(false);
 
-
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShowDatePicker(Platform.OS === 'ios'); // Close the picker on iOS
+  setDate(currentDate);
+};
 // console.log(formData.id)
   /// for async storage50
   // const handleSave = async () => {
@@ -128,6 +137,7 @@ const [Download,setDownload]  = useState("")
   }
   const setSellDataToFireStore = async (downloadURL)=>{
     try {
+      
       const docRef = await addDoc(collection(db, "SellItems"), {
         // ID: id,
         Category : category,
@@ -136,6 +146,7 @@ const [Download,setDownload]  = useState("")
       Description: description,
       ImageUrl: downloadURL,
       OffPercentage: offPercentage,
+      date: date.toISOString().split("T")[0]
      
 
     });
@@ -152,6 +163,7 @@ const [Download,setDownload]  = useState("")
     colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
     style={styles.container}
     >
+    <ScrollView  showsVerticalScrollIndicator={false}>
       <View style={{justifyContent:"center",alignItems:"center"}}>
       <Text style={{ color:COLOURS.white, fontWeight:900,fontSize:26}}>Sell Your item</Text>
       <Text style={{color:COLOURS.white, fontWeight:400,fontSize:12}}>Fill the form data according to yours selling product</Text></View>
@@ -177,13 +189,32 @@ const [Download,setDownload]  = useState("")
       />
 
       <Text style={styles.Categoryy}>Product Price:</Text>
-       <TextInput placeholder="Enter the text" onChangeText={(e)=>setproductPrice(e)} style={styles.input} /> 
+       <TextInput placeholder="Enter the text" onChangeText={(e)=>setproductPrice(e)} style={styles.input} keyboardType='numeric' /> 
 
+       <Text style={styles.Categoryy}>Date:</Text>
+       <Button title="Pick Near Expire Date" onPress={() => setShowDatePicker(true)} />
+      {showDatePicker && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+      <Text style={{ fontSize: 18, marginBottom: 20 ,color:"#fff"}}>
+        Date: {date.toISOString().split("T")[0]}
+      </Text>
+      {/* <DateTimePicker
+        date={date}
+        onDateChange={handleDateChange}
+      /> */}
       <Text style={styles.Categoryy}>Description:</Text>
       <TextInput placeholder="Enter the text" onChangeText={(e)=>setdescription(e)} style={styles.input} />
 
       <Text style={styles.Categoryy}>Off Percentage:</Text>
-      <TextInput placeholder="Enter the text" onChangeText={(e)=>setoffPercentage(e)} style={styles.input} />
+      <TextInput placeholder="Enter the text" onChangeText={(e)=>setoffPercentage(e)} style={styles.input} keyboardType='numeric'/>
 
       <Text style={styles.Categoryy}>Product Image:</Text>
       {productImage ? (
@@ -205,6 +236,7 @@ const [Download,setDownload]  = useState("")
     <TouchableOpacity onPress={SaveDataToDatabase}  style={styles.saveButton}>
         <Text>Save Data</Text>
       </TouchableOpacity>
+      </ScrollView>
     </LinearGradient>
   );
 };
@@ -215,6 +247,7 @@ const styles = StyleSheet.create({
     height: "100%",
    paddingHorizontal:25,
     justifyContent: "center",
+    paddingVertical:50,
   },
 Categoryy:{
 color:COLOURS.white,

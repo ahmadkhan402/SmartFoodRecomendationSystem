@@ -182,8 +182,12 @@ const ShowPost = ({ navigation }) => {
       colors={["#4db5ff", "#4c669f", "#2c2c6c"]}
       style={styles.container}
     >
+
       {Data.length === 0 ? (
-        <>
+        <View style={{flex:1}}>
+        {/* <TouchableOpacity style={{justifyContent:"center",marginTop:50}} onPress={()=>{navigation.goBack()}}>
+          <Text>GO back</Text>
+        </TouchableOpacity> */}
         <AnimatedLoader
       visible={true}
       // overlayColor="rgba(255,255,255,0.75)"
@@ -192,14 +196,17 @@ const ShowPost = ({ navigation }) => {
        <Text style={{ color: "#fff" }}>Searching for nearby posts found.</Text>
     </AnimatedLoader>
       
-        </>
+    </View>
          ) : (
+          <View style={{flex:1,justifyContent:"center",marginTop:30}}>
+          <Text style={styles.subtitle2}>Personal Donation Post</Text>
         <FlatList
           data={Data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
           contentContainerStyle={styles.scrollContainer}
         />
+        </View>
       )}
 
       <View style={{ padding: 35, position: "absolute", bottom: 0, right: 0 }}>
@@ -231,6 +238,18 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     marginLeft: 2,
+  },
+  subtitle2: {
+    marginVertical: 16,
+    textAlign: "center",
+    fontSize: 23,
+    backgroundColor: COLOURS.backgroundLiteBlue,
+    fontWeight: "bold",
+    color: "#fff",
+    paddingVertical: 8,
+    borderRadius: 8,
+    paddingHorizontal:4
+
   },
   card: {
     backgroundColor: "#fff",

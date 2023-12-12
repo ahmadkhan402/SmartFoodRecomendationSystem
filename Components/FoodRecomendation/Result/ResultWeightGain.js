@@ -37,10 +37,17 @@ const ResultWeightGain = () => {
             weight: parseFloat(weight),
             height: parseFloat(height),
           }),
+          
         });
-  
+        console.log('Request Parameters:', {
+          age: parseInt(age),
+          weight: parseFloat(weight),
+          height: parseFloat(height),
+        });
+        
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
+          console.log('Response Status:', response.status);
         }
   
         const resultData = await response.json();

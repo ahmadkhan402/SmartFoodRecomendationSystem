@@ -131,6 +131,7 @@ const EditProfile = ({ navigation }) => {
           placeholderTextColor={'#fff'}
           style={styles.TextInput}
           value={phoneNumber}
+          keyboardType='phone-pad'
           onChangeText={(text) => setPhoneNumber(text)}
         />
       </View>
